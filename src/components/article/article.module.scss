@@ -1,0 +1,105 @@
+.article {
+  background-color: white;
+  padding: 15px 20px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  filter: drop-shadow(0px 4px 12px rgba(0, 0, 0, 0.08));
+
+  & + & {
+    margin-top: 20px;
+  }
+}
+
+.title {
+  font-size: 20px;
+  line-height: 28px;
+  color: #1890ff;
+}
+
+.container {
+  user-select: none;
+  margin-left: 13px;
+  cursor: pointer;
+
+  .heart {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background: url("../../styles/icons/heart-passive.png") no-repeat;
+    transform: translate(0px, 2px);
+    margin-right: 5px;
+  }
+
+  .heartsCount {
+    font-size: 12px;
+    display: inline-block;
+    transform: translate(0px, -1px);
+  }
+
+  .checkbox {
+    margin: 0px;
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+
+    &:checked ~ .heart {
+      background: url("../../styles/icons/heart-active.png") no-repeat;
+    }
+  }
+}
+
+.tags {
+  margin: 3px 0px; 
+
+  .tag {
+    display: inline-block;
+    padding: 2px 3px;
+    border: 1px solid rgba(0, 0, 0, 0.5);
+    border-radius: 2px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+
+  .tag + .tag {
+    margin-left: 8px;
+  }
+}
+
+.description {
+  font-size: 12px;
+  line-height: 22px;
+  color: rgba(0, 0, 0, 0.75);
+  margin: 0px;
+}
+
+.person {
+  display: flex;
+  align-items: center;
+  margin-left: 85px;
+  flex-shrink: 0;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .username {
+      font-size: 18px;
+      color: rgba(0, 0, 0, 0.85);
+    }
+    .date {
+      font-size: 12px;
+      line-height: 22px;
+      color: rgba(0, 0, 0, 0.5);
+    }
+  }
+
+  .avatar {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-left: 12px;
+  }
+}

@@ -1,0 +1,33 @@
+.header {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  padding: 16px 22px;
+  font-size: 18px;
+
+  .title {
+    margin-right: auto;
+  }
+}
+
+.link {
+  display: inline-block;
+  padding: 6px 18px;
+  text-decoration: none;
+  color: black;
+}
+
+.link + .link {
+  margin-left: 20px;
+}
+
+.signIn {
+  composes: link;
+}
+
+.signUp {
+  composes: link;
+  border: 1px solid #52c41a;
+  border-radius: 5px;
+  color: #52c41a;
+}
