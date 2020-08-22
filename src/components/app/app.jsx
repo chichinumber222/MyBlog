@@ -2,7 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styles from './app.module.scss';
 import Header from '../header';
-import ArticlesDistributor from '../articles-distributor';
+import ArticlesList from '../articles-list';
+import ArticlePage from '../article-page';
 
 function App() {
   return (
@@ -10,7 +11,9 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Switch>
-          <Route exact path={['/', '/articles', '/articles/:slug']} component={ArticlesDistributor}/>
+          <Route path='/articles/:slug' component={ArticlePage}/>
+          <Route path='/articles' component={ArticlesList}/>
+          <Route exact path='/' component={ArticlesList}/>         
         </Switch>
       </div>
     </Router>
