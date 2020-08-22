@@ -1,17 +1,19 @@
 import React from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import styles from './app.module.scss';
 import Header from '../header';
-import ArticlesList from '../articles-list';
-import testService from '../../services/test-service';
+import ArticlesDistributor from '../articles-distributor';
 
 function App() {
-  const articles = testService();
-
   return (
-    <div>
-      <Header />
-      <ArticlesList articles={articles}/>
-    </div>
+    <Router>
+      <div className={styles.app}>
+        <Header />
+        <Switch>
+          <Route exact path={['/', '/articles', '/articles/:slug']} component={ArticlesDistributor}/>
+        </Switch>
+      </div>
+    </Router>
   )
 }
 
