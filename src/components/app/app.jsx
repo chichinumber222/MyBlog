@@ -12,10 +12,7 @@ function App({asyncGetArticlesWithDispatch}) {
         <Header />
         <Switch>
           <Route path='/articles/:slug' component={ArticlePageContainer}/>
-          <Route exact path={['/', '/articles']} render={() => {
-            asyncGetArticlesWithDispatch();
-            return <ArticlesListContainer />
-          }}/>       
+          <Route exact path={['/', '/articles']} component={ArticlesListContainer}/>       
         </Switch>
       </div>
     </Router>
