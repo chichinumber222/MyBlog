@@ -1,4 +1,4 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING } from './action-types';
 import { getArticlesFromAPI } from '../services/article-service';
 
 const articlesReceived = (articles, page) => ({
@@ -14,6 +14,7 @@ const articlesNotReceived = () => ({
 export const asyncGetArticles = (page) => {
   return async function(dispatch) {
     try {
+      dispatch(beginning());
       const response = await getArticlesFromAPI(page); 
       const {articles} = response;
       dispatch(articlesReceived(articles, page));     
@@ -23,3 +24,6 @@ export const asyncGetArticles = (page) => {
   }
 }
 
+export const beginning = () => ({
+  type: BEGINNING,
+})

@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react';
-import { Pagination } from 'antd';
+import { Pagination, Spin, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import Article from '../article';
 import styles from './articles-list.module.scss';
 
-function ArticlesList ({articles, page, asyncGetArticlesWithDispatch}) {
+function ArticlesList ({articles, page, successfullDownload, error, asyncGetArticlesWithDispatch, beginningWithDispatch}) {
   useEffect(() => {
     asyncGetArticlesWithDispatch(1);
-  }, []);
+  }, [])
+
+  if (!(successfullDownload || error)) {
+    return <Spin />
+  }
+
+  if (error) {
+    return <Alert message="Articles not received" type="error"/>
+  }
+
 
   const elements = articles.map((article) => <Article key={article.slug} {...article} isList={true}/>)
   return (
