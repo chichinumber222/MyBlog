@@ -5,7 +5,7 @@ import Header from '../header';
 import ArticlesListContainer from '../../containers/articles-list-container';
 import ArticlePageContainer from '../../containers/article-page-container';
 
-function App({asyncGetArticlesWithDispatch}) {
+function App() {
   return (
     <Router>
       <div className={styles.app}>
