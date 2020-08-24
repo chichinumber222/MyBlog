@@ -29,7 +29,7 @@
     display: inline-block;
     width: 16px;
     height: 16px;
-    background: url("../../styles/icons/heart-passive.png") no-repeat;
+    background: url('../../styles/icons/heart-passive.png') no-repeat;
     transform: translate(0px, 2px);
     margin-right: 5px;
   }
@@ -47,13 +47,13 @@
     opacity: 0;
 
     &:checked ~ .heart {
-      background: url("../../styles/icons/heart-active.png") no-repeat;
+      background: url('../../styles/icons/heart-active.png') no-repeat;
     }
   }
 }
 
 .tags {
-  margin: 3px 0px; 
+  margin: 3px 0px;
 
   .tag {
     display: inline-block;

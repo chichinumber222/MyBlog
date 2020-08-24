@@ -8,14 +8,14 @@ function successfullDownload(state = false, action) {
     case BEGINNING:
       return false;
     default:
-      return state; 
+      return state;
   }
 }
 
-function data(state = {articles: [], page: null}, action) {
+function data(state = { articles: [], page: 0 }, action) {
   switch (action.type) {
-    case ARTICLES_RECEIVED: 
-      return {articles: [...action.articles], page: action.page};
+    case ARTICLES_RECEIVED:
+      return { articles: [...action.articles], page: action.page };
     default:
       return state;
   }
@@ -36,6 +36,6 @@ const reducer = combineReducers({
   data,
   successfullDownload,
   error,
-})
+});
 
 export default reducer;

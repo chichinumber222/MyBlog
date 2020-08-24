@@ -11,12 +11,12 @@ function App() {
       <div className={styles.app}>
         <Header />
         <Switch>
-          <Route path='/articles/:slug' component={ArticlePageContainer}/>
-          <Route exact path={['/', '/articles']} component={ArticlesListContainer}/>       
+          <Route path="/articles/:slug" component={ArticlePageContainer} />
+          <Route exact path={['/', '/articles']} component={ArticlesListContainer} />
         </Switch>
       </div>
     </Router>
-  )
+  );
 }
 
 export default App;

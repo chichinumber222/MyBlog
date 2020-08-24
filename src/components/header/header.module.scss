@@ -16,7 +16,6 @@
   display: inline-block;
   padding: 6px 18px;
   text-decoration: none;
-  color: rgba(0, 0, 0, 0.85);
 
   & + & {
     margin-left: 20px;
@@ -25,6 +24,11 @@
 
 .signIn {
   composes: link;
+  color: rgba(0, 0, 0, 0.85);
+
+  &:hover {
+    color: rgba(0, 0, 0, 0.55);
+  }
 }
 
 .signUp {
@@ -32,4 +36,10 @@
   border: 1px solid #52c41a;
   border-radius: 5px;
   color: #52c41a;
+  transition: color 0.15s ease-in-out, border 0.15s ease-in-out;
+
+  &:hover {
+    color: #67e727;
+    border: 1px solid #67e727;
+  }
 }

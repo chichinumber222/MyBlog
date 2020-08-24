@@ -7,11 +7,11 @@ const mapStateToProps = (state) => ({
   page: state.data.page,
   successfullDownload: state.successfullDownload,
   error: state.error,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
-  asyncGetArticlesWithDispatch: (page) => dispatch((asyncGetArticles(page))),
+  asyncGetArticlesWithDispatch: (page) => dispatch(asyncGetArticles(page)),
   beginningWithDispatch: () => dispatch(beginning()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesList);
