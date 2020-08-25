@@ -12,9 +12,9 @@ function Header() {
         <a href="#" className={styles.signIn}>
           Sign in
         </a>
-        <a href="#" className={styles.signUp}>
+        <Link to='/sign-up' className={styles.signUp}>
           Sign up
-        </a>
+        </Link>
       </div>
     </div>
   );

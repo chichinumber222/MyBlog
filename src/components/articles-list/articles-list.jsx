@@ -46,7 +46,7 @@ function ArticlesList({
 }
 
 ArticlesList.propTypes = {
-  articles: PropTypes.arrayOf(PropTypes.obj).isRequired,
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   page: PropTypes.number.isRequired,
   successfullDownload: PropTypes.bool.isRequired,
   error: PropTypes.bool.isRequired,

@@ -17,7 +17,7 @@ function ArticlePage({ match, articles }) {
 }
 
 ArticlePage.propTypes = {
-  articles: PropTypes.arrayOf(PropTypes.obj).isRequired,
+  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   match: PropTypes.shape({
     params: PropTypes.objectOf(PropTypes.string),
     isExact: PropTypes.bool,
