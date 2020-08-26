@@ -5,6 +5,7 @@ import Header from '../header';
 import ArticlesListContainer from '../../containers/articles-list-container';
 import ArticlePageContainer from '../../containers/article-page-container';
 import SignUp from '../sign-up';
+import SignIn from '../sign-in';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Switch>
           <Route path="/articles/:slug" component={ArticlePageContainer} />
           <Route path='/sign-up' component={SignUp}/>
+          <Route path='/sign-in' component={SignIn}/>
           <Route exact path={['/', '/articles']} component={ArticlesListContainer} />
         </Switch>
       </div>

@@ -9,9 +9,9 @@ function Header() {
         Realworld Blog
       </Link>
       <div>
-        <a href="#" className={styles.signIn}>
+        <Link to='/sign-in' className={styles.signIn}>
           Sign in
-        </a>
+        </Link>
         <Link to='/sign-up' className={styles.signUp}>
           Sign up
         </Link>

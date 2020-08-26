@@ -1,0 +1,11 @@
+.signIn {
+  composes: signUp from '../sign-up/sign-up.module.scss';
+}
+
+.submit {
+  composes: submit from '../sign-up/sign-up.module.scss';
+}
+
+.notHaveAnAccount {
+  composes: haveAnAccount from '../sign-up/sign-up.module.scss';
+}

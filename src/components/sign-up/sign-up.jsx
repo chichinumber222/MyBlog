@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Divider, Button } from 'antd';
 import CustomFormField from '../../utils/custom-form-field';
 import PersonalInfoCheckbox from '../../utils/personal-info-checkbox';
@@ -15,7 +16,7 @@ function SignUp() {
       <Divider className={styles.divider} />
       <PersonalInfoCheckbox>I agree to the processing of my personal information</PersonalInfoCheckbox>
       <Button className={styles.submit} type='primary' size='large'>Create</Button>
-      <p className={styles.haveAnAccount}>Already have an account? <a href='#'>Sign In.</a></p>
+      <p className={styles.haveAnAccount}>Already have an account? <Link to='/sign-in'>Sign In.</Link ></p>
     </form>
   )
 }
