@@ -9,10 +9,10 @@ function Header() {
         Realworld Blog
       </Link>
       <div>
-        <Link to='/sign-in' className={styles.signIn}>
+        <Link to="/sign-in" className={styles.signIn}>
           Sign in
         </Link>
-        <Link to='/sign-up' className={styles.signUp}>
+        <Link to="/sign-up" className={styles.signUp}>
           Sign up
         </Link>
       </div>

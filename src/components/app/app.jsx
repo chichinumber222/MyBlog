@@ -14,8 +14,8 @@ function App() {
         <Header />
         <Switch>
           <Route path="/articles/:slug" component={ArticlePageContainer} />
-          <Route path='/sign-up' component={SignUp}/>
-          <Route path='/sign-in' component={SignIn}/>
+          <Route path="/sign-up" component={SignUp} />
+          <Route path="/sign-in" component={SignIn} />
           <Route exact path={['/', '/articles']} component={ArticlesListContainer} />
         </Switch>
       </div>
