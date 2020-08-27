@@ -9,7 +9,7 @@
   }
 }
 
-.title {
+.label {
   margin: 0px 0px 2px 0px;
   color: black;
   font-size: 14px;
@@ -54,6 +54,19 @@
   line-height: 24px;
 }
 
-.error {
+.errorMessage {
   color: red;
+  margin-top: 5px;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    background-image: url("../../styles/icons/error-indicator.png");
+    background-repeat: no-repeat;
+    background-size: 15px;
+    margin-right: 5px;
+    transform: translate(0px, 1px);
+  }
 }

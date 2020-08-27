@@ -18,46 +18,54 @@ function SignUp() {
       <h2>Create new account</h2>
       <CustomFormField
         name="username"
-        refAttribute={register({ minLength: 3, maxLength: 20, required: true })}
+        id="signUp__username"
+        ref={register({ minLength: 3, maxLength: 20, required: true })}
         placeholder="Username"
-        error={errors.username && 'Username needs to be at least 3'}
+        errorMessage={errors.username && 'Username needs to be at least 3'}
       >
         Username
       </CustomFormField>
       <CustomFormField
         name="email"
-        refAttribute={register({ pattern: /\S+@\S+\.\S+/i, required: true })}
+        id="signUp__email"
+        ref={register({ pattern: /\S+@\S+\.\S+/i, required: true })}
         placeholder="Email address"
-        error={errors.email && 'Enter correct email'}
+        errorMessage={errors.email && 'Enter correct email'}
       >
         Email address
       </CustomFormField>
       <CustomFormField
         name="pass"
+        id="signUp__pass"
         type="password"
-        refAttribute={register({ minLength: 6, maxLength: 40, required: true })}
+        ref={register({ minLength: 6, maxLength: 40, required: true })}
         placeholder="Password"
-        error={errors.pass && 'Your password needs to be at least 6 characters.'}
+        errorMessage={errors.pass && 'Your password needs to be at least 6 characters.'}
       >
         Password
       </CustomFormField>
       <CustomFormField
         name="repeat"
+        id="signUp__repeat"
         type="password"
-        refAttribute={register({ validate: () => watch('pass') === watch('repeat') })}
+        ref={register({ validate: () => watch('pass') === watch('repeat') })}
         placeholder="Password"
-        error={errors.repeat && 'Passwords must match'}
+        errorMessage={errors.repeat && 'Passwords must match'}
       >
         Repeat Password
       </CustomFormField>
+
       <Divider className={styles.divider} />
+
       <PersonalInfoCheckbox 
         name="processingInformation" 
-        refAttribute={register({required: true})} 
-        error={errors.processingInformation && 'You have to agree'}
+        id="signUp__processingInformation"
+        ref={register({required: true})} 
+        errorMessage={errors.processingInformation && 'Please accept the terms and conditions to continue.'}
       >
         I agree to the processing of my personal information
       </PersonalInfoCheckbox>
+
       <button className={styles.submit} type="submit">
         Create
       </button>

@@ -1,19 +1,38 @@
 import React from 'react';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './sign-in.module.scss';
 
 function SignIn() {
-  const handlerSubmit = (event) => {
-    event.preventDefault();
+  const { register, handleSubmit, errors } = useForm();
+
+  const handlerSubmit = () => {
     console.log('submit');
   };
 
   return (
-    <form className={styles.signIn} onSubmit={handlerSubmit}>
+    <form className={styles.signIn} onSubmit={handleSubmit(handlerSubmit)}>
       <h2>Sign In</h2>
-      <CustomFormField placeholder="Email address">Email address</CustomFormField>
-      <CustomFormField placeholder="Password">Password</CustomFormField>
+      <CustomFormField 
+        name="email" 
+        id="signIn__email" 
+        ref={register({ pattern: /\S+@\S+\.\S+/i, required: true })} 
+        placeholder="Email address"
+        errorMessage={errors.email && 'Enter correct email'}
+      >
+        Email address
+      </CustomFormField>
+      <CustomFormField 
+        name="pass" 
+        id="signIn__pass" 
+        type="password"
+        ref={register({ minLength: 6, maxLength: 40, required: true })}
+        placeholder="Password"
+        errorMessage={errors.pass && 'Your password needs to be at least 6 characters.'}
+      >
+        Password
+      </CustomFormField>
       <button className={styles.submit} type="submit">
         Login
       </button>

@@ -1,3 +1,7 @@
+.personalInfoCheckbox {
+  text-align: left;
+}
+
 .container {
   display: flex;
   align-items: baseline;
@@ -14,10 +18,8 @@
   opacity: 0.7;
 }
 
-.error {
-  color: red;
-  display: block;
-  text-align: left;
+.errorMessage {
+  composes: errorMessage from '../custom-form-field/custom-form-field.module.scss';
 }
 
 

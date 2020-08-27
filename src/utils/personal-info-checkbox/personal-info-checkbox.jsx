@@ -2,34 +2,38 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './personal-info-checkbox.module.scss';
 
-function PersonalInfoCheckbox({ children, name, refAttribute, error }) {
+const PersonalInfoCheckbox = React.forwardRef((props, ref) => {
+  const { children, name, id, errorMessage } = props;
   return (
-    <div>
+    <div className={styles.personalInfoCheckbox}>
       <div className={styles.container}>
         <input 
           className={styles.checkbox} 
-          id="to" 
+          id={id} 
           type="checkbox" 
           name={name} 
           defaultChecked 
-          ref={refAttribute}
+          ref={ref}
         />
-        <label className={styles.label} htmlFor="to">
+        <label className={styles.label} htmlFor={id}>
           {children}
         </label>
       </div>
-      <span className={styles.error}>{error}</span>
+      {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
     </div>
   );
-}
+})
 
 PersonalInfoCheckbox.defaultProps = {
   children: '',
+  errorMessage: '',
 };
 
 PersonalInfoCheckbox.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   name: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  errorMessage: PropTypes.string,
 };
 
 export default PersonalInfoCheckbox;
