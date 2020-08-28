@@ -12,34 +12,42 @@
   }
 }
 
-.link {
-  display: inline-block;
-  padding: 6px 18px;
-  text-decoration: none;
 
-  & + & {
-    margin-left: 20px;
+@mixin button($color, $font-size, $border-color, $padding, $increase) {
+  display: inline-block;
+  padding: $padding;
+  text-decoration: none;
+  color: $color;
+  border-style: solid;
+  border-width: 1px;
+  border-color: $border-color;
+  border-radius: 5px;
+  font-size: $font-size;
+  transition: color 0.18s ease-in-out, border-color 0.18s ease-in-out;
+
+  &:hover {
+    color: lighten($color, $increase);
+    border-color: lighten($border-color, $increase); 
   }
 }
 
 .signIn {
-  composes: link;
-  color: rgba(0, 0, 0, 0.85);
-
-  &:hover {
-    color: rgba(0, 0, 0, 0.55);
-  }
+  @include button(#313131, 18px, transparent, 6px 18px, 25%);
 }
 
 .signUp {
-  composes: link;
-  border: 1px solid #52c41a;
-  border-radius: 5px;
-  color: #52c41a;
-  transition: color 0.15s ease-in-out, border 0.15s ease-in-out;
+  @include button(#52c41a, 18px, #52c41a, 6px 18px, 8%);
+  margin-left: 20px;
+}
 
-  &:hover {
-    color: #67e727;
-    border: 1px solid #67e727;
-  }
+.create {
+  @include button(#52c41a, 14px, #52c41a, 6px 10px, 8%);
+}
+
+.logOut {
+  @include button(#404040, 18px, #404040, 8px 18px, 18%);
+}
+
+.indent {
+  margin: 0px 26px;
 }

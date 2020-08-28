@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import { Divider } from 'antd';
@@ -6,15 +7,15 @@ import CustomFormField from '../../utils/custom-form-field';
 import PersonalInfoCheckbox from '../../utils/personal-info-checkbox';
 import styles from './sign-up.module.scss';
 
-function SignUp() {
+function SignUp({history, asyncRegistrationWithDispatch}) {
   const { register, handleSubmit, watch, errors } = useForm();
-
-  const mySubmit = () => {
-    console.log('submit');
+  
+  const submit = () => {
+    asyncRegistrationWithDispatch(watch("username"), watch("email"), watch("pass")).then(() => history.push("/"));
   };
 
   return (
-    <form className={styles.signUp} onSubmit={handleSubmit(mySubmit)}>
+    <form className={styles.signUp} onSubmit={handleSubmit(submit)}>
       <h2>Create new account</h2>
       <CustomFormField
         name="username"
@@ -38,9 +39,9 @@ function SignUp() {
         name="pass"
         id="signUp__pass"
         type="password"
-        ref={register({ minLength: 6, maxLength: 40, required: true })}
+        ref={register({ minLength: 8, maxLength: 40, required: true })}
         placeholder="Password"
-        errorMessage={errors.pass && 'Your password needs to be at least 6 characters.'}
+        errorMessage={errors.pass && 'Your password needs to be at least 8 characters.'}
       >
         Password
       </CustomFormField>
@@ -74,6 +75,10 @@ function SignUp() {
       </p>
     </form>
   );
+}
+
+SignUp.propTypes = {
+  asyncRegistrationWithDispatch: PropTypes.func.isRequired,
 }
 
 export default SignUp;

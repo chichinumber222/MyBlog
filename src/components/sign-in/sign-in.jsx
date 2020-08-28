@@ -27,9 +27,9 @@ function SignIn() {
         name="pass" 
         id="signIn__pass" 
         type="password"
-        ref={register({ minLength: 6, maxLength: 40, required: true })}
+        ref={register({ required: true })}
         placeholder="Password"
-        errorMessage={errors.pass && 'Your password needs to be at least 6 characters.'}
+        errorMessage={errors.pass && 'Your password needs to be at least 8 characters.'}
       >
         Password
       </CustomFormField>

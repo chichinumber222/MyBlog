@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED } from './action-types';
 
 function successfullDownload(state = false, action) {
   switch (action.type) {
@@ -32,10 +32,22 @@ function error(state = false, action) {
   }
 }
 
+const userInitial = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {};
+
+function user(state = userInitial, action) {
+  switch (action.type) {
+    case AUTH_COMPLETED: 
+      return {...action.user};
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successfullDownload,
   error,
+  user,
 });
 
 export default reducer;

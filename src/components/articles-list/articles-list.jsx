@@ -6,14 +6,16 @@ import 'antd/dist/antd.css';
 import Article from '../article';
 import styles from './articles-list.module.scss';
 
-function ArticlesList({
-  articles,
-  page,
-  successfullDownload,
-  error,
-  asyncGetArticlesWithDispatch,
-  beginningWithDispatch,
-}) {
+function ArticlesList(props) {
+  const {
+    articles,
+    page,
+    successfullDownload,
+    error,
+    asyncGetArticlesWithDispatch,
+    beginningWithDispatch,
+  } = props;
+  
   useEffect(() => {
     asyncGetArticlesWithDispatch(1);
     return () => beginningWithDispatch();

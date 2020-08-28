@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
+import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {
@@ -28,13 +29,11 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
             {description}
           </p>
         </div>
-        <div className={styles.person}>
-          <div className={styles.info}>
-            <span className={styles.username}>{author.username}</span>
-            <span className={styles.date}>{format(new Date(createdAt), 'LLLL d, y')}</span>
-          </div>
-          <img className={styles.avatar} alt="avatar" src={author.image} />
-        </div>
+        <UserDataWithAvatar 
+          username={author.username} 
+          date={format(new Date(createdAt), 'LLLL d, y')} 
+          imageSrc={author.image}
+        />
       </div>
       {!isList && <Markdown>{body}</Markdown>}
     </div>

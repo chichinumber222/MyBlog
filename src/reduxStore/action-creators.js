@@ -1,5 +1,5 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING } from './action-types';
-import getArticlesFromAPI from '../services/article-service';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED } from './action-types';
+import { getArticlesFromAPI, registration } from '../services/article-service';
 
 export const beginning = () => ({
   type: BEGINNING,
@@ -27,3 +27,18 @@ export const asyncGetArticles = (page) => {
     }
   };
 };
+
+const authCompleted = (user) => ({
+  type: AUTH_COMPLETED,
+  user,
+})
+
+export const asyncRegistration = (username, email, password) => {
+  return async function (dispatch) {
+    const response = await registration(username, email, password);
+    const { user } = response;
+    dispatch(authCompleted(user));
+    sessionStorage.setItem("user", JSON.stringify(user));
+  }
+}
+

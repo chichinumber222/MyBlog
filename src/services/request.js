@@ -1,9 +1,19 @@
-async function request(url, options = {}) {
-  const response = await fetch(url, options);
-  if (!response.ok) {
-    throw Error(`Could not fetch ${url}. Status: ${response.status}`);
+async function request(url, options = {}, numbersOfOperations = 0) {
+  let body;
+  try {
+    const response = await fetch(url, options);
+
+    if (!response.ok) {
+      throw Error(`Could not fetch ${url}. Status: ${response.status}`);
+    }
+
+    body = await response.json();
+  } catch (error) {
+    if (numbersOfOperations < 10) return request(url, options, numbersOfOperations + 1);
+    const myMessage = 'Does not send request after 10 attempts';
+    throw new Error(`${myMessage}, ${error.message}`);
   }
-  const body = await response.json();
+  
   return body;
 }
 
