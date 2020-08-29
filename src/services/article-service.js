@@ -21,3 +21,20 @@ export function registration(username, email, password) {
   };
   return request('https://conduit.productionready.io/api/users', options);
 }
+
+export function authentication(email, password) {
+  const body = {
+    "user": {
+      "email": email,
+      "password": password,
+    }
+  }
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+    },
+    body: JSON.stringify(body)
+  };
+  return request('https://conduit.productionready.io/api/users/login', options);
+}

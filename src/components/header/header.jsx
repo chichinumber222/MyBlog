@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 import styles from './header.module.scss';
 
-function Header({user}) {
+function Header({user, logOutAndRemoveStorageWithDispatch}) {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.title}>
@@ -17,7 +17,7 @@ function Header({user}) {
               Create article
             </Link>
             <UserDataWithAvatar username={user.username} imageSrc={user.image} className={styles.indent}/>
-            <Link className={styles.logOut}>
+            <Link to="/" className={styles.logOut} onClick={logOutAndRemoveStorageWithDispatch}>
               Log Out
             </Link>
           </>
@@ -39,6 +39,7 @@ function Header({user}) {
 Header.propTypes = {
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
+  logOutAndRemoveStorageWithDispatch: PropTypes.func.isRequired,
 }
 
 export default Header;

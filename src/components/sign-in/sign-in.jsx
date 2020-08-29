@@ -1,18 +1,19 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './sign-in.module.scss';
 
-function SignIn() {
-  const { register, handleSubmit, errors } = useForm();
+function SignIn({history, asyncAuthenticationWithDispatch}) {
+  const { register, handleSubmit, watch, errors } = useForm();
 
-  const handlerSubmit = () => {
-    console.log('submit');
+  const submit = () => {
+    asyncAuthenticationWithDispatch(watch("email"), watch("pass")).then(() => history.push("/"));
   };
 
   return (
-    <form className={styles.signIn} onSubmit={handleSubmit(handlerSubmit)}>
+    <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
       <h2>Sign In</h2>
       <CustomFormField 
         name="email" 
@@ -41,6 +42,10 @@ function SignIn() {
       </p>
     </form>
   );
+}
+
+SignIn.propTypes = {
+  asyncAuthenticationWithDispatch: PropTypes.func.isRequired,
 }
 
 export default SignIn;

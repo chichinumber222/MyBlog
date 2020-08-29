@@ -1,8 +1,13 @@
 import { connect } from 'react-redux';
 import Header from '../../components/header';
+import { logOutAndRemoveStorage } from '../../reduxStore/action-creators';
 
 const mapStateToProps = (state) => ({
   user: state.user,
 })
 
-export default connect(mapStateToProps)(Header);
+const mapDispatchToProps = (dispatch) => ({
+  logOutAndRemoveStorageWithDispatch: () => dispatch(logOutAndRemoveStorage())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

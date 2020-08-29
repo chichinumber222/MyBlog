@@ -1,5 +1,5 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED } from './action-types';
-import { getArticlesFromAPI, registration } from '../services/article-service';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT } from './action-types';
+import { getArticlesFromAPI, registration, authentication } from '../services/article-service';
 
 export const beginning = () => ({
   type: BEGINNING,
@@ -42,3 +42,22 @@ export const asyncRegistration = (username, email, password) => {
   }
 }
 
+export const asyncAuthentication = (email, password) => {
+  return async function (dispatch) {
+    const response = await authentication(email, password);
+    const { user } = response;
+    dispatch(authCompleted(user));
+    sessionStorage.setItem("user", JSON.stringify(user));
+  }
+}
+
+const logOut = () => ({
+  type: LOG_OUT,
+})
+
+export const logOutAndRemoveStorage = () => {
+  return function (dispatch) {
+    sessionStorage.removeItem("user");
+    dispatch(logOut());
+  }
+}

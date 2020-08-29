@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT } from './action-types';
 
 function successfullDownload(state = false, action) {
   switch (action.type) {
@@ -38,6 +38,8 @@ function user(state = userInitial, action) {
   switch (action.type) {
     case AUTH_COMPLETED: 
       return {...action.user};
+    case LOG_OUT:
+      return {};
     default:
       return state;
   }
