@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './user-data-with-avatar.module.scss';
-
-const defaultSrc = "https://static.productionready.io/images/smiley-cyrus.jpg"; 
+import defaultAvatar from "../../styles/icons/user.png"
 
 function UserDataWithAvatar({username, date, imageSrc, className}) {
   return (
@@ -11,7 +10,7 @@ function UserDataWithAvatar({username, date, imageSrc, className}) {
         <span className={styles.username}>{username}</span>
         <span className={styles.date}>{date}</span>
       </div>
-      <img className={styles.avatar} alt="avatar" src={imageSrc || defaultSrc} />
+      <img className={styles.avatar} alt="avatar" src={imageSrc || defaultAvatar} />
     </div>
   )
 }

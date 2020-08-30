@@ -1,3 +1,8 @@
-.infoNotification {
-  composes: alert from '../../index.scss';
+.centered {
+  composes: centered from '../articles-list/articles-list.module.scss';
 }
+
+.errorNotification {
+  composes: errorNotification from '../articles-list/articles-list.module.scss';
+}
+

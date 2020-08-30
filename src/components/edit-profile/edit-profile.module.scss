@@ -1,0 +1,7 @@
+.editProfile {
+  composes: signUp from '../sign-up/sign-up.module.scss';
+}
+
+.submit {
+  composes: submit from '../sign-up/sign-up.module.scss';
+}

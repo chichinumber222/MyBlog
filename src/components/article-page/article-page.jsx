@@ -1,29 +1,43 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'antd';
+import { Ripple } from 'react-spinners-css';
 import Article from '../article';
 import styles from './article-page.module.scss';
 
-function ArticlePage({ match, articles }) {
-  const {
-    params: { slug },
-  } = match;
-  const currentArticle = articles.find((article) => article.slug === slug);
-  return currentArticle ? (
-    <Article {...currentArticle} isList={false} />
-  ) : (
-    <Alert className={styles.infoNotification} message="Sorry, this article does not exist" type="info" />
-  );
+function ArticlePage(props) {
+  const { match, article, asyncGetArticleWithDispatch, successGettingArticle, errorGettingArticle, resetWithDispatch } = props;
+
+  useEffect(() => {
+    const {
+      params: { slug },
+    } = match;
+    asyncGetArticleWithDispatch(slug);
+    return resetWithDispatch;
+  }, []);
+
+  if (!(successGettingArticle || errorGettingArticle)) {
+    return <Ripple className={styles.centered} color="#5F5F5F"/>
+  }
+
+  if (errorGettingArticle) {
+    return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
+  }
+
+  return <Article {...article} isList={false}/>
 }
 
 ArticlePage.propTypes = {
-  articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   match: PropTypes.shape({
     params: PropTypes.objectOf(PropTypes.string),
     isExact: PropTypes.bool,
     path: PropTypes.string,
     url: PropTypes.string,
   }).isRequired,
+  asyncGetArticleWithDispatch: PropTypes.func.isRequired,
+  successGettingArticle: PropTypes.bool.isRequired,
+  errorGettingArticle: PropTypes.bool.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
 };
 
 export default ArticlePage;

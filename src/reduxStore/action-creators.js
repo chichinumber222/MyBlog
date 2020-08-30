@@ -1,5 +1,5 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED } from './action-types';
-import { getArticlesFromAPI, registration, authentication } from '../services/article-service';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, ARTICLE_RECEIVED, ARTICLE_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED } from './action-types';
+import { getArticlesFromAPI, getArticleFromAPI, registration, authentication } from '../services/article-service';
 
 export const reset = () => ({
   type: RESET,
@@ -27,6 +27,27 @@ export const asyncGetArticles = (page) => {
     }
   };
 };
+
+const articleReceived = (article) => ({
+  type: ARTICLE_RECEIVED,
+  article,
+})
+
+const articleNotReceived = () => ({
+  type: ARTICLE_NOT_RECEIVED,
+})
+
+export const asyncGetArticle = (slug) => {
+  return async function (dispatch) {
+    try {
+      const response = await getArticleFromAPI(slug);
+      const { article } = response;
+      dispatch(articleReceived(article));
+    } catch(error) {
+      dispatch(articleNotReceived());
+    }
+  }
+}
 
 const authCompleted = (user) => ({
   type: AUTH_COMPLETED,

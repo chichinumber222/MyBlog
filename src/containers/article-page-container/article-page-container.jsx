@@ -1,8 +1,16 @@
 import { connect } from 'react-redux';
 import ArticlePage from '../../components/article-page';
+import { asyncGetArticle, reset } from '../../reduxStore/action-creators';
 
 const mapStateToProps = (state) => ({
-  articles: state.data.articles,
+  article: state.lastOpenedArticle,
+  successGettingArticle: state.successGettingArticle,
+  errorGettingArticle: state.errorGettingArticle,
 });
 
-export default connect(mapStateToProps)(ArticlePage);
+const mapDispatchToProps = (dispatch) => ({
+  asyncGetArticleWithDispatch: (slug) => dispatch(asyncGetArticle(slug)),
+  resetWithDispatch: () => dispatch(reset()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

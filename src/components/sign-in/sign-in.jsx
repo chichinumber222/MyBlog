@@ -40,7 +40,7 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithD
         type="password"
         ref={register({ required: true })}
         placeholder="Password"
-        errorMessage={errors.pass && 'Your password needs to be at least 8 characters.'}
+        errorMessage={errors.pass && 'Enter your password'}
       >
         Password
       </CustomFormField>
