@@ -5,11 +5,11 @@ import { Link, Redirect } from 'react-router-dom';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './sign-in.module.scss';
 
-function SignIn({ asyncAuthenticationWithDispatch, serverValidations, beginningWithDispatch, user }) {
+function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithDispatch, user, errorAuthentication }) {
   const { register, handleSubmit, watch, errors } = useForm();
 
   useEffect(() => {
-    return beginningWithDispatch;
+    return resetWithDispatch;
   }, []);
 
   const submit = () => {
@@ -23,6 +23,7 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, beginningW
   return (
     <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
       {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>} 
+      {errorAuthentication && <p className={styles.errorAuthentication}>Failed Authentication</p>}
       <h2>Sign In</h2>
       <CustomFormField 
         name="email" 
@@ -56,9 +57,10 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, beginningW
 SignIn.propTypes = {
   asyncAuthenticationWithDispatch: PropTypes.func.isRequired,
   serverValidations: PropTypes.string.isRequired,
-  beginningWithDispatch: PropTypes.func.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
+  errorAuthentication: PropTypes.bool.isRequired,
 }
 
 export default SignIn;

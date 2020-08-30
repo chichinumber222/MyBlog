@@ -10,23 +10,23 @@ function ArticlesList(props) {
   const {
     articles,
     page,
-    successfullDownload,
-    error,
+    successGettingArticles,
+    errorGettingArticles,
     asyncGetArticlesWithDispatch,
-    beginningWithDispatch,
+    resetWithDispatch
   } = props;
   
   useEffect(() => {
     asyncGetArticlesWithDispatch(1);
-    return beginningWithDispatch;
+    return resetWithDispatch;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  if (!(successfullDownload || error)) {
+  if (!(successGettingArticles || errorGettingArticles)) {
     return <Ripple className={styles.centered} color="#5F5F5F" />;
   }
 
-  if (error) {
+  if (errorGettingArticles) {
     return <Alert className={styles.errorNotification} message="Sorry, articles not received" type="error" />;
   }
 
@@ -50,10 +50,10 @@ function ArticlesList(props) {
 ArticlesList.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   page: PropTypes.number.isRequired,
-  successfullDownload: PropTypes.bool.isRequired,
-  error: PropTypes.bool.isRequired,
+  successGettingArticles: PropTypes.bool.isRequired,
+  errorGettingArticles: PropTypes.bool.isRequired,
   asyncGetArticlesWithDispatch: PropTypes.func.isRequired,
-  beginningWithDispatch: PropTypes.func.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
 };
 
 export default ArticlesList;

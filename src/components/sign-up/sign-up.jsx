@@ -7,11 +7,11 @@ import CustomFormField from '../../utils/custom-form-field';
 import PersonalInfoCheckbox from '../../utils/personal-info-checkbox';
 import styles from './sign-up.module.scss';
 
-function SignUp({ asyncRegistrationWithDispatch, serverValidations, beginningWithDispatch, user }) {
+function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDispatch, errorRegistration, user }) {
   const { register, handleSubmit, watch, errors } = useForm();
   
   useEffect(() => {
-    return beginningWithDispatch;
+    return resetWithDispatch;
   }, []);
 
   const submit = () => {
@@ -25,6 +25,7 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, beginningWit
   return (
     <form className={styles.signUp} onSubmit={handleSubmit(submit)}>
       {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
+      {errorRegistration && <p className={styles.errorRegistration}>Failed Registration</p>}
       <h2>Create new account</h2>
       <CustomFormField
         name="username"
@@ -89,7 +90,8 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, beginningWit
 SignUp.propTypes = {
   asyncRegistrationWithDispatch: PropTypes.func.isRequired,
   serverValidations: PropTypes.string.isRequired,
-  beginningWithDispatch: PropTypes.func.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
+  errorRegistration: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
 }

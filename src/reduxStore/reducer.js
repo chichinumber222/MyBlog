@@ -1,16 +1,5 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
-
-function successfullDownload(state = false, action) {
-  switch (action.type) {
-    case ARTICLES_RECEIVED:
-      return true;
-    case BEGINNING:
-      return false;
-    default:
-      return state;
-  }
-}
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED } from './action-types';
 
 function data(state = { articles: [], page: 0 }, action) {
   switch (action.type) {
@@ -21,11 +10,33 @@ function data(state = { articles: [], page: 0 }, action) {
   }
 }
 
-function error(state = false, action) {
+function successGettingArticles(state = false, action) {
+  switch (action.type) {
+    case ARTICLES_RECEIVED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
+function errorGettingArticles(state = false, action) {
   switch (action.type) {
     case ARTICLES_NOT_RECEIVED:
       return true;
-    case BEGINNING:
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
+function errorRegistrationOrAuthentication(state = false, action) {
+  switch (action.type) {
+    case AUTH_NOT_COMPLETED:
+      return true;
+    case RESET:
       return false;
     default:
       return state;
@@ -49,9 +60,8 @@ function serverValidations(state = '', action) {
   switch (action.type) {
     case SERVER_VALIDATIONS_RECEIVED: 
       return action.text;
-    case BEGINNING: 
-      return '';
     case AUTH_COMPLETED:
+    case RESET: 
       return '';
     default:
       return state;
@@ -60,8 +70,9 @@ function serverValidations(state = '', action) {
 
 const reducer = combineReducers({
   data,
-  successfullDownload,
-  error,
+  successGettingArticles,
+  errorGettingArticles,
+  errorRegistrationOrAuthentication,
   user,
   serverValidations,
 });

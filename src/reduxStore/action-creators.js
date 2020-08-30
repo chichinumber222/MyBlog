@@ -1,8 +1,8 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED } from './action-types';
 import { getArticlesFromAPI, registration, authentication } from '../services/article-service';
 
-export const beginning = () => ({
-  type: BEGINNING,
+export const reset = () => ({
+  type: RESET,
 });
 
 const articlesReceived = (articles, page) => ({
@@ -18,7 +18,7 @@ const articlesNotReceived = () => ({
 export const asyncGetArticles = (page) => {
   return async function (dispatch) {
     try {
-      dispatch(beginning());
+      dispatch(reset());
       const response = await getArticlesFromAPI(page);
       const { articles } = response;
       dispatch(articlesReceived(articles, page));
@@ -33,6 +33,10 @@ const authCompleted = (user) => ({
   user,
 })
 
+const authNotCompleted = () => ({
+  type: AUTH_NOT_COMPLETED,
+})
+
 const serverValidationsReceived = (text) => ({
   type: SERVER_VALIDATIONS_RECEIVED,
   text,
@@ -41,6 +45,7 @@ const serverValidationsReceived = (text) => ({
 export const asyncRegistration = (username, email, password) => {
   return async function (dispatch) {
     try {
+      dispatch(reset());
       const response = await registration(username, email, password);
       const { user, errors } = response;
       if (errors) {
@@ -53,7 +58,7 @@ export const asyncRegistration = (username, email, password) => {
         sessionStorage.setItem("user", JSON.stringify(user));
       }
     } catch(error) {
-      console.log(error.message);
+      dispatch(authNotCompleted());
     }
   }
 }
@@ -61,6 +66,7 @@ export const asyncRegistration = (username, email, password) => {
 export const asyncAuthentication = (email, password) => {
   return async function (dispatch) {
     try {
+      dispatch(reset());
       const response = await authentication(email, password);
       const { user, errors } = response;
       if (errors) {
@@ -71,7 +77,7 @@ export const asyncAuthentication = (email, password) => {
         sessionStorage.setItem("user", JSON.stringify(user));
       }
     } catch(error) {
-      console.log(error.message);
+      dispatch(authNotCompleted());
     }
   }
 }

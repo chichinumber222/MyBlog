@@ -13,3 +13,7 @@
 .serverValidations {
   composes: serverValidations from '../sign-up/sign-up.module.scss';
 }
+
+.errorAuthentication {
+  composes: errorRegistration from '../sign-up/sign-up.module.scss';
+}
