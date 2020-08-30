@@ -1,4 +1,4 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
 import { getArticlesFromAPI, registration, authentication } from '../services/article-service';
 
 export const beginning = () => ({
@@ -33,21 +33,46 @@ const authCompleted = (user) => ({
   user,
 })
 
+const serverValidationsReceived = (text) => ({
+  type: SERVER_VALIDATIONS_RECEIVED,
+  text,
+})
+
 export const asyncRegistration = (username, email, password) => {
   return async function (dispatch) {
-    const response = await registration(username, email, password);
-    const { user } = response;
-    dispatch(authCompleted(user));
-    sessionStorage.setItem("user", JSON.stringify(user));
+    try {
+      const response = await registration(username, email, password);
+      const { user, errors } = response;
+      if (errors) {
+        const part1 = errors.username ? 'Username has already been taken' : '';
+        const part2 = errors.email ? 'Email has already been taken' : '';
+        const text = `${part1}\n${part2}`;
+        dispatch(serverValidationsReceived(text));
+      } else {
+        dispatch(authCompleted(user));
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+    } catch(error) {
+      console.log(error.message);
+    }
   }
 }
 
 export const asyncAuthentication = (email, password) => {
   return async function (dispatch) {
-    const response = await authentication(email, password);
-    const { user } = response;
-    dispatch(authCompleted(user));
-    sessionStorage.setItem("user", JSON.stringify(user));
+    try {
+      const response = await authentication(email, password);
+      const { user, errors } = response;
+      if (errors) {
+        const text = "Email or password is invalid";
+        dispatch(serverValidationsReceived(text));
+      } else {
+        dispatch(authCompleted(user));
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+    } catch(error) {
+      console.log(error.message);
+    }
   }
 }
 

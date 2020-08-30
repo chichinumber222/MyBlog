@@ -9,3 +9,7 @@
 .notHaveAnAccount {
   composes: haveAnAccount from '../sign-up/sign-up.module.scss';
 }
+
+.serverValidations {
+  composes: serverValidations from '../sign-up/sign-up.module.scss';
+}

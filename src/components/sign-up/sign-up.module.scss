@@ -40,3 +40,24 @@
   line-height: 20px;
   margin: 0;
 }
+
+.serverValidations {
+  border: 1px solid #FFDD15;
+  background-color: #FFFEF4;
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 15px;
+  
+  &:before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("../../styles/icons/warning.png");
+    background-repeat: no-repeat;
+    background-size: 20px;
+    margin-right: 10px;
+    transform: translate(0px, 3px);
+  }
+}

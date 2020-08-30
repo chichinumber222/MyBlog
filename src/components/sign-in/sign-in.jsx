@@ -1,19 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './sign-in.module.scss';
 
-function SignIn({history, asyncAuthenticationWithDispatch}) {
+function SignIn({ asyncAuthenticationWithDispatch, serverValidations, beginningWithDispatch, user }) {
   const { register, handleSubmit, watch, errors } = useForm();
 
+  useEffect(() => {
+    return beginningWithDispatch;
+  }, []);
+
   const submit = () => {
-    asyncAuthenticationWithDispatch(watch("email"), watch("pass")).then(() => history.push("/"));
+    asyncAuthenticationWithDispatch(watch("email"), watch("pass"));
   };
+
+  if (Object.keys(user).length) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
+      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>} 
       <h2>Sign In</h2>
       <CustomFormField 
         name="email" 
@@ -46,6 +55,10 @@ function SignIn({history, asyncAuthenticationWithDispatch}) {
 
 SignIn.propTypes = {
   asyncAuthenticationWithDispatch: PropTypes.func.isRequired,
+  serverValidations: PropTypes.string.isRequired,
+  beginningWithDispatch: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
 }
 
 export default SignIn;

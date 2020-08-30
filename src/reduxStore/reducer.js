@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT } from './action-types';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, BEGINNING, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED } from './action-types';
 
 function successfullDownload(state = false, action) {
   switch (action.type) {
@@ -45,11 +45,25 @@ function user(state = userInitial, action) {
   }
 }
 
+function serverValidations(state = '', action) {
+  switch (action.type) {
+    case SERVER_VALIDATIONS_RECEIVED: 
+      return action.text;
+    case BEGINNING: 
+      return '';
+    case AUTH_COMPLETED:
+      return '';
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successfullDownload,
   error,
   user,
+  serverValidations,
 });
 
 export default reducer;

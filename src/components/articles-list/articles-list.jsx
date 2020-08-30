@@ -18,7 +18,7 @@ function ArticlesList(props) {
   
   useEffect(() => {
     asyncGetArticlesWithDispatch(1);
-    return () => beginningWithDispatch();
+    return beginningWithDispatch;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
