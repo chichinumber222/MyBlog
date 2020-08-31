@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
+import isEmail from 'validator/lib/isEmail';
 import { Divider } from 'antd';
 import CustomFormField from '../../utils/custom-form-field';
 import PersonalInfoCheckbox from '../../utils/personal-info-checkbox';
@@ -32,14 +33,14 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
         id="signUp__username"
         ref={register({ minLength: 3, maxLength: 20, required: true })}
         placeholder="Username"
-        errorMessage={errors.username && 'Username needs to be at least 3'}
+        errorMessage={(errors.username?.type === 'required' && 'Enter username') || (errors.username?.type === 'minLength' && 'Your username needs to be at least 3 characters.') || (errors.username?.type === 'maxLength' && 'Your username too long')}
       >
         Username
       </CustomFormField>
       <CustomFormField
         name="email"
         id="signUp__email"
-        ref={register({ pattern: /\S+@\S+\.\S+/i, required: true })}
+        ref={register({ validate: () => isEmail(watch("email")) })}
         placeholder="Email address"
         errorMessage={errors.email && 'Enter correct email'}
       >
@@ -51,7 +52,7 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
         type="password"
         ref={register({ minLength: 8, maxLength: 40, required: true })}
         placeholder="Password"
-        errorMessage={errors.pass && 'Your password needs to be at least 8 characters.'}
+        errorMessage={(errors.pass?.type === 'required' && 'Enter password') || (errors.pass?.type === 'minLength' && 'Your password needs to be at least 8 characters.') || (errors.pass?.type === 'maxLength' && 'Your password too long')}
       >
         Password
       </CustomFormField>
@@ -71,7 +72,7 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
       <PersonalInfoCheckbox 
         name="processingInformation" 
         id="signUp__processingInformation"
-        ref={register({required: true})} 
+        ref={register({ required: true })} 
         errorMessage={errors.processingInformation && 'Please accept the terms and conditions to continue.'}
       >
         I agree to the processing of my personal information

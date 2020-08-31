@@ -107,7 +107,7 @@ const logOut = () => ({
   type: LOG_OUT,
 })
 
-export const logOutAndRemoveStorage = () => {
+export const logOuting = () => {
   return function (dispatch) {
     sessionStorage.removeItem("user");
     dispatch(logOut());

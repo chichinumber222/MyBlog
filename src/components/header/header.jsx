@@ -1,10 +1,46 @@
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 import styles from './header.module.scss';
 
-function Header({user, logOutAndRemoveStorageWithDispatch}) {
+function GroupButtonsAuth({user, logOutingWithDispatch}) {
+  return (
+    <>
+      <Link className={styles.create}>
+        Create article
+      </Link>
+
+      <Link to='/profile' className={styles.indent}>
+        <UserDataWithAvatar 
+          username={user.username} 
+          imageSrc={user.image} 
+          />
+      </Link>
+
+      <Link to="/" className={styles.logOut} onClick={logOutingWithDispatch}>
+        Log Out
+      </Link>
+    </>
+  )
+}
+
+function GroupButtonsNonAuth() {
+  return (
+    <>
+      <Link to="/sign-in" className={styles.signIn}>
+      Sign in
+      </Link>
+
+      <Link to="/sign-up" className={styles.signUp}>
+        Sign up
+      </Link>
+    </>
+  )
+}
+
+function Header({user, logOutingWithDispatch}) {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.title}>
@@ -12,24 +48,9 @@ function Header({user, logOutAndRemoveStorageWithDispatch}) {
       </Link>
       <div>
         {user.username ? 
-          <>
-            <Link className={styles.create}>
-              Create article
-            </Link>
-            <UserDataWithAvatar username={user.username} imageSrc={user.image} className={styles.indent}/>
-            <Link to="/" className={styles.logOut} onClick={logOutAndRemoveStorageWithDispatch}>
-              Log Out
-            </Link>
-          </>
+          <GroupButtonsAuth user={user} logOutingWithDispatch={logOutingWithDispatch} />
           :
-          <>
-            <Link to="/sign-in" className={styles.signIn}>
-            Sign in
-            </Link>
-            <Link to="/sign-up" className={styles.signUp}>
-              Sign up
-            </Link>
-          </>
+          <GroupButtonsNonAuth />
         }
       </div>
     </div>
@@ -37,9 +58,13 @@ function Header({user, logOutAndRemoveStorageWithDispatch}) {
 }
 
 Header.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
   user: PropTypes.object.isRequired,
-  logOutAndRemoveStorageWithDispatch: PropTypes.func.isRequired,
+  logOutingWithDispatch: PropTypes.func.isRequired,
+}
+
+GroupButtonsAuth.propTypes = {
+  user: PropTypes.object.isRequired,
+  logOutingWithDispatch: PropTypes.func.isRequired,
 }
 
 export default Header;

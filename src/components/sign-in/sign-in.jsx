@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
+import isEmail from 'validator/lib/isEmail';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './sign-in.module.scss';
 
@@ -28,7 +29,7 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithD
       <CustomFormField 
         name="email" 
         id="signIn__email" 
-        ref={register({ pattern: /\S+@\S+\.\S+/i, required: true })} 
+        ref={register({ validate: () => isEmail(watch("email")) })} 
         placeholder="Email address"
         errorMessage={errors.email && 'Enter correct email'}
       >
