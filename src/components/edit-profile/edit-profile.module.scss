@@ -5,3 +5,11 @@
 .submit {
   composes: submit from '../sign-up/sign-up.module.scss';
 }
+
+.serverValidations {
+  composes: serverValidations from '../sign-up/sign-up.module.scss';
+}
+
+.errorEditing {
+  composes: errorRegistration from '../sign-up/sign-up.module.scss';
+}

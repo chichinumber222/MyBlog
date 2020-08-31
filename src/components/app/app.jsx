@@ -6,7 +6,7 @@ import ArticlesListContainer from '../../containers/articles-list-container';
 import ArticlePageContainer from '../../containers/article-page-container';
 import SignUpContainer from '../../containers/sign-up-container';
 import SignInContainer from '../../containers/sign-in-container';
-import EditProfile from '../edit-profile';
+import EditProfileContainer from '../../containers/edit-profile-container';
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
           <Route path="/articles/:slug" component={ArticlePageContainer} />
           <Route path="/sign-up" component={SignUpContainer} />
           <Route path="/sign-in" component={SignInContainer} />
-          <Route path="/profile" component={EditProfile} />
+          <Route path="/profile" component={EditProfileContainer} />
           <Route exact path={['/', '/articles']} component={ArticlesListContainer} />
         </Switch>
       </div>

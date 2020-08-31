@@ -41,6 +41,7 @@ function ArticlesList(props) {
         size="small"
         className={styles.pagination}
         onChange={asyncGetArticlesWithDispatch}
+        showQuickJumper
       />
     </div>
   );

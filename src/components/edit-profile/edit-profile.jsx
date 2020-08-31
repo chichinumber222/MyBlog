@@ -1,21 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isURL from 'validator/lib/isURL';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './edit-profile.module.scss';
 
-function EditProfile() {
-  const { register, handleSubmit, watch, errors } = useForm();
+function EditProfile({user, asyncEditProfileWithDispatch, resetWithDispatch, serverValidations, errorEditing, successEditing}) {
+  const { register, handleSubmit, watch, errors } = useForm({
+    defaultValues: {
+      username: user.username,
+      email: user.email,
+      avatar: user.image,
+    }
+  });
+
+  useEffect(() => {
+    return resetWithDispatch;
+  }, []);
 
   const submit = () => {
-    console.log("submit!");
+    asyncEditProfileWithDispatch(user.token, watch("username"), watch("email"), watch("newPass"), watch("avatar"));
   }
 
-  console.log(errors.newPass);
+  if (!Object.keys(user).length || successEditing) {
+    return <Redirect to='/' />;
+  }
 
   return (
     <form className={styles.editProfile} onSubmit={handleSubmit(submit)}>
+      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
+      {errorEditing && <p className={styles.errorEditing}>Failed Editing</p>}
       <h2>Edit Profile</h2>
       <CustomFormField 
         name="username" 
@@ -38,6 +54,7 @@ function EditProfile() {
       <CustomFormField 
         name="newPass" 
         id="editProfile__newPass"
+        type="password"
         ref={register({ minLength: 8, maxLength: 40, required: true })} 
         placeholder="New password"
         errorMessage={(errors.newPass?.type === 'required' && 'Enter new password') || (errors.newPass?.type === 'minLength' && 'Your new password needs to be at least 8 characters.') || (errors.newPass?.type === 'maxLength' && 'Your new password too long')}
@@ -56,6 +73,16 @@ function EditProfile() {
       <button className={styles.submit} type="submit">Save</button>
     </form>
   )
+}
+
+EditProfile.propTypes = {
+  // eslint-disable-next-line react/forbid-prop-types
+  user: PropTypes.object.isRequired,
+  asyncEditProfileWithDispatch: PropTypes.func.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
+  serverValidations: PropTypes.string.isRequired,
+  errorEditing: PropTypes.bool.isRequired,
+  successEditing: PropTypes.bool.isRequired,
 }
 
 export default EditProfile;

@@ -42,3 +42,23 @@ export function authentication(email, password) {
   };
   return request('https://conduit.productionready.io/api/users/login', options);
 }
+
+export function editProfile(token, username, email, password, image) {
+  const body = {
+    "user": {
+      "username": username,
+      "email": email,
+      "password": password,
+      "image": image,
+    }
+  }
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      'Authorization': `Token ${token}`,
+    },
+    body: JSON.stringify(body)
+  }
+  return request('https://conduit.productionready.io/api/user', options);
+}

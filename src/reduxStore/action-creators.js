@@ -1,5 +1,5 @@
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, ARTICLE_RECEIVED, ARTICLE_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED } from './action-types';
-import { getArticlesFromAPI, getArticleFromAPI, registration, authentication } from '../services/article-service';
+import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, ARTICLE_RECEIVED, ARTICLE_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED, PROFILE_EDITED, PROFILE_NOT_EDITED } from './action-types';
+import { getArticlesFromAPI, getArticleFromAPI, registration, authentication, editProfile } from '../services/article-service';
 
 export const reset = () => ({
   type: RESET,
@@ -111,5 +111,35 @@ export const logOuting = () => {
   return function (dispatch) {
     sessionStorage.removeItem("user");
     dispatch(logOut());
+  }
+}
+
+const profileEdited = (user) => ({
+  type: PROFILE_EDITED,
+  user,
+})
+
+const profileNotEdited = () => ({
+  type: PROFILE_NOT_EDITED,
+})
+
+export const asyncEditProfile = (token, username, email, password, image) => {
+  return async function (dispatch) {
+    try {
+      dispatch(reset());
+      const response = await editProfile(token, username, email, password, image);
+      const { user, errors } = response;
+      if (errors) {
+        const part1 = errors.username ? 'This username is busy' : '';
+        const part2 = errors.email ? 'This email is busy' : '';
+        const text = `${part1}\n${part2}`;
+        dispatch(serverValidationsReceived(text));
+      } else {
+        dispatch(profileEdited(user));
+        sessionStorage.setItem("user", JSON.stringify(user));
+      }
+    } catch(error) {
+      dispatch(profileNotEdited());
+    }
   }
 }
