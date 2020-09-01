@@ -16,7 +16,7 @@ const articlesNotReceived = () => ({
 });
 
 export const asyncGetArticles = (page) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await getArticlesFromAPI(page);
@@ -38,7 +38,7 @@ const articleNotReceived = () => ({
 })
 
 export const asyncGetArticle = (slug) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       const response = await getArticleFromAPI(slug);
       const { article } = response;
@@ -64,7 +64,7 @@ const serverValidationsReceived = (text) => ({
 })
 
 export const asyncRegistration = (username, email, password) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await registration(username, email, password);
@@ -75,6 +75,9 @@ export const asyncRegistration = (username, email, password) => {
         const text = `${part1}\n${part2}`;
         dispatch(serverValidationsReceived(text));
       } else {
+        const defaultImage = 'https://i.postimg.cc/Ss7RDzhh/user.png';
+        const { image } = user;       
+        user.image = image || defaultImage; 
         dispatch(authCompleted(user));
         sessionStorage.setItem("user", JSON.stringify(user));
       }
@@ -85,7 +88,7 @@ export const asyncRegistration = (username, email, password) => {
 }
 
 export const asyncAuthentication = (email, password) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await authentication(email, password);
@@ -108,7 +111,7 @@ const logOut = () => ({
 })
 
 export const logOuting = () => {
-  return function (dispatch) {
+  return function inside(dispatch) {
     sessionStorage.removeItem("user");
     dispatch(logOut());
   }
@@ -124,7 +127,7 @@ const profileNotEdited = () => ({
 })
 
 export const asyncEditProfile = (token, username, email, password, image) => {
-  return async function (dispatch) {
+  return async function inside(dispatch) {
     try {
       dispatch(reset());
       const response = await editProfile(token, username, email, password, image);
