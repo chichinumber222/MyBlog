@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Alert } from 'antd';
-import { Ripple } from 'react-spinners-css';
+import classNames from 'classnames';
 import Article from '../article';
 import styles from './article-page.module.scss';
 
@@ -17,7 +17,7 @@ function ArticlePage(props) {
   }, []);
 
   if (!(successGettingArticle || errorGettingArticle)) {
-    return <Ripple className={styles.centered} color="#5F5F5F"/>
+    return <div className={classNames(styles.spinner, styles.centered)} />
   }
 
   if (errorGettingArticle) {

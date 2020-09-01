@@ -4,6 +4,33 @@
   margin-bottom: 30px;
 }
 
+.spinner {
+  display: inline-block;
+  width: 70px;
+  height: 70px;
+
+  &:after {
+    content: " ";
+    display: block;
+    width: 50px;
+    height: 50px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 3px solid;
+    border-color: transparent #339DFF transparent #339DFF;
+    animation: spinner 0.4s linear infinite;
+  }
+
+  @keyframes spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
 .centered {
   position: fixed;
   top: 50%;
