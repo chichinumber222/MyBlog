@@ -1,5 +1,6 @@
 ### **Практическая задача**
-# **Блог-платформа. Начало**
+# **Блог-платформа #2. Аутентификация**
 
 ##### *Vercel:*  
-https://blog.chichinumber222.vercel.app/  
+https://blog-8d7cahxz1.vercel.app/  
+
