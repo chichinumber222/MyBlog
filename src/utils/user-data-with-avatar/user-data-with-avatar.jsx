@@ -16,14 +16,15 @@ function UserDataWithAvatar({username, date, imageSrc, className}) {
 
 UserDataWithAvatar.defaultProps = {
   date: '',
-  className: ''
+  className: '',
+  imageSrc: 'https://i.postimg.cc/Ss7RDzhh/user.png',
 }
 
 UserDataWithAvatar.propTypes = {
   username: PropTypes.string.isRequired,
   date: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   className: PropTypes.string,
-  imageSrc: PropTypes.string.isRequired,
+  imageSrc: PropTypes.string,
 }
 
 export default UserDataWithAvatar;

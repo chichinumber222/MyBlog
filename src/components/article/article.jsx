@@ -32,7 +32,7 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
         <UserDataWithAvatar 
           username={author.username} 
           date={format(new Date(createdAt), 'LLLL d, y')} 
-          imageSrc={author.image}
+          imageSrc={author.image || undefined}
         />
       </div>
       {!isList && <Markdown>{body}</Markdown>}

@@ -64,11 +64,11 @@ function EditProfile({user, asyncEditProfileWithDispatch, resetWithDispatch, ser
       <CustomFormField 
         name="avatar" 
         id="editProfile__avatar" 
-        ref={register({ validate: () => isURL(watch("avatar")) })}
+        ref={register({ validate: () => isURL(watch("avatar")) || watch("avatar") === ''})}
         placeholder="Avatar image"
         errorMessage={errors.avatar && 'Enter correct URL'}
       >
-        Avatar image (url)
+        Avatar image (url) (optional)
       </CustomFormField>
       <button className={styles.submit} type="submit">Save</button>
     </form>

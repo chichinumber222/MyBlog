@@ -75,9 +75,6 @@ export const asyncRegistration = (username, email, password) => {
         const text = `${part1}\n${part2}`;
         dispatch(serverValidationsReceived(text));
       } else {
-        const defaultImage = 'https://i.postimg.cc/Ss7RDzhh/user.png';
-        const { image } = user;       
-        user.image = image || defaultImage; 
         dispatch(authCompleted(user));
         sessionStorage.setItem("user", JSON.stringify(user));
       }

@@ -38,6 +38,23 @@ ArticlePage.propTypes = {
   successGettingArticle: PropTypes.bool.isRequired,
   errorGettingArticle: PropTypes.bool.isRequired,
   resetWithDispatch: PropTypes.func.isRequired,
+  article: PropTypes.shape({
+    slug: PropTypes.string.isRequired, 
+    title: PropTypes.string, 
+    description: PropTypes.string,
+    body: PropTypes.string,
+    tagList: PropTypes.arrayOf(PropTypes.string),
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string, 
+    favorited: PropTypes.bool.isRequired,
+    favoritesCount: PropTypes.number.isRequired,
+    author: PropTypes.shape({
+      username: PropTypes.string,
+      bio: PropTypes.string,
+      image: PropTypes.string,
+      following: PropTypes.bool,
+    }).isRequired,
+  }).isRequired,
 };
 
 export default ArticlePage;

@@ -1,30 +1,8 @@
-/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 import styles from './header.module.scss';
-
-function GroupButtonsAuth({user, logOutingWithDispatch}) {
-  return (
-    <>
-      <Link className={styles.create}>
-        Create article
-      </Link>
-
-      <Link to='/profile' className={styles.indent}>
-        <UserDataWithAvatar 
-          username={user.username} 
-          imageSrc={user.image} 
-          />
-      </Link>
-
-      <Link to="/" className={styles.logOut} onClick={logOutingWithDispatch}>
-        Log Out
-      </Link>
-    </>
-  )
-}
 
 function GroupButtonsNonAuth() {
   return (
@@ -35,6 +13,27 @@ function GroupButtonsNonAuth() {
 
       <Link to="/sign-up" className={styles.signUp}>
         Sign up
+      </Link>
+    </>
+  )
+}
+
+function GroupButtonsAuth({user, logOutingWithDispatch}) {
+  return (
+    <>
+      <Link to="/" className={styles.create}>
+        Create article
+      </Link>
+
+      <Link to='/profile' className={styles.indent}>
+        <UserDataWithAvatar 
+          username={user.username} 
+          imageSrc={user.image || undefined} 
+        />
+      </Link>
+
+      <Link to="/" className={styles.logOut} onClick={logOutingWithDispatch}>
+        Log Out
       </Link>
     </>
   )
@@ -58,12 +57,30 @@ function Header({user, logOutingWithDispatch}) {
 }
 
 Header.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
   logOutingWithDispatch: PropTypes.func.isRequired,
 }
 
 GroupButtonsAuth.propTypes = {
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
   logOutingWithDispatch: PropTypes.func.isRequired,
 }
 
