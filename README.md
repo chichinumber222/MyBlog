@@ -2,4 +2,5 @@
 # **Блог-платформа. Начало**
 
 ##### *Vercel:*  
-https://blog.chichinumber222.vercel.app/  
+https://blog-gbh5nrw6t.vercel.app/  
+
