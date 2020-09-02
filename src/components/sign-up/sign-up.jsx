@@ -10,17 +10,17 @@ import styles from './sign-up.module.scss';
 
 function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDispatch, errorRegistration, user }) {
   const { register, handleSubmit, watch, errors } = useForm();
-  
+
   useEffect(() => {
     return resetWithDispatch;
-  }, []);
+  }, [resetWithDispatch]);
 
   const submit = () => {
-    asyncRegistrationWithDispatch(watch("username"), watch("email"), watch("pass"));
+    asyncRegistrationWithDispatch(watch('username'), watch('email'), watch('pass'));
   };
 
   if (Object.keys(user).length) {
-    return <Redirect to='/' />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -33,14 +33,19 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
         id="signUp__username"
         ref={register({ minLength: 3, maxLength: 20, required: true })}
         placeholder="Username"
-        errorMessage={(errors.username?.type === 'required' && 'Enter username') || (errors.username?.type === 'minLength' && 'Your username needs to be at least 3 characters.') || (errors.username?.type === 'maxLength' && 'Your username too long')}
+        errorMessage={
+          (errors.username?.type === 'required' && 'Enter username') ||
+          (errors.username?.type === 'minLength' && 'Your username needs to be at least 3 characters.') ||
+          (errors.username?.type === 'maxLength' && 'Your username too long') ||
+          ''
+        }
       >
         Username
       </CustomFormField>
       <CustomFormField
         name="email"
         id="signUp__email"
-        ref={register({ validate: () => isEmail(watch("email")) })}
+        ref={register({ validate: () => isEmail(watch('email')) })}
         placeholder="Email address"
         errorMessage={errors.email && 'Enter correct email'}
       >
@@ -52,7 +57,12 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
         type="password"
         ref={register({ minLength: 8, maxLength: 40, required: true })}
         placeholder="Password"
-        errorMessage={(errors.pass?.type === 'required' && 'Enter password') || (errors.pass?.type === 'minLength' && 'Your password needs to be at least 8 characters.') || (errors.pass?.type === 'maxLength' && 'Your password too long')}
+        errorMessage={
+          (errors.pass?.type === 'required' && 'Enter password') ||
+          (errors.pass?.type === 'minLength' && 'Your password needs to be at least 8 characters.') ||
+          (errors.pass?.type === 'maxLength' && 'Your password too long') ||
+          ''
+        }
       >
         Password
       </CustomFormField>
@@ -69,10 +79,10 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
 
       <Divider className={styles.divider} />
 
-      <PersonalInfoCheckbox 
-        name="processingInformation" 
+      <PersonalInfoCheckbox
+        name="processingInformation"
         id="signUp__processingInformation"
-        ref={register({ required: true })} 
+        ref={register({ required: true })}
         errorMessage={errors.processingInformation && 'Please accept the terms and conditions to continue.'}
       >
         I agree to the processing of my personal information
@@ -93,8 +103,16 @@ SignUp.propTypes = {
   serverValidations: PropTypes.string.isRequired,
   resetWithDispatch: PropTypes.func.isRequired,
   errorRegistration: PropTypes.bool.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
-}
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+};
 
 export default SignUp;

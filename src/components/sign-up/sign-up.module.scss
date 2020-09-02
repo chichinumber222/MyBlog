@@ -43,14 +43,14 @@
 
 @mixin notification($main-color, $image) {
   border: 1px solid $main-color;
-  background-color: lighten($main-color , 40%);
+  background-color: lighten($main-color, 40%);
   display: inline-block;
   padding: 5px 10px;
   font-weight: bold;
   font-size: 15px;
 
   &:before {
-    content: "";
+    content: '';
     display: inline-block;
     width: 20px;
     height: 20px;
@@ -63,9 +63,9 @@
 }
 
 .errorRegistration {
-  @include notification(#F44336, url("../../styles/icons/icons8-close-window-48.png"));
+  @include notification(#f44336, url('../../styles/icons/icons8-close-window-48.png'));
 }
 
 .serverValidations {
-  @include notification(#FFDD15, url("../../styles/icons/warning.png"));
+  @include notification(#ffdd15, url('../../styles/icons/warning.png'));
 }

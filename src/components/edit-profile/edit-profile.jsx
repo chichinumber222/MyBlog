@@ -7,25 +7,32 @@ import isURL from 'validator/lib/isURL';
 import CustomFormField from '../../utils/custom-form-field';
 import styles from './edit-profile.module.scss';
 
-function EditProfile({user, asyncEditProfileWithDispatch, resetWithDispatch, serverValidations, errorEditing, successEditing}) {
+function EditProfile({
+  user,
+  asyncEditProfileWithDispatch,
+  resetWithDispatch,
+  serverValidations,
+  errorEditing,
+  successEditing,
+}) {
   const { register, handleSubmit, watch, errors } = useForm({
     defaultValues: {
       username: user.username,
       email: user.email,
       avatar: user.image,
-    }
+    },
   });
 
   useEffect(() => {
     return resetWithDispatch;
-  }, []);
+  }, [resetWithDispatch]);
 
   const submit = () => {
-    asyncEditProfileWithDispatch(user.token, watch("username"), watch("email"), watch("newPass"), watch("avatar"));
-  }
+    asyncEditProfileWithDispatch(user.token, watch('username'), watch('email'), watch('newPass'), watch('avatar'));
+  };
 
   if (!Object.keys(user).length || successEditing) {
-    return <Redirect to='/' />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -33,56 +40,70 @@ function EditProfile({user, asyncEditProfileWithDispatch, resetWithDispatch, ser
       {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
       {errorEditing && <p className={styles.errorEditing}>Failed Editing</p>}
       <h2>Edit Profile</h2>
-      <CustomFormField 
-        name="username" 
-        id="editProfile__username" 
+      <CustomFormField
+        name="username"
+        id="editProfile__username"
         ref={register({ required: true })}
         placeholder="Username"
         errorMessage={errors.username && 'Enter username'}
       >
         Username
       </CustomFormField>
-      <CustomFormField 
-        name="email" 
-        id="editProfile__email" 
-        ref={register({ validate: () => isEmail(watch("email")) })}
+      <CustomFormField
+        name="email"
+        id="editProfile__email"
+        ref={register({ validate: () => isEmail(watch('email')) })}
         placeholder="Email address"
         errorMessage={errors.email && 'Enter correct email'}
       >
         Email address
       </CustomFormField>
-      <CustomFormField 
-        name="newPass" 
+      <CustomFormField
+        name="newPass"
         id="editProfile__newPass"
         type="password"
-        ref={register({ minLength: 8, maxLength: 40, required: true })} 
+        ref={register({ minLength: 8, maxLength: 40, required: true })}
         placeholder="New password"
-        errorMessage={(errors.newPass?.type === 'required' && 'Enter new password') || (errors.newPass?.type === 'minLength' && 'Your new password needs to be at least 8 characters.') || (errors.newPass?.type === 'maxLength' && 'Your new password too long')}
+        errorMessage={
+          (errors.newPass?.type === 'required' && 'Enter new password') ||
+          (errors.newPass?.type === 'minLength' && 'Your new password needs to be at least 8 characters.') ||
+          (errors.newPass?.type === 'maxLength' && 'Your new password too long')
+        }
       >
         New password
       </CustomFormField>
-      <CustomFormField 
-        name="avatar" 
-        id="editProfile__avatar" 
-        ref={register({ validate: () => isURL(watch("avatar")) || watch("avatar") === ''})}
+      <CustomFormField
+        name="avatar"
+        id="editProfile__avatar"
+        ref={register({ validate: () => isURL(watch('avatar')) || watch('avatar') === '' })}
         placeholder="Avatar image"
         errorMessage={errors.avatar && 'Enter correct URL'}
       >
         Avatar image (url) (optional)
       </CustomFormField>
-      <button className={styles.submit} type="submit">Save</button>
+      <button className={styles.submit} type="submit">
+        Save
+      </button>
     </form>
-  )
+  );
 }
 
 EditProfile.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
   asyncEditProfileWithDispatch: PropTypes.func.isRequired,
   resetWithDispatch: PropTypes.func.isRequired,
   serverValidations: PropTypes.string.isRequired,
   errorEditing: PropTypes.bool.isRequired,
   successEditing: PropTypes.bool.isRequired,
-}
+};
 
 export default EditProfile;

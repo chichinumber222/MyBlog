@@ -6,7 +6,14 @@ import Article from '../article';
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
-  const { match, article, asyncGetArticleWithDispatch, successGettingArticle, errorGettingArticle, resetWithDispatch } = props;
+  const {
+    match,
+    article,
+    asyncGetArticleWithDispatch,
+    successGettingArticle,
+    errorGettingArticle,
+    resetWithDispatch,
+  } = props;
 
   useEffect(() => {
     const {
@@ -14,17 +21,17 @@ function ArticlePage(props) {
     } = match;
     asyncGetArticleWithDispatch(slug);
     return resetWithDispatch;
-  }, []);
+  }, [asyncGetArticleWithDispatch, resetWithDispatch, match]);
 
   if (!(successGettingArticle || errorGettingArticle)) {
-    return <div className={classNames(styles.spinner, styles.centered)} />
+    return <div className={classNames(styles.spinner, styles.centered)} />;
   }
 
   if (errorGettingArticle) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
-  return <Article {...article} isList={false}/>
+  return <Article {...article} isList={false} />;
 }
 
 ArticlePage.propTypes = {
@@ -39,13 +46,13 @@ ArticlePage.propTypes = {
   errorGettingArticle: PropTypes.bool.isRequired,
   resetWithDispatch: PropTypes.func.isRequired,
   article: PropTypes.shape({
-    slug: PropTypes.string.isRequired, 
-    title: PropTypes.string, 
+    slug: PropTypes.string.isRequired,
+    title: PropTypes.string,
     description: PropTypes.string,
     body: PropTypes.string,
     tagList: PropTypes.arrayOf(PropTypes.string),
     createdAt: PropTypes.string,
-    updatedAt: PropTypes.string, 
+    updatedAt: PropTypes.string,
     favorited: PropTypes.bool.isRequired,
     favoritesCount: PropTypes.number.isRequired,
     author: PropTypes.shape({

@@ -6,7 +6,9 @@ const CustomFormField = React.forwardRef((props, ref) => {
   const { children, onChange, placeholder, name, type, id, errorMessage } = props;
   return (
     <div className={styles.container}>
-      <label className={styles.label} htmlFor={id}>{children}</label>
+      <label className={styles.label} htmlFor={id}>
+        {children}
+      </label>
       <input
         className={errorMessage ? styles.inputError : styles.input}
         id={id}
@@ -16,10 +18,10 @@ const CustomFormField = React.forwardRef((props, ref) => {
         onChange={onChange}
         placeholder={placeholder}
       />
-      {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}    
+      {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
     </div>
   );
-})
+});
 
 CustomFormField.defaultProps = {
   children: '',

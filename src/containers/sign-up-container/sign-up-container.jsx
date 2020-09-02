@@ -6,11 +6,11 @@ const mapStateToProps = (state) => ({
   serverValidations: state.serverValidations,
   user: state.user,
   errorRegistration: state.errorRegistrationOrAuthentication,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   asyncRegistrationWithDispatch: (username, email, password) => dispatch(asyncRegistration(username, email, password)),
   resetWithDispatch: () => dispatch(reset()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

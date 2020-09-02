@@ -3,7 +3,7 @@ async function request(url, options = {}, numbersOfOperations = 0) {
   try {
     const response = await fetch(url, options);
 
-    if (!response.ok && response.status !== 422) {    
+    if (!response.ok && response.status !== 422) {
       throw new Error(`Could not fetch ${url}. Status: ${response.status}`);
     }
 

@@ -8,49 +8,46 @@ function GroupButtonsNonAuth() {
   return (
     <>
       <Link to="/sign-in" className={styles.signIn}>
-      Sign in
+        Sign in
       </Link>
 
       <Link to="/sign-up" className={styles.signUp}>
         Sign up
       </Link>
     </>
-  )
+  );
 }
 
-function GroupButtonsAuth({user, logOutingWithDispatch}) {
+function GroupButtonsAuth({ user, logOutingWithDispatch }) {
   return (
     <>
       <Link to="/" className={styles.create}>
         Create article
       </Link>
 
-      <Link to='/profile' className={styles.indent}>
-        <UserDataWithAvatar 
-          username={user.username} 
-          imageSrc={user.image || undefined} 
-        />
+      <Link to="/profile" className={styles.indent}>
+        <UserDataWithAvatar username={user.username} imageSrc={user.image || undefined} />
       </Link>
 
       <Link to="/" className={styles.logOut} onClick={logOutingWithDispatch}>
         Log Out
       </Link>
     </>
-  )
+  );
 }
 
-function Header({user, logOutingWithDispatch}) {
+function Header({ user, logOutingWithDispatch }) {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.title}>
         Realworld Blog
       </Link>
       <div>
-        {user.username ? 
+        {user.username ? (
           <GroupButtonsAuth user={user} logOutingWithDispatch={logOutingWithDispatch} />
-          :
+        ) : (
           <GroupButtonsNonAuth />
-        }
+        )}
       </div>
     </div>
   );
@@ -68,7 +65,7 @@ Header.propTypes = {
     token: PropTypes.string,
   }).isRequired,
   logOutingWithDispatch: PropTypes.func.isRequired,
-}
+};
 
 GroupButtonsAuth.propTypes = {
   user: PropTypes.shape({
@@ -82,6 +79,6 @@ GroupButtonsAuth.propTypes = {
     token: PropTypes.string,
   }).isRequired,
   logOutingWithDispatch: PropTypes.func.isRequired,
-}
+};
 
 export default Header;

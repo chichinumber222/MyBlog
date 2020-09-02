@@ -12,7 +12,6 @@
   }
 }
 
-
 @mixin button($color, $font-size, $border-color, $padding, $increase) {
   display: inline-block;
   padding: $padding;
@@ -27,7 +26,7 @@
 
   &:hover {
     color: lighten($color, $increase);
-    border-color: lighten($border-color, $increase); 
+    border-color: lighten($border-color, $increase);
   }
 }
 

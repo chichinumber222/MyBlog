@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
+import MyLink from './utils/my-link';
 import UserDataWithAvatar from '../../utils/user-data-with-avatar';
 import styles from './article.module.scss';
 
@@ -16,9 +16,9 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
     <div className={styles.article}>
       <div className={styles.main}>
         <div>
-          <Link to={`/articles/${slug}`} className={styles.title}>
+          <MyLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
-          </Link>
+          </MyLink>
           <label className={styles.container}>
             <input className={styles.checkbox} type="checkbox" />
             <span className={styles.heart} />
@@ -29,9 +29,9 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
             {description}
           </p>
         </div>
-        <UserDataWithAvatar 
-          username={author.username} 
-          date={format(new Date(createdAt), 'LLLL d, y')} 
+        <UserDataWithAvatar
+          username={author.username}
+          date={format(new Date(createdAt), 'LLLL d, y')}
           imageSrc={author.image || undefined}
         />
       </div>

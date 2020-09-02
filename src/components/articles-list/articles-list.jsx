@@ -13,18 +13,16 @@ function ArticlesList(props) {
     successGettingArticles,
     errorGettingArticles,
     asyncGetArticlesWithDispatch,
-    resetWithDispatch
+    resetWithDispatch,
   } = props;
-  
+
   useEffect(() => {
     asyncGetArticlesWithDispatch(1);
     return resetWithDispatch;
-  }, []);
+  }, [asyncGetArticlesWithDispatch, resetWithDispatch]);
 
   if (!(successGettingArticles || errorGettingArticles)) {
-    return (
-      <div className={classNames(styles.spinner, styles.centered)} />
-    )
+    return <div className={classNames(styles.spinner, styles.centered)} />;
   }
 
   if (errorGettingArticles) {

@@ -11,33 +11,33 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithD
 
   useEffect(() => {
     return resetWithDispatch;
-  }, []);
+  }, [resetWithDispatch]);
 
   const submit = () => {
-    asyncAuthenticationWithDispatch(watch("email"), watch("pass"));
+    asyncAuthenticationWithDispatch(watch('email'), watch('pass'));
   };
 
   if (Object.keys(user).length) {
-    return <Redirect to='/' />;
+    return <Redirect to="/" />;
   }
 
   return (
     <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
-      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>} 
+      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
       {errorAuthentication && <p className={styles.errorAuthentication}>Failed Authentication</p>}
       <h2>Sign In</h2>
-      <CustomFormField 
-        name="email" 
-        id="signIn__email" 
-        ref={register({ validate: () => isEmail(watch("email")) })} 
+      <CustomFormField
+        name="email"
+        id="signIn__email"
+        ref={register({ validate: () => isEmail(watch('email')) })}
         placeholder="Email address"
         errorMessage={errors.email && 'Enter correct email'}
       >
         Email address
       </CustomFormField>
-      <CustomFormField 
-        name="pass" 
-        id="signIn__pass" 
+      <CustomFormField
+        name="pass"
+        id="signIn__pass"
         type="password"
         ref={register({ required: true })}
         placeholder="Password"
@@ -59,9 +59,17 @@ SignIn.propTypes = {
   asyncAuthenticationWithDispatch: PropTypes.func.isRequired,
   serverValidations: PropTypes.string.isRequired,
   resetWithDispatch: PropTypes.func.isRequired,
-  // eslint-disable-next-line react/forbid-prop-types
-  user: PropTypes.object.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
   errorAuthentication: PropTypes.bool.isRequired,
-}
+};
 
 export default SignIn;

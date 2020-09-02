@@ -10,55 +10,55 @@ export function getArticleFromAPI(slug) {
 
 export function registration(username, email, password) {
   const body = {
-    "user": {
-      "username": username,
-      "email": email,
-      "password": password,
-    }
+    user: {
+      username,
+      email,
+      password,
+    },
   };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   };
   return request('https://conduit.productionready.io/api/users', options);
 }
 
 export function authentication(email, password) {
   const body = {
-    "user": {
-      "email": email,
-      "password": password,
-    }
-  }
+    user: {
+      email,
+      password,
+    },
+  };
   const options = {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body),
   };
   return request('https://conduit.productionready.io/api/users/login', options);
 }
 
 export function editProfile(token, username, email, password, image) {
   const body = {
-    "user": {
-      "username": username,
-      "email": email,
-      "password": password,
-      "image": image,
-    }
-  }
+    user: {
+      username,
+      email,
+      password,
+      image,
+    },
+  };
   const options = {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json;charset=utf-8',
-      'Authorization': `Token ${token}`,
+      Authorization: `Token ${token}`,
     },
-    body: JSON.stringify(body)
-  }
+    body: JSON.stringify(body),
+  };
   return request('https://conduit.productionready.io/api/user', options);
 }

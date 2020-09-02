@@ -7,11 +7,11 @@ const mapStateToProps = (state) => ({
   serverValidations: state.serverValidations,
   errorEditing: state.errorRegistrationOrAuthentication,
   successEditing: state.successEditingProfile,
-})
+});
 
 const mapDispatchToProps = (dispatch) => ({
   asyncEditProfileWithDispatch: (...args) => dispatch(asyncEditProfile(...args)),
   resetWithDispatch: () => dispatch(reset()),
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

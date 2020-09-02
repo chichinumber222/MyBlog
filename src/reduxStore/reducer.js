@@ -1,5 +1,17 @@
 import { combineReducers } from 'redux';
-import { ARTICLES_RECEIVED, ARTICLES_NOT_RECEIVED, ARTICLE_RECEIVED, ARTICLE_NOT_RECEIVED, RESET, AUTH_COMPLETED, LOG_OUT, SERVER_VALIDATIONS_RECEIVED, AUTH_NOT_COMPLETED, PROFILE_EDITED, PROFILE_NOT_EDITED } from './action-types';
+import {
+  ARTICLES_RECEIVED,
+  ARTICLES_NOT_RECEIVED,
+  ARTICLE_RECEIVED,
+  ARTICLE_NOT_RECEIVED,
+  RESET,
+  AUTH_COMPLETED,
+  LOG_OUT,
+  SERVER_VALIDATIONS_RECEIVED,
+  AUTH_NOT_COMPLETED,
+  PROFILE_EDITED,
+  PROFILE_NOT_EDITED,
+} from './action-types';
 
 function data(state = { articles: [], page: 0 }, action) {
   switch (action.type) {
@@ -33,8 +45,8 @@ function errorGettingArticles(state = false, action) {
 }
 
 function lastOpenedArticle(state = {}, action) {
-  switch(action.type) {
-    case ARTICLE_RECEIVED: 
+  switch (action.type) {
+    case ARTICLE_RECEIVED:
       return { ...action.article };
     default:
       return state;
@@ -42,10 +54,10 @@ function lastOpenedArticle(state = {}, action) {
 }
 
 function successGettingArticle(state = false, action) {
-  switch(action.type) {
+  switch (action.type) {
     case ARTICLE_RECEIVED:
       return true;
-    case RESET: 
+    case RESET:
       return false;
     default:
       return state;
@@ -53,10 +65,10 @@ function successGettingArticle(state = false, action) {
 }
 
 function errorGettingArticle(state = false, action) {
-  switch(action.type) {
+  switch (action.type) {
     case ARTICLE_NOT_RECEIVED:
       return true;
-    case RESET: 
+    case RESET:
       return false;
     default:
       return state;
@@ -75,13 +87,13 @@ function errorRegistrationOrAuthentication(state = false, action) {
   }
 }
 
-const userInitial = sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : {};
+const userInitial = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : {};
 
 function user(state = userInitial, action) {
   switch (action.type) {
-    case AUTH_COMPLETED: 
+    case AUTH_COMPLETED:
     case PROFILE_EDITED:
-      return {...action.user};
+      return { ...action.user };
     case LOG_OUT:
       return {};
     default:
@@ -91,9 +103,9 @@ function user(state = userInitial, action) {
 
 function serverValidations(state = '', action) {
   switch (action.type) {
-    case SERVER_VALIDATIONS_RECEIVED: 
+    case SERVER_VALIDATIONS_RECEIVED:
       return action.text;
-    case RESET: 
+    case RESET:
       return '';
     default:
       return state;
@@ -104,7 +116,7 @@ function successEditingProfile(state = false, action) {
   switch (action.type) {
     case PROFILE_EDITED:
       return true;
-    case RESET: 
+    case RESET:
       return false;
     default:
       return state;

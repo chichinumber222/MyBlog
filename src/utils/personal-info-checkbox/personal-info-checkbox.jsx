@@ -7,14 +7,7 @@ const PersonalInfoCheckbox = React.forwardRef((props, ref) => {
   return (
     <div className={styles.personalInfoCheckbox}>
       <div className={styles.container}>
-        <input 
-          className={styles.checkbox} 
-          id={id} 
-          type="checkbox" 
-          name={name} 
-          defaultChecked 
-          ref={ref}
-        />
+        <input className={styles.checkbox} id={id} type="checkbox" name={name} defaultChecked ref={ref} />
         <label className={styles.label} htmlFor={id}>
           {children}
         </label>
@@ -22,7 +15,7 @@ const PersonalInfoCheckbox = React.forwardRef((props, ref) => {
       {errorMessage && <span className={styles.errorMessage}>{errorMessage}</span>}
     </div>
   );
-})
+});
 
 PersonalInfoCheckbox.defaultProps = {
   children: '',

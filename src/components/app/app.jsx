@@ -8,7 +8,6 @@ import SignUpContainer from '../../containers/sign-up-container';
 import SignInContainer from '../../containers/sign-in-container';
 import EditProfileContainer from '../../containers/edit-profile-container';
 
-
 function App() {
   return (
     <Router>
