@@ -24,8 +24,13 @@
   width: 100%;
 }
 
-.inputError {
+.textarea {
   composes: input;
+  height: 168px;
+  resize: none;
+}
+
+.err {
   border-color: red;
 }
 

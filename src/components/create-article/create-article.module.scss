@@ -1,0 +1,4 @@
+.createArticle {
+  composes: signUp from '../sign-up/sign-up.module.scss';
+  max-width: 938px;
+}
