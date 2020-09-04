@@ -15,13 +15,14 @@ function ArticlePage(props) {
     resetWithDispatch,
   } = props;
 
+  const {
+    params: { slug },
+  } = match;
+
   useEffect(() => {
-    const {
-      params: { slug },
-    } = match;
     asyncGetArticleWithDispatch(slug);
     return resetWithDispatch;
-  }, [asyncGetArticleWithDispatch, resetWithDispatch, match]);
+  }, [asyncGetArticleWithDispatch, resetWithDispatch, slug]);
 
   if (!(successGettingArticle || errorGettingArticle)) {
     return <div className={classNames(styles.spinner, styles.centered)} />;

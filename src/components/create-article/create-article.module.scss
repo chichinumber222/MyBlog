@@ -1,4 +1,16 @@
+@import '../../styles/mixins/button.module.scss';
+
 .createArticle {
   composes: signUp from '../sign-up/sign-up.module.scss';
   max-width: 938px;
+}
+
+.addTagButton {
+  @include button(#1890FF, 16px, #1890FF, 8px 30px, 10%);
+}
+
+.tagging {
+  display: flex;
+  align-items: flex-end;
+  // border: 1px solid red;
 }

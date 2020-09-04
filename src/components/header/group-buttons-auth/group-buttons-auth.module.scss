@@ -1,0 +1,13 @@
+@import '../../../styles/mixins/button.module.scss';
+
+.create {
+  @include button(#52c41a, 14px, #52c41a, 6px 10px, 8%);
+}
+
+.logOut {
+  @include button(#404040, 18px, #404040, 8px 18px, 18%);
+}
+
+.indent {
+  margin: 0px 26px;
+}

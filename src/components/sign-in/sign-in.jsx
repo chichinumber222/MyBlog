@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
-import CustomFormField from '../../utils/custom-form-field';
+import CustomFormField from '../../subcomponents/custom-form-field';
 import styles from './sign-in.module.scss';
 
 function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithDispatch, user, errorAuthentication }) {

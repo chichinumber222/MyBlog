@@ -4,8 +4,8 @@ import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import { Divider } from 'antd';
-import CustomFormField from '../../utils/custom-form-field';
-import PersonalInfoCheckbox from '../../utils/personal-info-checkbox';
+import CustomFormField from '../../subcomponents/custom-form-field';
+import PersonalInfoCheckbox from '../../subcomponents/personal-info-checkbox';
 import styles from './sign-up.module.scss';
 
 function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDispatch, errorRegistration, user }) {

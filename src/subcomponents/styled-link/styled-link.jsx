@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
-function MyLink({ children, className, to, isActive }) {
+function StyledLink({ children, className, to, isActive }) {
   if (isActive) {
     return (
       <Link to={to} className={className}>
@@ -13,15 +13,15 @@ function MyLink({ children, className, to, isActive }) {
   return <span className={className}>{children}</span>;
 }
 
-MyLink.defaultProps = {
+StyledLink.defaultProps = {
   className: '',
 };
 
-MyLink.propTypes = {
+StyledLink.propTypes = {
   children: PropTypes.string.isRequired,
   className: PropTypes.string,
   to: PropTypes.string.isRequired,
   isActive: PropTypes.bool.isRequired,
 };
 
-export default MyLink;
+export default StyledLink;

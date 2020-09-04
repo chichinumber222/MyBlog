@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isURL from 'validator/lib/isURL';
-import CustomFormField from '../../utils/custom-form-field';
+import CustomFormField from '../../subcomponents/custom-form-field';
 import styles from './edit-profile.module.scss';
 
 function EditProfile({

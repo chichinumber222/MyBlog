@@ -1,0 +1,10 @@
+@import '../../../styles/mixins/button.module.scss';
+
+.signIn {
+  @include button(#313131, 18px, transparent, 6px 18px, 25%);
+}
+
+.signUp {
+  @include button(#52c41a, 18px, #52c41a, 6px 18px, 8%);
+  margin-left: 20px;
+}

@@ -8,9 +8,9 @@ const mapStateToProps = (state) => ({
   errorAuthentication: state.errorRegistrationOrAuthentication,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  asyncAuthenticationWithDispatch: (email, password) => dispatch(asyncAuthentication(email, password)),
-  resetWithDispatch: () => dispatch(reset()),
-});
+const mapDispatchToProps = {
+  asyncAuthenticationWithDispatch: asyncAuthentication,
+  resetWithDispatch: reset,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

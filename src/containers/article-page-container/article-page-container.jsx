@@ -8,9 +8,9 @@ const mapStateToProps = (state) => ({
   errorGettingArticle: state.errorGettingArticle,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  asyncGetArticleWithDispatch: (slug) => dispatch(asyncGetArticle(slug)),
-  resetWithDispatch: () => dispatch(reset()),
-});
+const mapDispatchToProps = {
+  asyncGetArticleWithDispatch: asyncGetArticle,
+  resetWithDispatch: reset,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

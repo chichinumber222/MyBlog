@@ -9,9 +9,9 @@ const mapStateToProps = (state) => ({
   successEditing: state.successEditingProfile,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  asyncEditProfileWithDispatch: (...args) => dispatch(asyncEditProfile(...args)),
-  resetWithDispatch: () => dispatch(reset()),
-});
+const mapDispatchToProps = {
+  asyncEditProfileWithDispatch: asyncEditProfile,
+  resetWithDispatch: reset,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

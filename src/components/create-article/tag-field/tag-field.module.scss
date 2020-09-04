@@ -1,0 +1,19 @@
+@import '../../../styles/mixins/button.module.scss';
+
+.tagField {
+  display: flex;
+  width: 370px;
+  margin-top: 5px;
+}
+
+.input {
+  composes: input from '../../../subcomponents/custom-form-field/custom-form-field.module.scss';
+}
+
+.deleteTagButton {
+  @include button(red, 16px, red, 8px 30px, 10%);
+}
+
+.input + .deleteButton {
+  margin-left: 20px;
+}

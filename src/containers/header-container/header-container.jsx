@@ -6,8 +6,8 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  logOutingWithDispatch: () => dispatch(logOuting()),
-});
+const mapDispatchToProps = {
+  logOutingWithDispatch: logOuting,
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

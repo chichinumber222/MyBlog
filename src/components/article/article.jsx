@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
-import MyLink from './utils/my-link';
-import UserDataWithAvatar from '../../utils/user-data-with-avatar';
+import StyledLink from '../../subcomponents/styled-link';
+import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar'
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {
@@ -16,9 +16,9 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
     <div className={styles.article}>
       <div className={styles.main}>
         <div>
-          <MyLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
+          <StyledLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
-          </MyLink>
+          </StyledLink>
           <label className={styles.container}>
             <input className={styles.checkbox} type="checkbox" />
             <span className={styles.heart} />
