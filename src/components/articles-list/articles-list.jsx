@@ -57,13 +57,3 @@ ArticlesList.propTypes = {
 };
 
 export default ArticlesList;
-
-// function useComponentDidMount(value, returnValue) [
-//   const [ test, setTest ] = useState(true);
-
-//   useEffect(() => {
-//     value(1);
-//     return returnValue;
-//   }, [])
-
-// ]

@@ -1,5 +1,14 @@
-.person {
+@import '../../styles/mixins/button.module.scss';
+
+.userDataWithAvatar {
   display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.person {
+  display: flex;
   align-items: center;
   flex-shrink: 0;
 
@@ -25,4 +34,20 @@
     border-radius: 50%;
     margin-left: 12px;
   }
+}
+
+.buttons {
+  .delete {
+    @include button(#F5222D, 14px, #F5222D, 6px 17px, 12%);
+  }
+  .edit {
+    @include button(#52C41A, 14px, #52C41A, 6px 19px, 12%);
+  }
+  .delete + .edit {
+    margin-left: 12px;
+  }
+}
+
+.person + .buttons {
+  margin-top: 30px;
 }

@@ -4,6 +4,7 @@ import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import StyledLink from '../../subcomponents/styled-link';
 import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
+import isMyArticle from './utils/is-my-article';
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {
@@ -15,7 +16,7 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
   return (
     <div className={styles.article}>
       <div className={styles.main}>
-        <div>
+        <div className={styles.header}>
           <StyledLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
           </StyledLink>
@@ -33,6 +34,7 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
           username={author.username}
           date={format(new Date(createdAt), 'LLLL d, y')}
           imageSrc={author.image || undefined}
+          showButtons={!isList && isMyArticle(author.username)}
         />
       </div>
       {!isList && <Markdown>{body}</Markdown>}

@@ -25,7 +25,6 @@ function CreateArticle(props) {
   }, [resetWithDispatch]);
 
   const submit = () => {
-    console.log(watch("text"));
     const tagList = tags.map((tag) => watch(tag.name)).filter((tag) => Boolean(tag.trim()));
     asyncCreateArticleWithDispatch(user.token, watch("title"), watch("description"), watch("text"), tagList);    
   };
