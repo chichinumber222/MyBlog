@@ -5,7 +5,7 @@ import styles from './user-data-with-avatar.module.scss';
 
 function UserDataWithAvatar({ username, date, imageSrc, className }) {
   return (
-    <div className={classNames(styles.person,className)}>
+    <div className={classNames(styles.person, className)}>
       <div className={styles.info}>
         <span className={styles.username}>{username}</span>
         <span className={styles.date}>{date}</span>

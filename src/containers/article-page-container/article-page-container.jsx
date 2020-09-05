@@ -11,6 +11,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   asyncGetArticleWithDispatch: asyncGetArticle,
   resetWithDispatch: reset,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

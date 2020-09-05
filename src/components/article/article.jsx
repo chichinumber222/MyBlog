@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import StyledLink from '../../subcomponents/styled-link';
-import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar'
+import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {

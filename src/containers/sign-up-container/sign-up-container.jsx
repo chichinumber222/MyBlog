@@ -11,6 +11,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   asyncRegistrationWithDispatch: asyncRegistration,
   resetWithDispatch: reset,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

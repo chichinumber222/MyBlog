@@ -11,6 +11,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   asyncAuthenticationWithDispatch: asyncAuthentication,
   resetWithDispatch: reset,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

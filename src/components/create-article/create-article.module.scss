@@ -6,11 +6,21 @@
 }
 
 .addTagButton {
-  @include button(#1890FF, 16px, #1890FF, 8px 30px, 10%);
+  @include button(#1890ff, 16px, #1890ff, 8px 37px, 10%);
 }
 
 .tagging {
   display: flex;
   align-items: flex-end;
-  // border: 1px solid red;
+  margin: 40px 0px 20px 0px;
+}
+
+.indent {
+  margin-left: 18px;
+}
+
+.submit {
+  composes: submit from '../sign-up/sign-up.module.scss';
+  display: block;
+  width: 319px;
 }

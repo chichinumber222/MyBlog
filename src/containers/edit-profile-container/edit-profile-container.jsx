@@ -12,6 +12,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   asyncEditProfileWithDispatch: asyncEditProfile,
   resetWithDispatch: reset,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditProfile);

@@ -8,6 +8,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   logOutingWithDispatch: logOuting,
-}
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

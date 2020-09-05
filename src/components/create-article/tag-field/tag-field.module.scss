@@ -2,7 +2,7 @@
 
 .tagField {
   display: flex;
-  width: 370px;
+  width: 450px;
   margin-top: 5px;
 }
 
@@ -11,9 +11,9 @@
 }
 
 .deleteTagButton {
-  @include button(red, 16px, red, 8px 30px, 10%);
+  @include button(red, 16px, red, 8px 34px, 10%);
 }
 
-.input + .deleteButton {
-  margin-left: 20px;
+.input + .deleteTagButton {
+  margin-left: 13px;
 }
