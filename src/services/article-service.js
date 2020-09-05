@@ -62,3 +62,23 @@ export function editProfile(token, username, email, password, image) {
   };
   return request('https://conduit.productionready.io/api/user', options);
 }
+
+export function createArticle(token, title, description, body, tagList) {
+  const requestBody = {
+    article: {
+      title, 
+      description,
+      body, 
+      tagList,
+    }
+  }
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify(requestBody),
+  };
+  return request('https://conduit.productionready.io/api/articles', options);
+}

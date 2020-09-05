@@ -11,6 +11,8 @@ import {
   AUTH_NOT_COMPLETED,
   PROFILE_EDITED,
   PROFILE_NOT_EDITED,
+  ARTICLE_CREATED,
+  ARTICLE_NOT_CREATED
 } from './action-types';
 
 function data(state = { articles: [], page: 0 }, action) {
@@ -79,6 +81,7 @@ function errorRegistrationOrAuthentication(state = false, action) {
   switch (action.type) {
     case AUTH_NOT_COMPLETED:
     case PROFILE_NOT_EDITED:
+    case ARTICLE_NOT_CREATED:
       return true;
     case RESET:
       return false;
@@ -123,6 +126,17 @@ function successEditingProfile(state = false, action) {
   }
 }
 
+function successCreatingArticle(state = false, action) {
+  switch(action.type) {
+    case ARTICLE_CREATED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successGettingArticles,
@@ -134,6 +148,7 @@ const reducer = combineReducers({
   user,
   serverValidations,
   successEditingProfile,
+  successCreatingArticle,
 });
 
 export default reducer;

@@ -7,7 +7,7 @@ import styles from './group-buttons-auth.module.scss';
 function GroupButtonsAuth({ user, logOutingWithDispatch }) {
   return (
     <>
-      <Link to="/" className={styles.create}>
+      <Link to="/new-article" className={styles.create}>
         Create article
       </Link>
 

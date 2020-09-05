@@ -24,3 +24,7 @@
   display: block;
   width: 319px;
 }
+
+.errorCreating {
+  composes: errorRegistration from '../sign-up/sign-up.module.scss';
+}

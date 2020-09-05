@@ -10,6 +10,8 @@ import {
   AUTH_NOT_COMPLETED,
   PROFILE_EDITED,
   PROFILE_NOT_EDITED,
+  ARTICLE_CREATED,
+  ARTICLE_NOT_CREATED
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -17,6 +19,7 @@ import {
   registration,
   authentication,
   editProfile,
+  createArticle
 } from '../services/article-service';
 
 export const reset = () => ({
@@ -161,3 +164,23 @@ export const asyncEditProfile = (token, username, email, password, image) => {
     }
   };
 };
+
+const articleCreated = () => ({
+  type: ARTICLE_CREATED,
+})
+
+const articleNotCreated = () => ({
+  type: ARTICLE_NOT_CREATED,
+})
+
+export const asyncCreateArticle = (token, title, description, body, tagList) => {
+  return async function inside(dispatch) {
+    try {
+      dispatch(reset());
+      await createArticle(token, title, description, body, tagList);
+      dispatch(articleCreated());
+    } catch(error) {
+      dispatch(articleNotCreated());
+    }
+  }
+}

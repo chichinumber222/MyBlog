@@ -7,14 +7,16 @@ import isURL from 'validator/lib/isURL';
 import CustomFormField from '../../subcomponents/custom-form-field';
 import styles from './edit-profile.module.scss';
 
-function EditProfile({
-  user,
-  asyncEditProfileWithDispatch,
-  resetWithDispatch,
-  serverValidations,
-  errorEditing,
-  successEditing,
-}) {
+function EditProfile(props) {
+  const {
+    user,
+    asyncEditProfileWithDispatch,
+    resetWithDispatch,
+    serverValidations,
+    errorEditing,
+    successEditing,
+  } = props;
+  
   const { register, handleSubmit, watch, errors } = useForm({
     defaultValues: {
       username: user.username,

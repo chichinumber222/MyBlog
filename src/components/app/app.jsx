@@ -7,6 +7,7 @@ import ArticlePageContainer from '../../containers/article-page-container';
 import SignUpContainer from '../../containers/sign-up-container';
 import SignInContainer from '../../containers/sign-in-container';
 import EditProfileContainer from '../../containers/edit-profile-container';
+import CreateArticleContainer from '../../containers/create-article-container';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="/sign-up" component={SignUpContainer} />
           <Route path="/sign-in" component={SignInContainer} />
           <Route path="/profile" component={EditProfileContainer} />
+          <Route path="/new-article" component={CreateArticleContainer}/>
           <Route exact path={['/', '/articles']} component={ArticlesListContainer} />
         </Switch>
       </div>

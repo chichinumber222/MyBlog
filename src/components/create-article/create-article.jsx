@@ -1,20 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
+import { Redirect } from 'react-router-dom';
 import classnames from 'classnames';
 import CustomFormField from '../../subcomponents/custom-form-field';
 import TagField from './tag-field';
 import styles from './create-article.module.scss';
 import newId from '../../services/create-id';
 
-function CreateArticle() {
+function CreateArticle(props) {
+  const {
+    asyncCreateArticleWithDispatch, 
+    resetWithDispatch, 
+    user, 
+    successCreating,
+    errorCreating,
+  } = props;
+
   const { register, handleSubmit, watch, errors } = useForm();
   const [tags, changeTags] = useState([]);
 
+  useEffect(() => {
+    return resetWithDispatch;
+  }, [resetWithDispatch]);
+
   const submit = () => {
-    const tagsValues = tags.map((tag) => {
-      return watch(tag.name);
-    });
-    console.log(tagsValues);
+    console.log(watch("text"));
+    const tagList = tags.map((tag) => watch(tag.name)).filter((tag) => Boolean(tag.trim()));
+    asyncCreateArticleWithDispatch(user.token, watch("title"), watch("description"), watch("text"), tagList);    
   };
 
   function deleteTag(event) {
@@ -31,8 +44,17 @@ function CreateArticle() {
     changeTags((prevTags) => [...prevTags, { name, node: tag }]);
   }
 
+  if (!Object.keys(user).length) {
+    return <Redirect to="/sign-in" />;
+  }
+
+  if (successCreating) {
+    return <Redirect to="/" />;
+  }
+
   return (
     <form onSubmit={handleSubmit(submit)} className={styles.createArticle}>
+      {errorCreating && <p className={styles.errorCreating}>Failed Creating</p>}
       <h2>Create new article</h2>
       <CustomFormField
         name="title"
@@ -66,7 +88,7 @@ function CreateArticle() {
       <div className={styles.tagging}>
         <div className={styles.tags}>{tags.map((tag) => tag.node)}</div>
         <button
-          className={tags.length ? classnames(styles.addTagButton, styles.indent) : styles.addTagButton}
+          className={classnames(styles.addTagButton, tags.length && styles.indent)}
           type="button"
           onClick={addTag}
         >
@@ -79,6 +101,23 @@ function CreateArticle() {
       </button>
     </form>
   );
+}
+
+CreateArticle.propTypes = {
+  asyncCreateArticleWithDispatch: PropTypes.func.isRequired,
+  resetWithDispatch: PropTypes.func.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
+  successCreating: PropTypes.bool.isRequired,
+  errorCreating: PropTypes.bool.isRequired,
 }
 
 export default CreateArticle;
