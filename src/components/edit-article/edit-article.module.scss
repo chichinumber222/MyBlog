@@ -1,0 +1,11 @@
+.spinner {
+  composes: spinner from '../articles-list/articles-list.module.scss';
+}
+
+.centered {
+  composes: centered from '../articles-list/articles-list.module.scss';
+}
+
+.errorNotification {
+  composes: errorNotification from '../articles-list/articles-list.module.scss';
+}

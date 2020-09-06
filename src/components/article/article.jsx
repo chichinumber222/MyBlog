@@ -4,14 +4,13 @@ import { format } from 'date-fns';
 import Markdown from 'markdown-to-jsx';
 import StyledLink from '../../subcomponents/styled-link';
 import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
-import isMyArticle from './utils/is-my-article';
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {
   return tags.map((tag) => <span className={styles.tag}>{tag}</span>);
 }
 
-function Article({ title, description, tagList, favoritesCount, author, createdAt, slug, body, isList }) {
+function Article({ title, description, tagList, favoritesCount, author, createdAt, slug, body, isList, showEditAndDelete }) {
   const descriptionStyle = isList ? { margin: '4px 0px' } : { margin: '14px 0px' };
   return (
     <div className={styles.article}>
@@ -34,12 +33,18 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
           username={author.username}
           date={format(new Date(createdAt), 'LLLL d, y')}
           imageSrc={author.image || undefined}
-          showButtons={!isList && isMyArticle(author.username)}
+          showButtons={showEditAndDelete}
+          pathToEdit={`articles/${slug}/edit`}
         />
       </div>
       {!isList && <Markdown>{body}</Markdown>}
     </div>
   );
+}
+
+Article.defaultProps = {
+  isList: true,
+  showEditAndDelete: false,
 }
 
 Article.propTypes = {
@@ -56,7 +61,8 @@ Article.propTypes = {
   createdAt: PropTypes.string.isRequired,
   slug: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
-  isList: PropTypes.bool.isRequired,
+  isList: PropTypes.bool,
+  showEditAndDelete: PropTypes.bool,
 };
 
 export default Article;

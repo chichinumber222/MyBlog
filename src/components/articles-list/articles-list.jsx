@@ -29,7 +29,7 @@ function ArticlesList(props) {
     return <Alert className={styles.errorNotification} message="Sorry, articles not received" type="error" />;
   }
 
-  const elements = articles.map((article) => <Article key={article.slug} {...article} isList />);
+  const elements = articles.map((article) => <Article key={article.slug} {...article} />);
   return (
     <div>
       {elements}

@@ -41,7 +41,8 @@ function FormEditOrCreateArticle(props) {
 
   const errorMessage = mission === "create" ? "Failed creating" : "Failed editing";
   const head = mission === 'create' ? "Create new article" : "Edit Article";
-  
+  const submitButtonText = mission === 'create' ? 'Send' : 'Save';
+
   return (
     <form onSubmit={handleSubmit(submit)} className={styles.createArticle}>
       {error && <p className={styles.error}>{errorMessage}</p>}
@@ -87,7 +88,7 @@ function FormEditOrCreateArticle(props) {
       </div>
 
       <button className={styles.submit} type="submit">
-        Send
+        {submitButtonText}
       </button>
     </form>
   )
