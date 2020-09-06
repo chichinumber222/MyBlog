@@ -1,0 +1,30 @@
+@import '../../styles/mixins/button.module.scss';
+
+.createArticle {
+  composes: signUp from '../../components/sign-up/sign-up.module.scss';
+  max-width: 938px;
+}
+
+.tagging {
+  display: flex;
+  align-items: flex-end;
+  margin: 40px 0px 20px 0px;
+}
+
+.addTagButton {
+  @include button(#1890ff, 16px, #1890ff, 8px 37px, 10%);
+}
+
+.submit {
+  composes: submit from '../../components/sign-up/sign-up.module.scss';
+  display: block;
+  width: 319px;
+}
+
+.indent {
+  margin-left: 18px;
+}
+
+.error {
+  composes: errorRegistration from '../../components/sign-up/sign-up.module.scss';
+}

@@ -7,7 +7,7 @@
 }
 
 .input {
-  composes: input from '../../../subcomponents/custom-form-field/custom-form-field.module.scss';
+  composes: input from '../../custom-form-field/custom-form-field.module.scss';
 }
 
 .deleteTagButton {
