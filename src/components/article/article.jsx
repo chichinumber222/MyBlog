@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
+import classNames from 'classnames';
 import StyledLink from '../../subcomponents/styled-link';
 import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
 import styles from './article.module.scss';
@@ -10,32 +12,55 @@ function tagsCreator(tags) {
   return tags.map((tag) => <span className={styles.tag}>{tag}</span>);
 }
 
-function Article({ title, description, tagList, favoritesCount, author, createdAt, slug, body, isList, showEditAndDelete }) {
-  const descriptionStyle = isList ? { margin: '4px 0px' } : { margin: '14px 0px' };
+function Article(props) {
+  const {
+    title,
+    description,
+    tagList,
+    favoritesCount,
+    author,
+    createdAt,
+    slug,
+    body,
+    isList,
+    showEditAndDelete,
+  } = props;
+
   return (
     <div className={styles.article}>
-      <div className={styles.main}>
+      <div className={classNames(styles.main, isList ? styles.mainForList : styles.mainForPage)}>
         <div className={styles.header}>
           <StyledLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
           </StyledLink>
-          <label className={styles.container}>
+          <label className={styles.customCheckbox}>
             <input className={styles.checkbox} type="checkbox" />
             <span className={styles.heart} />
             <span className={styles.heartsCount}>{favoritesCount}</span>
           </label>
           <div className={styles.tags}>{tagsCreator(tagList)}</div>
-          <p className={styles.description} style={descriptionStyle}>
+          <p className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}>
             {description}
           </p>
         </div>
-        <UserDataWithAvatar
-          username={author.username}
-          date={format(new Date(createdAt), 'LLLL d, y')}
-          imageSrc={author.image || undefined}
-          showButtons={showEditAndDelete}
-          pathToEdit={`articles/${slug}/edit`}
-        />
+        <div className={styles.container}>
+          <UserDataWithAvatar
+            className={styles.userDataWithAvatar}
+            username={author.username}
+            date={format(new Date(createdAt), 'LLLL d, y')}
+            imageSrc={author.image || undefined}
+          />
+          {showEditAndDelete && (
+            <div className={styles.buttons}>
+              <button className={styles.delete} type="button">
+                Delete
+              </button>
+              <Link className={styles.edit} to={`/articles/${slug}/edit`}>
+                Edit
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
       {!isList && <Markdown>{body}</Markdown>}
     </div>
@@ -45,7 +70,7 @@ function Article({ title, description, tagList, favoritesCount, author, createdA
 Article.defaultProps = {
   isList: true,
   showEditAndDelete: false,
-}
+};
 
 Article.propTypes = {
   title: PropTypes.string.isRequired,
@@ -66,3 +91,7 @@ Article.propTypes = {
 };
 
 export default Article;
+
+// .person + .buttons {
+//   margin-top: 30px;
+// }

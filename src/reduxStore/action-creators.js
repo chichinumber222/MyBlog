@@ -11,7 +11,9 @@ import {
   PROFILE_EDITED,
   PROFILE_NOT_EDITED,
   ARTICLE_CREATED,
-  ARTICLE_NOT_CREATED
+  ARTICLE_NOT_CREATED,
+  ARTICLE_EDITED,
+  ARTICLE_NOT_EDITED
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -19,7 +21,8 @@ import {
   registration,
   authentication,
   editProfile,
-  createArticle
+  createArticle,
+  editArticle
 } from '../services/article-service';
 
 export const reset = () => ({
@@ -167,11 +170,11 @@ export const asyncEditProfile = (token, username, email, password, image) => {
 
 const articleCreated = () => ({
   type: ARTICLE_CREATED,
-})
+});
 
 const articleNotCreated = () => ({
   type: ARTICLE_NOT_CREATED,
-})
+});
 
 export const asyncCreateArticle = (token, title, description, body, tagList) => {
   return async function inside(dispatch) {
@@ -179,8 +182,27 @@ export const asyncCreateArticle = (token, title, description, body, tagList) => 
       dispatch(reset());
       await createArticle(token, title, description, body, tagList);
       dispatch(articleCreated());
-    } catch(error) {
+    } catch (error) {
       dispatch(articleNotCreated());
+    }
+  };
+};
+
+const articleEdited = () => ({
+  type: ARTICLE_EDITED,
+})
+
+const articleNotEdited = () => ({
+  type: ARTICLE_NOT_EDITED,
+})
+
+export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
+  return async function inside(dispatch) {
+    try {
+      await editArticle(token, title, description, body, tagList, slug);
+      dispatch(articleEdited());
+    } catch(error) {
+      dispatch(articleNotEdited());
     }
   }
 }

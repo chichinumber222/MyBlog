@@ -66,12 +66,12 @@ export function editProfile(token, username, email, password, image) {
 export function createArticle(token, title, description, body, tagList) {
   const requestBody = {
     article: {
-      title, 
+      title,
       description,
-      body, 
+      body,
       tagList,
-    }
-  }
+    },
+  };
   const options = {
     method: 'POST',
     headers: {
@@ -81,4 +81,24 @@ export function createArticle(token, title, description, body, tagList) {
     body: JSON.stringify(requestBody),
   };
   return request('https://conduit.productionready.io/api/articles', options);
+}
+
+export function editArticle(token, title, description, body, tagList, slug) {
+  const requestBody = {
+    article: {
+      title,
+      description,
+      body,
+      tagList,
+    },
+  };
+  const options = {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
+    body: JSON.stringify(requestBody),
+  };
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
 }

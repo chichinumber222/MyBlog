@@ -16,7 +16,7 @@ function EditProfile(props) {
     errorEditing,
     successEditing,
   } = props;
-  
+
   const { register, handleSubmit, watch, errors } = useForm({
     defaultValues: {
       username: user.username,

@@ -1,3 +1,5 @@
+@import '../../styles/mixins/button.module.scss';
+
 .article {
   max-width: 941px;
   background-color: white;
@@ -10,10 +12,16 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 25px;
+
+    &ForList {
+      margin-bottom: 4px;
+    }
+    &ForPage {
+      margin-bottom: 20px;
+    }
 
     .header {
-      margin-Right: 50px;
+      margin-right: 50px;
     }
   }
 }
@@ -25,7 +33,7 @@
   text-decoration: none;
 }
 
-.container {
+.customCheckbox {
   user-select: none;
   margin-left: 13px;
   cursor: pointer;
@@ -79,3 +87,35 @@
   line-height: 22px;
   color: rgba(0, 0, 0, 0.75);
 }
+
+.descriptionForList {
+  margin-top: 4px;
+}
+
+.descriptionForPage {
+  margin-top: 19px;
+}
+
+.container {
+  flex-shrink: 0;
+
+  .buttons {
+    display: flex;
+    justify-content: flex-end;
+  
+    .delete {
+      @include button(#f5222d, 14px, #f5222d, 6px 17px, 12%);
+    }
+    .edit {
+      @include button(#52c41a, 14px, #52c41a, 6px 19px, 12%);
+    }
+    .delete + .edit {
+      margin-left: 12px;
+    }
+  }
+
+  .userDataWithAvatar + .buttons {
+    margin-top: 30px;
+  }
+}
+

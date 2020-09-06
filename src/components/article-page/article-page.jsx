@@ -17,10 +17,6 @@ function ArticlePage(props) {
   } = props;
 
   const {
-    author: { username },
-  } = article;
-
-  const {
     params: { slug },
   } = match;
 
@@ -36,6 +32,10 @@ function ArticlePage(props) {
   if (errorGettingArticle) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
+
+  const {
+    author: { username },
+  } = article;
 
   return <Article {...article} isList={false} showEditAndDelete={isMyArticle(username)} />;
 }

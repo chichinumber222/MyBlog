@@ -13,23 +13,18 @@ function EditArticle(props) {
     asyncGetArticleWithDispatch,
     successGettingArticle,
     errorGettingArticle,
-    asyncEditArticleWithDispatch, 
-    resetWithDispatch, 
-    user, 
+    asyncEditArticleWithDispatch,
+    resetWithDispatch,
+    user,
     successEditing,
     errorEditing,
     article,
   } = props;
 
-  const { url, params: { slug } } = match;
-
   const {
-    author: { username },
-    title,
-    description,
-    body,
-    tagList,
-  } = article;
+    url,
+    params: { slug },
+  } = match;
 
   useEffect(() => {
     asyncGetArticleWithDispatch(slug);
@@ -38,12 +33,6 @@ function EditArticle(props) {
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;
-  }
-  
-  if (!isMyArticle(username) || successEditing) {
-    const index = url.lastIndexOf("edit");
-    const previousURL = url.slice(0, index - 1);
-    return <Redirect to={previousURL}/>;
   }
 
   if (!(successGettingArticle || errorGettingArticle)) {
@@ -54,11 +43,25 @@ function EditArticle(props) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
+  const {
+    author: { username },
+    title,
+    description,
+    body,
+    tagList,
+  } = article;
+
+  if (!isMyArticle(username) || successEditing) {
+    const index = url.lastIndexOf('edit');
+    const previousURL = url.slice(0, index - 1);
+    return <Redirect to={previousURL} />;
+  }
+
   return (
-    <Form 
-      mission="edit" 
-      actionCreatorWithDispatch={asyncEditArticleWithDispatch} 
-      defaultValues={{title, description, text: body}}
+    <Form
+      mission="edit"
+      actionCreatorWithDispatch={(...data) => asyncEditArticleWithDispatch(...data, slug)}
+      defaultValues={{ title, description, text: body }}
       defaultTags={tagList}
       user={user}
       error={errorEditing}
@@ -107,6 +110,6 @@ EditArticle.propTypes = {
       following: PropTypes.bool,
     }).isRequired,
   }).isRequired,
-}
+};
 
 export default EditArticle;

@@ -4,13 +4,7 @@ import { Redirect } from 'react-router-dom';
 import Form from '../../subcomponents/form-edit-or-create-article';
 
 function CreateArticle(props) {
-  const {
-    asyncCreateArticleWithDispatch, 
-    resetWithDispatch, 
-    user, 
-    successCreating,
-    errorCreating,
-  } = props;
+  const { asyncCreateArticleWithDispatch, resetWithDispatch, user, successCreating, errorCreating } = props;
 
   useEffect(() => {
     return resetWithDispatch;
@@ -25,9 +19,9 @@ function CreateArticle(props) {
   }
 
   return (
-    <Form 
-      mission="create" 
-      actionCreatorWithDispatch={asyncCreateArticleWithDispatch} 
+    <Form
+      mission="create"
+      actionCreatorWithDispatch={asyncCreateArticleWithDispatch}
       user={user}
       error={errorCreating}
     />
@@ -49,9 +43,6 @@ CreateArticle.propTypes = {
   }).isRequired,
   successCreating: PropTypes.bool.isRequired,
   errorCreating: PropTypes.bool.isRequired,
-}
+};
 
 export default CreateArticle;
-
-
-

@@ -1,3 +1,4 @@
+/* eslint-disable no-use-before-define */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useForm } from 'react-hook-form';
@@ -8,22 +9,16 @@ import newId from '../../services/create-id';
 import styles from './form-edit-or-create-article.module.scss';
 
 function FormEditOrCreateArticle(props) {
-  const {
-    mission, 
-    actionCreatorWithDispatch, 
-    defaultValues, 
-    defaultTags, 
-    user, 
-    error
-  } = props;
+  const { mission, actionCreatorWithDispatch, defaultValues, defaultTags, user, error } = props;
+  const { register, handleSubmit, watch, errors } = useForm({ defaultValues });
 
-  const { register, handleSubmit, watch, errors } = useForm({defaultValues});
-  const [tags, changeTags] = useState(defaultTags);
+  const formattedDefaultTags =  defaultTags.map((tagValue) => {
+    const name = `tag${newId()}`;
+    const tag = <TagField key={name} name={name} placeholder="Tag" onClickButton={deleteTag} defaultValue={tagValue} ref={register()} />;
+    return { name, node: tag };
+  })
 
-  const submit = () => {
-    const tagList = tags.map((tag) => watch(tag.name)).filter((tag) => Boolean(tag.trim()));
-    actionCreatorWithDispatch(user.token, watch("title"), watch("description"), watch("text"), tagList);    
-  };
+  const [tags, changeTags] = useState(formattedDefaultTags);
 
   function deleteTag(event) {
     const { name } = event.target;
@@ -39,8 +34,14 @@ function FormEditOrCreateArticle(props) {
     changeTags((prevTags) => [...prevTags, { name, node: tag }]);
   }
 
-  const errorMessage = mission === "create" ? "Failed creating" : "Failed editing";
-  const head = mission === 'create' ? "Create new article" : "Edit Article";
+  const submit = () => {
+    const tagList = tags.map((tag) => watch(tag.name));
+    tagList.push("");
+    actionCreatorWithDispatch(user.token, watch('title'), watch('description'), watch('text'), tagList);
+  };
+
+  const errorMessage = mission === 'create' ? 'Failed creating' : 'Failed editing';
+  const head = mission === 'create' ? 'Create new article' : 'Edit Article';
   const submitButtonText = mission === 'create' ? 'Send' : 'Save';
 
   return (
@@ -91,16 +92,16 @@ function FormEditOrCreateArticle(props) {
         {submitButtonText}
       </button>
     </form>
-  )
+  );
 }
 
 FormEditOrCreateArticle.defaultProps = {
   defaultValues: {},
   defaultTags: [],
-}
+};
 
 FormEditOrCreateArticle.propTypes = {
-  mission: PropTypes.oneOf(["create", "edit"]).isRequired,
+  mission: PropTypes.oneOf(['create', 'edit']).isRequired,
   actionCreatorWithDispatch: PropTypes.func.isRequired,
   defaultValues: PropTypes.shape({
     title: PropTypes.string,
@@ -119,6 +120,6 @@ FormEditOrCreateArticle.propTypes = {
     token: PropTypes.string,
   }).isRequired,
   error: PropTypes.bool.isRequired,
-}
+};
 
 export default FormEditOrCreateArticle;

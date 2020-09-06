@@ -1,5 +1,5 @@
 function isMyArticle(authorName) {
-  const myName = JSON.parse(sessionStorage.getItem("user"))?.username;
+  const myName = JSON.parse(sessionStorage.getItem('user'))?.username;
   return authorName === myName;
 }
 
