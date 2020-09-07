@@ -24,7 +24,6 @@ function App() {
           <Route path="/profile" component={EditProfileContainer} />
           <Route path="/new-article" component={CreateArticleContainer} />
           <Route path="/" component={ArticlesListContainer} />
-          <Route render={() => <span>404</span>} />
         </Switch>
       </div>
     </Router>
