@@ -2,4 +2,5 @@
 # **Блог-платформа #2. Аутентификация**
 
 ##### *Vercel:*  
-https://blog-8d7cahxz1.vercel.app/  
+https://blog-4gg8tddw8.vercel.app/  
+  
