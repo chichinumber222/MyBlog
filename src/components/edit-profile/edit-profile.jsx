@@ -33,7 +33,11 @@ function EditProfile(props) {
     asyncEditProfileWithDispatch(user.token, watch('username'), watch('email'), watch('newPass'), watch('avatar'));
   };
 
-  if (!Object.keys(user).length || successEditing) {
+  if (!Object.keys(user).length) {
+    return <Redirect to='sign-in' />;
+  }
+
+  if (successEditing) {
     return <Redirect to="/" />;
   }
 

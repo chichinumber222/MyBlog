@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import UserDataWithAvatar from '../../../subcomponents/user-data-with-avatar';
 import styles from './group-buttons-auth.module.scss';
 
 function GroupButtonsAuth({ user, logOutingWithDispatch }) {
+  const location = useLocation();
   return (
     <>
       <Link to="/new-article" className={styles.create}>
@@ -15,7 +16,7 @@ function GroupButtonsAuth({ user, logOutingWithDispatch }) {
         <UserDataWithAvatar username={user.username} imageSrc={user.image || undefined} />
       </Link>
 
-      <Link to="/" className={styles.logOut} onClick={logOutingWithDispatch}>
+      <Link to={location.pathname} className={styles.logOut} onClick={logOutingWithDispatch}>
         Log Out
       </Link>
     </>
