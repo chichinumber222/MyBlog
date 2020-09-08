@@ -5,17 +5,17 @@ import { useForm } from 'react-hook-form';
 import isEmail from 'validator/lib/isEmail';
 import isURL from 'validator/lib/isURL';
 import CustomFormField from '../../subcomponents/custom-form-field';
+import StyledSpinner from '../../subcomponents/styled-spinner';
 import styles from './edit-profile.module.scss';
 
 function EditProfile(props) {
   const {
     user,
-    asyncEditProfileWithDispatch,
-    resetWithDispatch,
-    serverValidations,
-    errorEditing,
-    successEditing,
+    asyncEditProfile,
+    reset,
+    editingProfile,
   } = props;
+  const { success, loading, error, serverValidation } = editingProfile;
 
   const { register, handleSubmit, watch, errors } = useForm({
     defaultValues: {
@@ -26,25 +26,28 @@ function EditProfile(props) {
   });
 
   useEffect(() => {
-    return resetWithDispatch;
-  }, [resetWithDispatch]);
+    return reset;
+  }, [reset]);
 
   const submit = () => {
-    asyncEditProfileWithDispatch(user.token, watch('username'), watch('email'), watch('newPass'), watch('avatar'));
+    asyncEditProfile(user.token, watch('username'), watch('email'), watch('newPass'), watch('avatar'));
   };
 
   if (!Object.keys(user).length) {
     return <Redirect to='sign-in' />;
   }
 
-  if (successEditing) {
+  if (success) {
     return <Redirect to="/" />;
   }
 
   return (
     <form className={styles.editProfile} onSubmit={handleSubmit(submit)}>
-      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
-      {errorEditing && <p className={styles.errorEditing}>Failed Editing</p>}
+
+      {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
+      {error && <p className={styles.errorEditing}>Failed Editing</p>}
+      {<StyledSpinner className={styles.location} title="Loading..." isLoading={loading} />}
+
       <h2>Edit Profile</h2>
       <CustomFormField
         name="username"
@@ -105,11 +108,14 @@ EditProfile.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  asyncEditProfileWithDispatch: PropTypes.func.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
-  serverValidations: PropTypes.string.isRequired,
-  errorEditing: PropTypes.bool.isRequired,
-  successEditing: PropTypes.bool.isRequired,
+  asyncEditProfile: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  editingProfile: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+    serverValidation: PropTypes.string,
+  }).isRequired,
 };
 
 export default EditProfile;

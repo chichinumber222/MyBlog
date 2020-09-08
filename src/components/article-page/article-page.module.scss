@@ -9,3 +9,7 @@
 .errorNotification {
   composes: errorNotification from '../articles-list/articles-list.module.scss';
 }
+
+.location {
+  composes: location from '../sign-up/sign-up.module.scss';
+}

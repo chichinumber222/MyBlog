@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { Alert, message } from 'antd';
+import { Alert } from 'antd';
 import classNames from 'classnames';
 import Article from '../article';
+import StyledSpinner from '../../subcomponents/styled-spinner';
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
   const {
     match,
     article,
-    asyncGetArticleWithDispatch,
-    successGettingArticle,
-    errorGettingArticle,
-    resetWithDispatch,
-    asyncDeleteArticleWithDispatch,
-    successDeletingArticle,
-    errorDeletingArticle,
+    gettingArticle,
+    asyncGetArticle,
+    deletingArticle,
+    asyncDeleteArticle,
     user,
+    loadingReset,
+    deletingReset,
   } = props;
 
   const {
@@ -25,35 +25,37 @@ function ArticlePage(props) {
   } = match;
 
   useEffect(() => {
-    asyncGetArticleWithDispatch(slug);
-    return resetWithDispatch;
-  }, [asyncGetArticleWithDispatch, resetWithDispatch, slug]);
+    asyncGetArticle(slug);
+    return () => {
+      loadingReset();
+      deletingReset();
+    }
+  }, [asyncGetArticle, loadingReset, deletingReset, slug]);
 
-  if (!(successGettingArticle || errorGettingArticle)) {
+  if (gettingArticle.loading) {
     return <div className={classNames(styles.spinner, styles.centered)} />;
   }
 
-  if (errorGettingArticle) {
+  if (gettingArticle.error) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
-  if (successDeletingArticle) {
-    return <Redirect to="/"/>
-  }
-
-  if (errorDeletingArticle) {
-    message.error('Failed to delete', 1.2);
+  if (deletingArticle.success) {
+    return <Redirect to="/"/>;
   }
 
   const { author } = article;
 
   return (
-    <Article 
-      {...article} 
-      isList={false} 
-      showEditAndDelete={user.username === author.username} 
-      articleDeleteHandler={() => asyncDeleteArticleWithDispatch(user.token, slug)}
-    />
+    <div>
+      <Article 
+        {...article} 
+        isList={false} 
+        showEditAndDelete={user.username === author.username} 
+        articleDeleteHandler={() => asyncDeleteArticle(user.token, slug)}
+      />
+      <StyledSpinner className={styles.location} title="Loading..." isLoading={deletingArticle.loading}/>
+    </div>
   )  
 }
 
@@ -64,10 +66,8 @@ ArticlePage.propTypes = {
     path: PropTypes.string,
     url: PropTypes.string,
   }).isRequired,
-  asyncGetArticleWithDispatch: PropTypes.func.isRequired,
-  successGettingArticle: PropTypes.bool.isRequired,
-  errorGettingArticle: PropTypes.bool.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
+  asyncGetArticle: PropTypes.func.isRequired,
+  asyncDeleteArticle: PropTypes.func.isRequired,
   article: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -85,9 +85,16 @@ ArticlePage.propTypes = {
       following: PropTypes.bool,
     }).isRequired,
   }).isRequired,
-  asyncDeleteArticleWithDispatch: PropTypes.func.isRequired,
-  successDeletingArticle: PropTypes.bool.isRequired,
-  errorDeletingArticle: PropTypes.bool.isRequired,
+  gettingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
+  deletingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
@@ -98,6 +105,8 @@ ArticlePage.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
+  loadingReset: PropTypes.func.isRequired,
+  deletingReset:PropTypes.func.isRequired,
 };
 
 export default ArticlePage;

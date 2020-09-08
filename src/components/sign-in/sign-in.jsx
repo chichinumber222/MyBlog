@@ -4,27 +4,32 @@ import { useForm } from 'react-hook-form';
 import { Link, Redirect } from 'react-router-dom';
 import isEmail from 'validator/lib/isEmail';
 import CustomFormField from '../../subcomponents/custom-form-field';
+import StyledSpinner from '../../subcomponents/styled-spinner';
 import styles from './sign-in.module.scss';
 
-function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithDispatch, user, errorAuthentication }) {
+function SignIn({ asyncAuthorization, reset, authorization }) {
+  const { success, loading, error, serverValidation } = authorization;
   const { register, handleSubmit, watch, errors } = useForm();
 
   useEffect(() => {
-    return resetWithDispatch;
-  }, [resetWithDispatch]);
+    return reset;
+  }, [reset]);
 
   const submit = () => {
-    asyncAuthenticationWithDispatch(watch('email'), watch('pass'));
+    asyncAuthorization(watch('email'), watch('pass'));
   };
 
-  if (Object.keys(user).length) {
+  if (success) {
     return <Redirect to="/" />;
   }
 
   return (
     <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
-      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
-      {errorAuthentication && <p className={styles.errorAuthentication}>Failed Authentication</p>}
+
+      {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
+      {error && <p className={styles.errorAuthentication}>Failed Authentication</p>}
+      {<StyledSpinner className={styles.location} title="Loading..." isLoading={loading}/>}
+
       <h2>Sign In</h2>
       <CustomFormField
         name="email"
@@ -56,20 +61,14 @@ function SignIn({ asyncAuthenticationWithDispatch, serverValidations, resetWithD
 }
 
 SignIn.propTypes = {
-  asyncAuthenticationWithDispatch: PropTypes.func.isRequired,
-  serverValidations: PropTypes.string.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    createdAt: PropTypes.string,
-    updatedAt: PropTypes.string,
-    username: PropTypes.string,
-    bio: PropTypes.string,
-    image: PropTypes.string,
-    token: PropTypes.string,
+  asyncAuthorization: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  authorization: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+    serverValidation: PropTypes.string,
   }).isRequired,
-  errorAuthentication: PropTypes.bool.isRequired,
 };
 
 export default SignIn;

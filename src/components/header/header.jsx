@@ -5,7 +5,7 @@ import GroupButtonsNonAuth from './group-buttons-non-auth';
 import GroupButtonsAuth from './group-buttons-auth';
 import styles from './header.module.scss';
 
-function Header({ user, logOutingWithDispatch }) {
+function Header({ user, logOuting }) {
   return (
     <div className={styles.header}>
       <Link to="/" className={styles.title}>
@@ -13,7 +13,7 @@ function Header({ user, logOutingWithDispatch }) {
       </Link>
       <div>
         {user.username ? (
-          <GroupButtonsAuth user={user} logOutingWithDispatch={logOutingWithDispatch} />
+          <GroupButtonsAuth user={user} logOuting={logOuting} />
         ) : (
           <GroupButtonsNonAuth />
         )}
@@ -33,7 +33,7 @@ Header.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  logOutingWithDispatch: PropTypes.func.isRequired,
+  logOuting: PropTypes.func.isRequired,
 };
 
 export default Header;

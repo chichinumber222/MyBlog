@@ -1,107 +1,98 @@
 import { combineReducers } from 'redux';
 import {
-  ARTICLES_RECEIVED,
-  ARTICLES_NOT_RECEIVED,
-  ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED,
-  RESET,
-  AUTH_COMPLETED,
+  GET_ARTICLES_$_LOADING,
+  GET_ARTICLES_$_RECEIVED,
+  GET_ARTICLES_$_NOT_RECEIVED,
+  GET_ARTICLE_$_LOADING,
+  GET_ARTICLE_$_RECEIVED,
+  GET_ARTICLE_$_NOT_RECEIVED,
+  AUTH_$_LOADING,
+  AUTH_$_COMPLETED,
+  AUTH_$_NOT_COMPLETED,
+  AUTH_$_SERVER_VALIDATION,
+  AUTH_$_RESET,
+  REGISTRATION_$_LOADING,
+  REGISTRATION_$_COMPLETED,
+  REGISTRATION_$_NOT_COMPLETED,
+  REGISTRATION_$_SERVER_VALIDATION,
+  REGISTRATION_$_RESET,
   LOG_OUT,
-  SERVER_VALIDATIONS_RECEIVED,
-  AUTH_NOT_COMPLETED,
-  PROFILE_EDITED,
-  PROFILE_NOT_EDITED,
-  ARTICLE_CREATED,
-  ARTICLE_NOT_CREATED,
-  ARTICLE_EDITED,
-  ARTICLE_NOT_EDITED,
-  ARTICLE_DELETED,
-  ARTICLE_NOT_DELETED
+  EDIT_PROFILE_$_LOADING,
+  EDIT_PROFILE_$_EDITED,
+  EDIT_PROFILE_$_NOT_EDITED,
+  EDIT_PROFILE_$_SERVER_VALIDATION,
+  EDIT_PROFILE_$_RESET,
+  CREATE_ARTICLE_$_LOADING,
+  CREATE_ARTICLE_$_CREATED,
+  CREATE_ARTICLE_$_NOT_CREATED,
+  CREATE_ARTICLE_$_RESET,
+  EDIT_ARTICLE_$_LOADING,
+  EDIT_ARTICLE_$_EDITED,
+  EDIT_ARTICLE_$_NOT_EDITED,
+  EDIT_ARTICLE_$_RESET,
+  DELETE_ARTICLE_$_LOADING,
+  DELETE_ARTICLE_$_DELETED,
+  DELETE_ARTICLE_$_NOT_DELETED,
+  DELETE_ARTICLE_$_RESET
 } from './action-types';
 
-function data(state = { articles: [], page: 0 }, action) {
+const initialStateForGettingArticles = {
+  success: false,
+  error: false,
+  loading: true,
+}
+
+function articles(state = { all: [], page: 0 }, action) {
   switch (action.type) {
-    case ARTICLES_RECEIVED:
-      return { articles: [...action.articles], page: action.page };
+    case GET_ARTICLES_$_RECEIVED:
+      return { all: [...action.articles], page: action.page };
     default:
       return state;
   }
 }
 
-function successGettingArticles(state = false, action) {
+function gettingArticles (state = initialStateForGettingArticles, action) {
   switch (action.type) {
-    case ARTICLES_RECEIVED:
-      return true;
-    case RESET:
-      return false;
+    case GET_ARTICLES_$_LOADING:
+      return {success: false, error: false, loading: true };
+    case GET_ARTICLES_$_RECEIVED:
+      return { success: true, error: false, loading: false };
+    case GET_ARTICLES_$_NOT_RECEIVED:
+      return { success: false, error: true, loading: false };
     default:
       return state;
   }
 }
 
-function errorGettingArticles(state = false, action) {
+function article(state = {}, action) {
   switch (action.type) {
-    case ARTICLES_NOT_RECEIVED:
-      return true;
-    case RESET:
-      return false;
-    default:
-      return state;
-  }
-}
-
-function lastOpenedArticle(state = {}, action) {
-  switch (action.type) {
-    case ARTICLE_RECEIVED:
+    case GET_ARTICLE_$_RECEIVED:
       return { ...action.article };
     default:
       return state;
   }
 }
 
-function successGettingArticle(state = false, action) {
+function gettingArticle (state = initialStateForGettingArticles, action) {
   switch (action.type) {
-    case ARTICLE_RECEIVED:
-      return true;
-    case RESET:
-      return false;
+    case GET_ARTICLE_$_LOADING:
+      return {success: false, error: false, loading: true };
+    case GET_ARTICLE_$_RECEIVED:
+      return { success: true, error: false, loading: false };
+    case GET_ARTICLE_$_NOT_RECEIVED:
+      return { success: false, error: true, loading: false };     
     default:
       return state;
   }
 }
 
-function errorGettingArticle(state = false, action) {
-  switch (action.type) {
-    case ARTICLE_NOT_RECEIVED:
-      return true;
-    case RESET:
-      return false;
-    default:
-      return state;
-  }
-}
+const userInitialState = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : {};
 
-function errorRegistrationOrAuthentication(state = false, action) {
+function user(state = userInitialState, action) {
   switch (action.type) {
-    case AUTH_NOT_COMPLETED:
-    case PROFILE_NOT_EDITED:
-    case ARTICLE_NOT_CREATED:
-    case ARTICLE_NOT_EDITED:
-    case ARTICLE_NOT_DELETED:
-      return true;
-    case RESET:
-      return false;
-    default:
-      return state;
-  }
-}
-
-const userInitial = sessionStorage.getItem('user') ? JSON.parse(sessionStorage.getItem('user')) : {};
-
-function user(state = userInitial, action) {
-  switch (action.type) {
-    case AUTH_COMPLETED:
-    case PROFILE_EDITED:
+    case AUTH_$_COMPLETED:
+    case REGISTRATION_$_COMPLETED:
+    case EDIT_PROFILE_$_EDITED:
       return { ...action.user };
     case LOG_OUT:
       return {};
@@ -110,75 +101,127 @@ function user(state = userInitial, action) {
   }
 }
 
-function serverValidations(state = '', action) {
+const initialStateForAuthentication = {
+  success: false,
+  error: false,
+  loading: false,
+  serverValidation: '',
+}
+
+function authorization (state = initialStateForAuthentication, action) {
   switch (action.type) {
-    case SERVER_VALIDATIONS_RECEIVED:
-      return action.text;
-    case RESET:
-      return '';
+    case AUTH_$_LOADING:
+      return { success: false, error: false, loading: true, serverValidation: '' };
+    case AUTH_$_COMPLETED:
+      return { success: true, error: false, loading: false, serverValidation: '' };
+    case AUTH_$_NOT_COMPLETED:
+      return { success: false, error: true, loading: false, serverValidation: '' };
+    case AUTH_$_SERVER_VALIDATION:
+      return { success: false, error: false, loading: false, serverValidation: action.text};
+    case AUTH_$_RESET:
+      return { success: false, error: false, loading: false, serverValidation: '' };
     default:
       return state;
   }
 }
 
-function successEditingProfile(state = false, action) {
+function registration (state = initialStateForAuthentication, action) {
   switch (action.type) {
-    case PROFILE_EDITED:
-      return true;
-    case RESET:
-      return false;
+    case REGISTRATION_$_LOADING:
+      return {success: false, error: false, loading: true, serverValidation: '' };
+    case REGISTRATION_$_COMPLETED:
+      return { success: true, error: false, loading: false, serverValidation: '' };
+    case REGISTRATION_$_NOT_COMPLETED:
+      return { success: false, error: true, loading: false, serverValidation: '' };
+    case REGISTRATION_$_SERVER_VALIDATION:
+      return { success: false, error: false, loading: false, serverValidation: action.text};
+    case REGISTRATION_$_RESET:
+      return { success: false, error: false, loading: false, serverValidation: '' };
     default:
       return state;
   }
 }
 
-function successCreatingArticle(state = false, action) {
+function editingProfile (state = initialStateForAuthentication, action) {
   switch (action.type) {
-    case ARTICLE_CREATED:
-      return true;
-    case RESET:
-      return false;
+    case EDIT_PROFILE_$_LOADING:
+      return {success: false, error: false, loading: true, serverValidation: '' };
+    case EDIT_PROFILE_$_EDITED:
+      return { success: true, error: false, loading: false, serverValidation: '' };
+    case EDIT_PROFILE_$_NOT_EDITED:
+      return { success: false, error: true, loading: false, serverValidation: '' };
+    case EDIT_PROFILE_$_SERVER_VALIDATION:
+      return { success: false, error: false, loading: false, serverValidation: action.text};
+    case EDIT_PROFILE_$_RESET:
+      return { success: false, error: false, loading: false, serverValidation: '' };
     default:
       return state;
   }
 }
 
-function successEditingArticle(state = false, action) {
-  switch(action.type) {
-    case ARTICLE_EDITED: 
-      return true;
-    case RESET:
-      return false;
+const initialStateForWorkWithArticle = {
+  success: false,
+  error: false,
+  loading: false,
+}
+
+function creatingArticle (state = initialStateForWorkWithArticle, action) {
+  switch (action.type) {
+    case CREATE_ARTICLE_$_LOADING:
+      return { success: false, error: false, loading: true };
+    case CREATE_ARTICLE_$_CREATED:
+      return { success: true, error: false, loading: false };
+    case CREATE_ARTICLE_$_NOT_CREATED:
+      return { success: false, error: true, loading: false };
+    case CREATE_ARTICLE_$_RESET:
+      return { success: false, error: false, loading: false };
     default:
       return state;
   }
 }
 
-function successDeletingArticle(state = false, action) {
-  switch(action.type) {
-    case ARTICLE_DELETED:
-      return true;
-    case RESET:
-      return false;
+function editingArticle (state = initialStateForWorkWithArticle, action) {
+  switch (action.type) {
+    case EDIT_ARTICLE_$_LOADING:
+      return { success: false, error: false, loading: true };
+    case EDIT_ARTICLE_$_EDITED:
+      return { success: true, error: false, loading: false };
+    case EDIT_ARTICLE_$_NOT_EDITED:
+      return { success: false, error: true, loading: false };
+    case EDIT_ARTICLE_$_RESET:
+      return { success: false, error: false, loading: false };
+    default:
+      return state;
+  }
+}
+
+function deletingArticle(state = initialStateForWorkWithArticle, action) {
+  switch (action.type) {
+    case DELETE_ARTICLE_$_LOADING:
+      return { success: false, error: false, loading: true };
+    case DELETE_ARTICLE_$_DELETED:
+      return { success: true, error: false, loading: false };
+    case DELETE_ARTICLE_$_NOT_DELETED:
+      return { success: false, error: true, loading: false };
+    case DELETE_ARTICLE_$_RESET:
+      return { success: false, error: false, loading: false };
     default:
       return state;
   }
 }
 
 const reducer = combineReducers({
-  data,
-  successGettingArticles,
-  errorGettingArticles,
-  lastOpenedArticle,
-  successGettingArticle,
-  errorGettingArticle,
-  errorRegistrationOrAuthentication,
+  articles,
+  gettingArticles,
+  article,
+  gettingArticle,
+  editingProfile,
+  creatingArticle,
+  editingArticle,
+  deletingArticle,
   user,
-  serverValidations,
-  successEditingProfile,
-  successCreatingArticle,
-  successEditingArticle,
-  successDeletingArticle,
+  authorization,
+  registration
 });
 
 export default reducer;

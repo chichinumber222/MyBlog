@@ -1,20 +1,19 @@
 import { connect } from 'react-redux';
 import ArticlePage from '../../components/article-page';
-import { asyncGetArticle, reset, asyncDeleteArticle } from '../../reduxStore/action-creators';
+import { asyncGetArticle, getArticle$Loading, asyncDeleteArticle, deleteArticle$Reset } from '../../reduxStore/action-creators';
 
 const mapStateToProps = (state) => ({
-  article: state.lastOpenedArticle,
-  successGettingArticle: state.successGettingArticle,
-  errorGettingArticle: state.errorGettingArticle,
+  article: state.article,
+  gettingArticle: state.gettingArticle,
   user: state.user,
-  successDeletingArticle: state.successDeletingArticle,
-  errorDeletingArticle: state.errorRegistrationOrAuthentication,
+  deletingArticle: state.deletingArticle,
 });
 
 const mapDispatchToProps = {
-  asyncGetArticleWithDispatch: asyncGetArticle,
-  resetWithDispatch: reset,
-  asyncDeleteArticleWithDispatch: asyncDeleteArticle,
+  asyncGetArticle,
+  loadingReset: getArticle$Loading,
+  asyncDeleteArticle,
+  deletingReset: deleteArticle$Reset,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

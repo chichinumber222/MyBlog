@@ -1,0 +1,18 @@
+@mixin spinner($color, $width, $animationDuration) {
+  display: inline-block;
+  width: $width;
+  height: $width;
+  border-radius: 50%;
+  border: 3px solid;
+  border-color: transparent $color transparent $color;
+  animation: spin $animationDuration linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}

@@ -26,7 +26,7 @@ export function registration(username, email, password) {
   return request('https://conduit.productionready.io/api/users', options);
 }
 
-export function authentication(email, password) {
+export function authorization(email, password) {
   const body = {
     user: {
       email,

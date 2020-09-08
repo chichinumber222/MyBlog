@@ -1,131 +1,184 @@
 import {
-  ARTICLES_RECEIVED,
-  ARTICLES_NOT_RECEIVED,
-  ARTICLE_RECEIVED,
-  ARTICLE_NOT_RECEIVED,
-  RESET,
-  AUTH_COMPLETED,
+  GET_ARTICLES_$_LOADING,
+  GET_ARTICLES_$_RECEIVED,
+  GET_ARTICLES_$_NOT_RECEIVED,
+  GET_ARTICLE_$_LOADING,
+  GET_ARTICLE_$_RECEIVED,
+  GET_ARTICLE_$_NOT_RECEIVED,
+  AUTH_$_LOADING,
+  AUTH_$_COMPLETED,
+  AUTH_$_NOT_COMPLETED,
+  AUTH_$_SERVER_VALIDATION,
+  AUTH_$_RESET,
+  REGISTRATION_$_LOADING,
+  REGISTRATION_$_COMPLETED,
+  REGISTRATION_$_NOT_COMPLETED,
+  REGISTRATION_$_SERVER_VALIDATION,
+  REGISTRATION_$_RESET,
   LOG_OUT,
-  SERVER_VALIDATIONS_RECEIVED,
-  AUTH_NOT_COMPLETED,
-  PROFILE_EDITED,
-  PROFILE_NOT_EDITED,
-  ARTICLE_CREATED,
-  ARTICLE_NOT_CREATED,
-  ARTICLE_EDITED,
-  ARTICLE_NOT_EDITED,
-  ARTICLE_DELETED,
-  ARTICLE_NOT_DELETED
+  EDIT_PROFILE_$_LOADING,
+  EDIT_PROFILE_$_EDITED,
+  EDIT_PROFILE_$_NOT_EDITED,
+  EDIT_PROFILE_$_SERVER_VALIDATION,
+  EDIT_PROFILE_$_RESET,
+  CREATE_ARTICLE_$_LOADING,
+  CREATE_ARTICLE_$_CREATED,
+  CREATE_ARTICLE_$_NOT_CREATED,
+  CREATE_ARTICLE_$_RESET,
+  EDIT_ARTICLE_$_LOADING,
+  EDIT_ARTICLE_$_EDITED,
+  EDIT_ARTICLE_$_NOT_EDITED,
+  EDIT_ARTICLE_$_RESET,
+  DELETE_ARTICLE_$_LOADING,
+  DELETE_ARTICLE_$_DELETED,
+  DELETE_ARTICLE_$_NOT_DELETED,
+  DELETE_ARTICLE_$_RESET
 } from './action-types';
+
+
 import {
   getArticlesFromAPI,
   getArticleFromAPI,
   registration,
-  authentication,
+  authorization,
   editProfile,
   createArticle,
   editArticle,
   deleteArticle
 } from '../services/article-service';
 
-export const reset = () => ({
-  type: RESET,
-});
-
-const articlesReceived = (articles, page) => ({
-  type: ARTICLES_RECEIVED,
+const getArticles$Received = (articles, page) => ({
+  type: GET_ARTICLES_$_RECEIVED,
   articles,
   page,
 });
 
-const articlesNotReceived = () => ({
-  type: ARTICLES_NOT_RECEIVED,
+const getArticles$NotReceived = () => ({
+  type: GET_ARTICLES_$_NOT_RECEIVED,
 });
+
+export const getArticles$Loading = () => ({
+  type: GET_ARTICLES_$_LOADING,
+})
 
 export const asyncGetArticles = (page) => {
   return async function inside(dispatch) {
     try {
-      dispatch(reset());
+      dispatch(getArticles$Loading());
       const response = await getArticlesFromAPI(page);
       const { articles } = response;
-      dispatch(articlesReceived(articles, page));
+      dispatch(getArticles$Received(articles, page));
     } catch (error) {
-      dispatch(articlesNotReceived());
+      dispatch(getArticles$NotReceived());
     }
   };
 };
 
-const articleReceived = (article) => ({
-  type: ARTICLE_RECEIVED,
+const getArticle$Received = (article) => ({
+  type: GET_ARTICLE_$_RECEIVED,
   article,
 });
 
-const articleNotReceived = () => ({
-  type: ARTICLE_NOT_RECEIVED,
+const getArticle$NotReceived = () => ({
+  type: GET_ARTICLE_$_NOT_RECEIVED,
 });
+
+export const getArticle$Loading = () => ({
+  type: GET_ARTICLE_$_LOADING,
+})
 
 export const asyncGetArticle = (slug) => {
   return async function inside(dispatch) {
     try {
       const response = await getArticleFromAPI(slug);
       const { article } = response;
-      dispatch(articleReceived(article));
+      dispatch(getArticle$Received(article));
     } catch (error) {
-      dispatch(articleNotReceived());
+      dispatch(getArticle$NotReceived());
     }
   };
 };
 
-const authCompleted = (user) => ({
-  type: AUTH_COMPLETED,
+const registration$Completed = (user) => ({
+  type: REGISTRATION_$_COMPLETED,
   user,
 });
 
-const authNotCompleted = () => ({
-  type: AUTH_NOT_COMPLETED,
+const registration$NotCompleted = () => ({
+  type: REGISTRATION_$_NOT_COMPLETED,
 });
 
-const serverValidationsReceived = (text) => ({
-  type: SERVER_VALIDATIONS_RECEIVED,
+const registration$Loading = () => ({
+  type: REGISTRATION_$_LOADING,
+})
+
+const registration$ServerValidation = (text) => ({
+  type: REGISTRATION_$_SERVER_VALIDATION,
   text,
-});
+})
+
+export const registration$Reset = () => ({
+  type: REGISTRATION_$_RESET,
+})
 
 export const asyncRegistration = (username, email, password) => {
   return async function inside(dispatch) {
     try {
-      dispatch(reset());
+      dispatch(registration$Loading());
       const response = await registration(username, email, password);
       const { user, errors } = response;
       if (errors) {
         const part1 = errors.username ? 'Username has already been taken' : '';
         const part2 = errors.email ? 'Email has already been taken' : '';
         const text = `${part1}\n${part2}`;
-        dispatch(serverValidationsReceived(text));
+        dispatch(registration$ServerValidation(text));
       } else {
-        dispatch(authCompleted(user));
+        dispatch(registration$Completed(user));
         sessionStorage.setItem('user', JSON.stringify(user));
       }
     } catch (error) {
-      dispatch(authNotCompleted());
+      dispatch(registration$NotCompleted());
     }
   };
 };
 
-export const asyncAuthentication = (email, password) => {
+const auth$Completed = (user) => ({
+  type: AUTH_$_COMPLETED,
+  user,
+})
+
+const auth$NotCompleted = () => ({
+  type: AUTH_$_NOT_COMPLETED,
+})
+
+const auth$Loading = () => ({
+  type: AUTH_$_LOADING,
+})
+
+const auth$ServerValidation = (text) => ({
+  type: AUTH_$_SERVER_VALIDATION,
+  text,
+})
+
+export const auth$Reset = () => ({
+  type: AUTH_$_RESET
+})
+
+export const asyncAuthorization = (email, password) => {
   return async function inside(dispatch) {
     try {
-      dispatch(reset());
-      const response = await authentication(email, password);
+      dispatch(auth$Loading());
+      const response = await authorization(email, password);
       const { user, errors } = response;
       if (errors) {
         const text = 'Email or password is invalid';
-        dispatch(serverValidationsReceived(text));
+        dispatch(auth$ServerValidation(text));
       } else {
-        dispatch(authCompleted(user));
+        dispatch(auth$Completed(user));
         sessionStorage.setItem('user', JSON.stringify(user));
       }
     } catch (error) {
-      dispatch(authNotCompleted());
+      dispatch(auth$NotCompleted());
     }
   };
 };
@@ -141,90 +194,129 @@ export const logOuting = () => {
   };
 };
 
-const profileEdited = (user) => ({
-  type: PROFILE_EDITED,
+const editProfile$Edited = (user) => ({
+  type: EDIT_PROFILE_$_EDITED,
   user,
 });
 
-const profileNotEdited = () => ({
-  type: PROFILE_NOT_EDITED,
+const editProfile$NotEdited = () => ({
+  type: EDIT_PROFILE_$_NOT_EDITED,
 });
+
+const editProfile$Loading = () => ({
+  type: EDIT_PROFILE_$_LOADING,
+})
+
+const editProfile$ServerValidation = (text) => ({
+  type: EDIT_PROFILE_$_SERVER_VALIDATION,
+  text,
+})
+
+export const editProfile$Reset = () => ({
+  type: EDIT_PROFILE_$_RESET,
+})
 
 export const asyncEditProfile = (token, username, email, password, image) => {
   return async function inside(dispatch) {
     try {
-      dispatch(reset());
+      dispatch(editProfile$Loading());
       const response = await editProfile(token, username, email, password, image);
       const { user, errors } = response;
       if (errors) {
         const part1 = errors.username ? 'This username is busy' : '';
         const part2 = errors.email ? 'This email is busy' : '';
         const text = `${part1}\n${part2}`;
-        dispatch(serverValidationsReceived(text));
+        dispatch(editProfile$ServerValidation(text));
       } else {
-        dispatch(profileEdited(user));
+        dispatch(editProfile$Edited(user));
         sessionStorage.setItem('user', JSON.stringify(user));
       }
     } catch (error) {
-      dispatch(profileNotEdited());
+      dispatch(editProfile$NotEdited());
     }
   };
 };
 
-const articleCreated = () => ({
-  type: ARTICLE_CREATED,
+const createArticle$Created = () => ({
+  type: CREATE_ARTICLE_$_CREATED,
 });
 
-const articleNotCreated = () => ({
-  type: ARTICLE_NOT_CREATED,
+const createArticle$NotCreated = () => ({
+  type: CREATE_ARTICLE_$_NOT_CREATED,
 });
+
+const createArticle$Loading = () => ({
+  type: CREATE_ARTICLE_$_LOADING,
+})
+
+export const createArticle$Reset = () => ({
+  type: CREATE_ARTICLE_$_RESET,
+})
 
 export const asyncCreateArticle = (token, title, description, body, tagList) => {
   return async function inside(dispatch) {
     try {
-      dispatch(reset());
+      dispatch(createArticle$Loading());
       await createArticle(token, title, description, body, tagList);
-      dispatch(articleCreated());
+      dispatch(createArticle$Created());
     } catch (error) {
-      dispatch(articleNotCreated());
+      dispatch(createArticle$NotCreated());
     }
   };
 };
 
-const articleEdited = () => ({
-  type: ARTICLE_EDITED,
+const editArticle$Edited = () => ({
+  type: EDIT_ARTICLE_$_EDITED,
 })
 
-const articleNotEdited = () => ({
-  type: ARTICLE_NOT_EDITED,
+const editArticle$NotEdited = () => ({
+  type: EDIT_ARTICLE_$_NOT_EDITED,
+})
+
+const editArticle$Loading = () => ({
+  type: EDIT_ARTICLE_$_LOADING,
+})
+
+export const editArticle$Reset = () => ({
+  type: EDIT_ARTICLE_$_RESET,
 })
 
 export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
   return async function inside(dispatch) {
     try {
+      dispatch(editArticle$Loading());
       await editArticle(token, title, description, body, tagList, slug);
-      dispatch(articleEdited());
+      dispatch(editArticle$Edited());
     } catch(error) {
-      dispatch(articleNotEdited());
+      dispatch(editArticle$NotEdited());
     }
   }
 }
 
-const articleDeleted = () => ({
-  type: ARTICLE_DELETED,
+const deleteArticle$Deleted = () => ({
+  type: DELETE_ARTICLE_$_DELETED,
 })
 
-const articleNotDeleted = () => ({
-  type: ARTICLE_NOT_DELETED,
+const deleteArticle$NotDeleted = () => ({
+  type: DELETE_ARTICLE_$_NOT_DELETED,
+})
+
+const deleteArticle$Loading = () => ({
+  type: DELETE_ARTICLE_$_LOADING,
+})
+
+export const deleteArticle$Reset = () => ({
+  type: DELETE_ARTICLE_$_RESET,
 })
 
 export const asyncDeleteArticle = (token, slug) => {
   return async function inside(dispatch) {
     try {
+      dispatch(deleteArticle$Loading());
       await deleteArticle(token, slug);
-      dispatch(articleDeleted());
+      dispatch(deleteArticle$Deleted());
     } catch(error) {
-      dispatch(articleNotDeleted());
+      dispatch(deleteArticle$NotDeleted());
     }
   }
 }

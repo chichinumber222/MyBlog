@@ -1,0 +1,20 @@
+@mixin notification($main-color, $image) {
+  border: 1px solid $main-color;
+  background-color: lighten($main-color, 40%);
+  display: inline-block;
+  padding: 5px 10px;
+  font-weight: bold;
+  font-size: 15px;
+
+  &:before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: $image;
+    background-repeat: no-repeat;
+    background-size: 20px;
+    margin-right: 10px;
+    transform: translate(0px, 3px);
+  }
+}

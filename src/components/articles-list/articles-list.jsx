@@ -10,22 +10,22 @@ function ArticlesList(props) {
   const {
     articles,
     page,
-    successGettingArticles,
-    errorGettingArticles,
-    asyncGetArticlesWithDispatch,
-    resetWithDispatch,
+    gettingArticles,
+    asyncGetArticles,
+    loadingReset,
   } = props;
+  const { error, loading } = gettingArticles;
 
   useEffect(() => {
-    asyncGetArticlesWithDispatch(1);
-    return resetWithDispatch;
-  }, [asyncGetArticlesWithDispatch, resetWithDispatch]);
+    asyncGetArticles(1);
+    return loadingReset;
+  }, [asyncGetArticles, loadingReset]);
 
-  if (!(successGettingArticles || errorGettingArticles)) {
-    return <div className={classNames(styles.spinner, styles.centered)} />;
+  if (loading) {
+    return <div className={classNames(styles.loading, styles.centered)} />;
   }
 
-  if (errorGettingArticles) {
+  if (error) {
     return <Alert className={styles.errorNotification} message="Sorry, articles not received" type="error" />;
   }
 
@@ -40,7 +40,7 @@ function ArticlesList(props) {
         showSizeChanger={false}
         size="small"
         className={styles.pagination}
-        onChange={asyncGetArticlesWithDispatch}
+        onChange={asyncGetArticles}
         showQuickJumper
       />
     </div>
@@ -50,10 +50,13 @@ function ArticlesList(props) {
 ArticlesList.propTypes = {
   articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   page: PropTypes.number.isRequired,
-  successGettingArticles: PropTypes.bool.isRequired,
-  errorGettingArticles: PropTypes.bool.isRequired,
-  asyncGetArticlesWithDispatch: PropTypes.func.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
+  gettingArticles: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
+  asyncGetArticles: PropTypes.func.isRequired,
+  loadingReset: PropTypes.func.isRequired,
 };
 
 export default ArticlesList;

@@ -7,26 +7,32 @@ import { Divider } from 'antd';
 import CustomFormField from '../../subcomponents/custom-form-field';
 import PersonalInfoCheckbox from '../../subcomponents/personal-info-checkbox';
 import styles from './sign-up.module.scss';
+import StyledSpinner from '../../subcomponents/styled-spinner';
 
-function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDispatch, errorRegistration, user }) {
+function SignUp({ asyncRegistration, reset, registration }) {
+  const { success, loading, error, serverValidation } = registration;
+
   const { register, handleSubmit, watch, errors } = useForm();
 
   useEffect(() => {
-    return resetWithDispatch;
-  }, [resetWithDispatch]);
+    return reset;
+  }, [reset]);
 
   const submit = () => {
-    asyncRegistrationWithDispatch(watch('username'), watch('email'), watch('pass'));
+    asyncRegistration(watch('username'), watch('email'), watch('pass'));
   };
 
-  if (Object.keys(user).length) {
+  if (success) {
     return <Redirect to="/" />;
   }
 
   return (
     <form className={styles.signUp} onSubmit={handleSubmit(submit)}>
-      {serverValidations && <p className={styles.serverValidations}>{serverValidations}</p>}
-      {errorRegistration && <p className={styles.errorRegistration}>Failed Registration</p>}
+
+      {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
+      {error && <p className={styles.errorRegistration}>Failed Registration</p>}
+      {<StyledSpinner className={styles.location} title="Loading.." isLoading={loading}/>}
+
       <h2>Create new account</h2>
       <CustomFormField
         name="username"
@@ -99,19 +105,13 @@ function SignUp({ asyncRegistrationWithDispatch, serverValidations, resetWithDis
 }
 
 SignUp.propTypes = {
-  asyncRegistrationWithDispatch: PropTypes.func.isRequired,
-  serverValidations: PropTypes.string.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
-  errorRegistration: PropTypes.bool.isRequired,
-  user: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    createdAt: PropTypes.string,
-    updatedAt: PropTypes.string,
-    username: PropTypes.string,
-    bio: PropTypes.string,
-    image: PropTypes.string,
-    token: PropTypes.string,
+  asyncRegistration: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
+  registration: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+    serverValidation: PropTypes.string,
   }).isRequired,
 };
 

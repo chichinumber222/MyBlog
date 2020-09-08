@@ -1,16 +1,14 @@
 import { connect } from 'react-redux';
 import SignUp from '../../components/sign-up';
-import { asyncRegistration, reset } from '../../reduxStore/action-creators';
+import { asyncRegistration, registration$Reset } from '../../reduxStore/action-creators';
 
 const mapStateToProps = (state) => ({
-  serverValidations: state.serverValidations,
-  user: state.user,
-  errorRegistration: state.errorRegistrationOrAuthentication,
+  registration: state.registration,
 });
 
 const mapDispatchToProps = {
-  asyncRegistrationWithDispatch: asyncRegistration,
-  resetWithDispatch: reset,
+  asyncRegistration,
+  reset: registration$Reset,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUp);

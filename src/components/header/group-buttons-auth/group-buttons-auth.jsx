@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import UserDataWithAvatar from '../../../subcomponents/user-data-with-avatar';
 import styles from './group-buttons-auth.module.scss';
 
-function GroupButtonsAuth({ user, logOutingWithDispatch }) {
+function GroupButtonsAuth({ user, logOuting }) {
   const location = useLocation();
   return (
     <>
@@ -16,7 +16,7 @@ function GroupButtonsAuth({ user, logOutingWithDispatch }) {
         <UserDataWithAvatar username={user.username} imageSrc={user.image || undefined} />
       </Link>
 
-      <Link to={location.pathname} className={styles.logOut} onClick={logOutingWithDispatch}>
+      <Link to={location.pathname} className={styles.logOut} onClick={logOuting}>
         Log Out
       </Link>
     </>
@@ -34,7 +34,7 @@ GroupButtonsAuth.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  logOutingWithDispatch: PropTypes.func.isRequired,
+  logOuting: PropTypes.func.isRequired,
 };
 
 export default GroupButtonsAuth;

@@ -13,3 +13,7 @@
 .errorEditing {
   composes: errorRegistration from '../sign-up/sign-up.module.scss';
 }
+
+.location {
+  composes: location from '../sign-up/sign-up.module.scss';
+}

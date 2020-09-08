@@ -4,21 +4,19 @@ import { Redirect } from 'react-router-dom';
 import { Alert } from 'antd';
 import classNames from 'classnames';
 import Form from '../../subcomponents/form-edit-or-create-article';
-import isMyArticle from '../../services/is-my-article';
 import styles from './edit-article.module.scss';
 
 function EditArticle(props) {
   const {
     match,
-    asyncGetArticleWithDispatch,
-    successGettingArticle,
-    errorGettingArticle,
-    asyncEditArticleWithDispatch,
-    resetWithDispatch,
+    asyncGetArticle,
+    gettingArticle,
+    asyncEditArticle,
+    editingArticle,
     user,
-    successEditing,
-    errorEditing,
     article,
+    loadingReset,
+    editReset,
   } = props;
 
   const {
@@ -27,31 +25,34 @@ function EditArticle(props) {
   } = match;
 
   useEffect(() => {
-    asyncGetArticleWithDispatch(slug);
-    return resetWithDispatch;
-  }, [asyncGetArticleWithDispatch, resetWithDispatch, slug]);
+    asyncGetArticle(slug);
+    return () => {
+      loadingReset();
+      editReset();
+    };
+  }, [asyncGetArticle, loadingReset, editReset, slug]);
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;
   }
 
-  if (!(successGettingArticle || errorGettingArticle)) {
+  if (gettingArticle.loading) {
     return <div className={classNames(styles.spinner, styles.centered)} />;
   }
 
-  if (errorGettingArticle) {
+  if (gettingArticle.error) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
   const {
-    author: { username },
+    author,
     title,
     description,
     body,
     tagList,
   } = article;
 
-  if (!isMyArticle(username) || successEditing) {
+  if (user.username !== author.username || editingArticle.success) {
     const index = url.lastIndexOf('edit');
     const previousURL = url.slice(0, index - 1);
     return <Redirect to={previousURL} />;
@@ -60,11 +61,11 @@ function EditArticle(props) {
   return (
     <Form
       mission="edit"
-      actionCreatorWithDispatch={(...data) => asyncEditArticleWithDispatch(...data, slug)}
+      actionCreatorWithDispatch={(...data) => asyncEditArticle(...data, slug)}
       defaultValues={{ title, description, text: body }}
       defaultTags={tagList}
       user={user}
-      error={errorEditing}
+      error={editingArticle.error}
     />
   );
 }
@@ -76,11 +77,8 @@ EditArticle.propTypes = {
     path: PropTypes.string,
     url: PropTypes.string,
   }).isRequired,
-  asyncGetArticleWithDispatch: PropTypes.func.isRequired,
-  successGettingArticle: PropTypes.bool.isRequired,
-  errorGettingArticle: PropTypes.bool.isRequired,
-  asyncEditArticleWithDispatch: PropTypes.func.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
+  asyncGetArticle: PropTypes.func.isRequired,
+  asyncEditArticle: PropTypes.func.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
@@ -91,8 +89,16 @@ EditArticle.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  successEditing: PropTypes.bool.isRequired,
-  errorEditing: PropTypes.bool.isRequired,
+  gettingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool
+  }).isRequired,
+  editingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool
+  }).isRequired,
   article: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -110,6 +116,8 @@ EditArticle.propTypes = {
       following: PropTypes.bool,
     }).isRequired,
   }).isRequired,
+  loadingReset: PropTypes.func.isRequired,
+  editReset: PropTypes.func.isRequired,
 };
 
 export default EditArticle;

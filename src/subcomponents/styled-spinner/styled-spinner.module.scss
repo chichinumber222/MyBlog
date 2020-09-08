@@ -1,0 +1,19 @@
+@import '../../styles/mixins/spinner.module.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .loading {
+    @include spinner(#C8B5D2, 18px, 0.3s);
+  }
+  
+  .title {
+    font-size: 14px;
+  }
+
+  .loading + .title {
+    margin-left: 5px;
+  }
+}

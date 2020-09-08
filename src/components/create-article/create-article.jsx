@@ -4,33 +4,34 @@ import { Redirect } from 'react-router-dom';
 import Form from '../../subcomponents/form-edit-or-create-article';
 
 function CreateArticle(props) {
-  const { asyncCreateArticleWithDispatch, resetWithDispatch, user, successCreating, errorCreating } = props;
+  const { asyncCreateArticle, reset, user, creatingArticle } = props;
+  const { success, error } = creatingArticle;
 
   useEffect(() => {
-    return resetWithDispatch;
-  }, [resetWithDispatch]);
+    return reset;
+  }, [reset]);
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;
   }
 
-  if (successCreating) {
+  if (success) {
     return <Redirect to="/" />;
   }
 
   return (
     <Form
       mission="create"
-      actionCreatorWithDispatch={asyncCreateArticleWithDispatch}
+      actionCreatorWithDispatch={asyncCreateArticle}
       user={user}
-      error={errorCreating}
+      error={error}
     />
   );
 }
 
 CreateArticle.propTypes = {
-  asyncCreateArticleWithDispatch: PropTypes.func.isRequired,
-  resetWithDispatch: PropTypes.func.isRequired,
+  asyncCreateArticle: PropTypes.func.isRequired,
+  reset: PropTypes.func.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
@@ -41,8 +42,11 @@ CreateArticle.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  successCreating: PropTypes.bool.isRequired,
-  errorCreating: PropTypes.bool.isRequired,
+  creatingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
 };
 
 export default CreateArticle;
