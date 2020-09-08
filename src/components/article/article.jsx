@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
+import { Popconfirm } from 'antd';
 import Markdown from 'markdown-to-jsx';
 import classNames from 'classnames';
 import StyledLink from '../../subcomponents/styled-link';
@@ -24,6 +25,7 @@ function Article(props) {
     body,
     isList,
     showEditAndDelete,
+    articleDeleteHandler,
   } = props;
 
   return (
@@ -52,9 +54,18 @@ function Article(props) {
           />
           {showEditAndDelete && (
             <div className={styles.buttons}>
-              <button className={styles.delete} type="button">
-                Delete
-              </button>
+              <Popconfirm 
+                placement="rightTop"
+                title="Are you sure to delete this article?"
+                okText="Yes"
+                cancelText="No"
+                onConfirm={articleDeleteHandler}
+                overlayClassName={styles.popconfirm}
+              >
+                <button className={styles.delete} type="button">
+                  Delete
+                </button>
+              </Popconfirm>
               <Link className={styles.edit} to={`/articles/${slug}/edit`}>
                 Edit
               </Link>
@@ -91,7 +102,3 @@ Article.propTypes = {
 };
 
 export default Article;
-
-// .person + .buttons {
-//   margin-top: 30px;
-// }

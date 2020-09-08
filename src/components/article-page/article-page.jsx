@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Alert } from 'antd';
+import { Redirect } from 'react-router-dom';
+import { Alert, message } from 'antd';
 import classNames from 'classnames';
 import Article from '../article';
-import isMyArticle from '../../services/is-my-article';
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
@@ -14,6 +14,10 @@ function ArticlePage(props) {
     successGettingArticle,
     errorGettingArticle,
     resetWithDispatch,
+    asyncDeleteArticleWithDispatch,
+    successDeletingArticle,
+    errorDeletingArticle,
+    user,
   } = props;
 
   const {
@@ -33,11 +37,24 @@ function ArticlePage(props) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
-  const {
-    author: { username },
-  } = article;
+  if (successDeletingArticle) {
+    return <Redirect to="/"/>
+  }
 
-  return <Article {...article} isList={false} showEditAndDelete={isMyArticle(username)} />;
+  if (errorDeletingArticle) {
+    message.error('Failed to delete', 1.2);
+  }
+
+  const { author } = article;
+
+  return (
+    <Article 
+      {...article} 
+      isList={false} 
+      showEditAndDelete={user.username === author.username} 
+      articleDeleteHandler={() => asyncDeleteArticleWithDispatch(user.token, slug)}
+    />
+  )  
 }
 
 ArticlePage.propTypes = {
@@ -67,6 +84,19 @@ ArticlePage.propTypes = {
       image: PropTypes.string,
       following: PropTypes.bool,
     }).isRequired,
+  }).isRequired,
+  asyncDeleteArticleWithDispatch: PropTypes.func.isRequired,
+  successDeletingArticle: PropTypes.bool.isRequired,
+  errorDeletingArticle: PropTypes.bool.isRequired,
+  user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
   }).isRequired,
 };
 

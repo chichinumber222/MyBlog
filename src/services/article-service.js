@@ -102,3 +102,14 @@ export function editArticle(token, title, description, body, tagList, slug) {
   };
   return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
 }
+
+export function deleteArticle(token, slug) {
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
+  }
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+}

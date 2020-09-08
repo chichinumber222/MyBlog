@@ -14,7 +14,9 @@ import {
   ARTICLE_CREATED,
   ARTICLE_NOT_CREATED,
   ARTICLE_EDITED,
-  ARTICLE_NOT_EDITED
+  ARTICLE_NOT_EDITED,
+  ARTICLE_DELETED,
+  ARTICLE_NOT_DELETED
 } from './action-types';
 
 function data(state = { articles: [], page: 0 }, action) {
@@ -85,6 +87,7 @@ function errorRegistrationOrAuthentication(state = false, action) {
     case PROFILE_NOT_EDITED:
     case ARTICLE_NOT_CREATED:
     case ARTICLE_NOT_EDITED:
+    case ARTICLE_NOT_DELETED:
       return true;
     case RESET:
       return false;
@@ -151,6 +154,17 @@ function successEditingArticle(state = false, action) {
   }
 }
 
+function successDeletingArticle(state = false, action) {
+  switch(action.type) {
+    case ARTICLE_DELETED:
+      return true;
+    case RESET:
+      return false;
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   data,
   successGettingArticles,
@@ -164,6 +178,7 @@ const reducer = combineReducers({
   successEditingProfile,
   successCreatingArticle,
   successEditingArticle,
+  successDeletingArticle,
 });
 
 export default reducer;

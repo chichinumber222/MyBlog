@@ -13,7 +13,9 @@ import {
   ARTICLE_CREATED,
   ARTICLE_NOT_CREATED,
   ARTICLE_EDITED,
-  ARTICLE_NOT_EDITED
+  ARTICLE_NOT_EDITED,
+  ARTICLE_DELETED,
+  ARTICLE_NOT_DELETED
 } from './action-types';
 import {
   getArticlesFromAPI,
@@ -22,7 +24,8 @@ import {
   authentication,
   editProfile,
   createArticle,
-  editArticle
+  editArticle,
+  deleteArticle
 } from '../services/article-service';
 
 export const reset = () => ({
@@ -203,6 +206,25 @@ export const asyncEditArticle = (token, title, description, body, tagList, slug)
       dispatch(articleEdited());
     } catch(error) {
       dispatch(articleNotEdited());
+    }
+  }
+}
+
+const articleDeleted = () => ({
+  type: ARTICLE_DELETED,
+})
+
+const articleNotDeleted = () => ({
+  type: ARTICLE_NOT_DELETED,
+})
+
+export const asyncDeleteArticle = (token, slug) => {
+  return async function inside(dispatch) {
+    try {
+      await deleteArticle(token, slug);
+      dispatch(articleDeleted());
+    } catch(error) {
+      dispatch(articleNotDeleted());
     }
   }
 }
