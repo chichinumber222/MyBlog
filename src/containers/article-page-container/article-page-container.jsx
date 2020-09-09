@@ -11,9 +11,9 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   asyncGetArticle,
-  loadingReset: getArticle$Loading,
+  loadingLaunchForGettingArticle: getArticle$Loading,
   asyncDeleteArticle,
-  deletingReset: deleteArticle$Reset,
+  resetForDeletingArticle: deleteArticle$Reset,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlePage);

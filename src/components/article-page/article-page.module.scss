@@ -3,13 +3,13 @@
 }
 
 .centered {
-  composes: centered from '../articles-list/articles-list.module.scss';
+  composes: centered from '../../styles/styles-general.module.scss';
 }
 
 .errorNotification {
-  composes: errorNotification from '../articles-list/articles-list.module.scss';
+  composes: alert from '../../styles/styles-general.module.scss';
 }
 
 .location {
-  composes: location from '../sign-up/sign-up.module.scss';
+  composes: locationInTheRightCorner from '../../styles/styles-general.module.scss';
 }

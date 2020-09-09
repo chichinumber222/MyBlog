@@ -6,5 +6,8 @@
 
 .signUp {
   @include button(#52c41a, 18px, #52c41a, 6px 18px, 8%);
+}
+
+.indent {
   margin-left: 20px;
 }

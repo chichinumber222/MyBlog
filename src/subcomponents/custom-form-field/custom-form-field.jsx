@@ -12,7 +12,7 @@ const CustomFormField = React.forwardRef((props, ref) => {
       </label>
       {type === 'textarea' ? (
         <textarea
-          className={errorMessage ? classNames(styles.textarea, styles.err) : styles.textarea}
+          className={classNames(styles.textarea, errorMessage && styles.err)}
           id={id}
           name={name}
           ref={ref}
@@ -21,7 +21,7 @@ const CustomFormField = React.forwardRef((props, ref) => {
         />
       ) : (
         <input
-          className={errorMessage ? classNames(styles.input, styles.err) : styles.input}
+          className={classNames(styles.input,errorMessage && styles.err)}
           id={id}
           type={type}
           name={name}
@@ -37,6 +37,7 @@ const CustomFormField = React.forwardRef((props, ref) => {
 
 CustomFormField.defaultProps = {
   children: '',
+  onChange: () => {},
   placeholder: 'Enter',
   type: 'text',
   errorMessage: '',
@@ -44,7 +45,7 @@ CustomFormField.defaultProps = {
 
 CustomFormField.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   placeholder: PropTypes.string,
   name: PropTypes.string.isRequired,
   type: PropTypes.string,

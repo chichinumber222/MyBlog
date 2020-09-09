@@ -10,7 +10,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = {
   asyncGetArticles,
-  loadingReset: getArticles$Loading,
+  loadingLaunchForGettingArticles: getArticles$Loading,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesList);

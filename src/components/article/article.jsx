@@ -81,6 +81,7 @@ function Article(props) {
 Article.defaultProps = {
   isList: true,
   showEditAndDelete: false,
+  articleDeleteHandler: () => {},
 };
 
 Article.propTypes = {
@@ -99,6 +100,7 @@ Article.propTypes = {
   body: PropTypes.string.isRequired,
   isList: PropTypes.bool,
   showEditAndDelete: PropTypes.bool,
+  articleDeleteHandler: PropTypes.func,
 };
 
 export default Article;

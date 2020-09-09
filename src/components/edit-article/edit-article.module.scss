@@ -1,11 +1,15 @@
-.spinner {
-  composes: spinner from '../articles-list/articles-list.module.scss';
+.loading {
+  composes: loading from '../articles-list/articles-list.module.scss';
 }
 
 .centered {
-  composes: centered from '../articles-list/articles-list.module.scss';
+  composes: centered from '../../styles/styles-general.module.scss';
 }
 
 .errorNotification {
-  composes: errorNotification from '../articles-list/articles-list.module.scss';
+  composes: alert from '../../styles/styles-general.module.scss';
+}
+
+.location {
+  composes: locationInTheRightCorner from '../../styles/styles-general.module.scss';
 }

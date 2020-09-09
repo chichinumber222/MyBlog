@@ -2,10 +2,12 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Form from '../../subcomponents/form-edit-or-create-article';
+import StyledSpinner from '../../subcomponents/styled-spinner';
+import styles from './create-article.module.scss';
 
 function CreateArticle(props) {
   const { asyncCreateArticle, reset, user, creatingArticle } = props;
-  const { success, error } = creatingArticle;
+  const { success, error, loading } = creatingArticle;
 
   useEffect(() => {
     return reset;
@@ -20,12 +22,15 @@ function CreateArticle(props) {
   }
 
   return (
-    <Form
-      mission="create"
-      actionCreatorWithDispatch={asyncCreateArticle}
-      user={user}
-      error={error}
-    />
+    <div>
+      <Form
+        mission="create"
+        actionCreatorWithDispatch={asyncCreateArticle}
+        user={user}
+        error={error}
+      />
+      <StyledSpinner className={styles.location} title="Loading..." isLoading={loading}/>
+    </div>
   );
 }
 

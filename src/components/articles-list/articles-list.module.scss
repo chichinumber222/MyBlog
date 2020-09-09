@@ -1,22 +1,19 @@
 @import '../../styles/mixins/spinner.module.scss';
 
+.loading {
+  @include spinner(#339dff, 50px, 0.4s);
+}
+
 .pagination {
   text-align: center;
   margin-top: 20px;
   margin-bottom: 30px;
 }
 
-.loading {
-  @include spinner(#339dff, 70px, 0.4s);
-}
-
 .centered {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  composes: centered from '../../styles/styles-general.module.scss';
 }
 
 .errorNotification {
-  composes: alert from '../../index.scss';
+  composes: alert from '../../styles/styles-general.module.scss';
 }

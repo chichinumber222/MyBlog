@@ -5,6 +5,7 @@ import { Alert } from 'antd';
 import classNames from 'classnames';
 import Article from '../article';
 import StyledSpinner from '../../subcomponents/styled-spinner';
+import CornerNotice from "../../subcomponents/corner-notice";
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
@@ -16,8 +17,8 @@ function ArticlePage(props) {
     deletingArticle,
     asyncDeleteArticle,
     user,
-    loadingReset,
-    deletingReset,
+    loadingLaunchForGettingArticle,
+    resetForDeletingArticle,
   } = props;
 
   const {
@@ -27,10 +28,10 @@ function ArticlePage(props) {
   useEffect(() => {
     asyncGetArticle(slug);
     return () => {
-      loadingReset();
-      deletingReset();
+      loadingLaunchForGettingArticle();
+      resetForDeletingArticle();
     }
-  }, [asyncGetArticle, loadingReset, deletingReset, slug]);
+  }, [asyncGetArticle, loadingLaunchForGettingArticle, resetForDeletingArticle, slug]);
 
   if (gettingArticle.loading) {
     return <div className={classNames(styles.spinner, styles.centered)} />;
@@ -54,7 +55,8 @@ function ArticlePage(props) {
         showEditAndDelete={user.username === author.username} 
         articleDeleteHandler={() => asyncDeleteArticle(user.token, slug)}
       />
-      <StyledSpinner className={styles.location} title="Loading..." isLoading={deletingArticle.loading}/>
+      <StyledSpinner className={styles.location} title="Deleting..." isLoading={deletingArticle.loading}/>
+      <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error}/>
     </div>
   )  
 }
@@ -105,8 +107,8 @@ ArticlePage.propTypes = {
     image: PropTypes.string,
     token: PropTypes.string,
   }).isRequired,
-  loadingReset: PropTypes.func.isRequired,
-  deletingReset:PropTypes.func.isRequired,
+  loadingLaunchForGettingArticle: PropTypes.func.isRequired,
+  resetForDeletingArticle:PropTypes.func.isRequired,
 };
 
 export default ArticlePage;

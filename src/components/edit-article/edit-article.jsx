@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { Alert } from 'antd';
 import classNames from 'classnames';
 import Form from '../../subcomponents/form-edit-or-create-article';
+import StyledSpinner from '../../subcomponents/styled-spinner';
 import styles from './edit-article.module.scss';
 
 function EditArticle(props) {
@@ -15,8 +16,8 @@ function EditArticle(props) {
     editingArticle,
     user,
     article,
-    loadingReset,
-    editReset,
+    loadingLaunchForGettingArticle,
+    resetForEditingArticle,
   } = props;
 
   const {
@@ -27,17 +28,17 @@ function EditArticle(props) {
   useEffect(() => {
     asyncGetArticle(slug);
     return () => {
-      loadingReset();
-      editReset();
+      loadingLaunchForGettingArticle();
+      resetForEditingArticle();
     };
-  }, [asyncGetArticle, loadingReset, editReset, slug]);
+  }, [asyncGetArticle, loadingLaunchForGettingArticle, resetForEditingArticle, slug]);
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;
   }
 
   if (gettingArticle.loading) {
-    return <div className={classNames(styles.spinner, styles.centered)} />;
+    return <div className={classNames(styles.loading, styles.centered)} />;
   }
 
   if (gettingArticle.error) {
@@ -59,14 +60,17 @@ function EditArticle(props) {
   }
 
   return (
-    <Form
-      mission="edit"
-      actionCreatorWithDispatch={(...data) => asyncEditArticle(...data, slug)}
-      defaultValues={{ title, description, text: body }}
-      defaultTags={tagList}
-      user={user}
-      error={editingArticle.error}
-    />
+    <div>
+      <Form
+        mission="edit"
+        actionCreatorWithDispatch={(...data) => asyncEditArticle(...data, slug)}
+        defaultValues={{ title, description, text: body }}
+        defaultTags={tagList}
+        user={user}
+        error={editingArticle.error}
+      />
+      <StyledSpinner className={styles.location} title="Loading..." isLoading={editingArticle.loading}/>
+    </div>
   );
 }
 
@@ -116,8 +120,8 @@ EditArticle.propTypes = {
       following: PropTypes.bool,
     }).isRequired,
   }).isRequired,
-  loadingReset: PropTypes.func.isRequired,
-  editReset: PropTypes.func.isRequired,
+  loadingLaunchForGettingArticle: PropTypes.func.isRequired,
+  resetForEditingArticle: PropTypes.func.isRequired,
 };
 
 export default EditArticle;

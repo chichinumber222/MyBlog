@@ -1,7 +1,7 @@
 @import '../../styles/mixins/button.module.scss';
 
 .createArticle {
-  composes: signUp from '../../components/sign-up/sign-up.module.scss';
+  composes: standartForm from '../../styles/styles-general.module.scss';
   max-width: 938px;
 }
 
@@ -16,7 +16,7 @@
 }
 
 .submit {
-  composes: submit from '../../components/sign-up/sign-up.module.scss';
+  composes: submitButton from '../../styles/styles-general.module.scss';
   display: block;
   width: 319px;
 }

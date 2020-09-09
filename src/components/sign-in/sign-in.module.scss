@@ -1,9 +1,9 @@
 .signIn {
-  composes: signUp from '../sign-up/sign-up.module.scss';
+  composes: standartForm from "../../styles/styles-general.module.scss";
 }
 
 .submit {
-  composes: submit from '../sign-up/sign-up.module.scss';
+  composes: submitButton from "../../styles/styles-general.module.scss";
 }
 
 .notHaveAnAccount {
@@ -19,5 +19,5 @@
 }
 
 .location {
-  composes: location from '../sign-up/sign-up.module.scss';
+  composes: locationInTheRightCorner from "../../styles/styles-general.module.scss";
 }

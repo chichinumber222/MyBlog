@@ -12,14 +12,14 @@ function ArticlesList(props) {
     page,
     gettingArticles,
     asyncGetArticles,
-    loadingReset,
+    loadingLaunchForGettingArticles,
   } = props;
   const { error, loading } = gettingArticles;
 
   useEffect(() => {
     asyncGetArticles(1);
-    return loadingReset;
-  }, [asyncGetArticles, loadingReset]);
+    return loadingLaunchForGettingArticles;
+  }, [asyncGetArticles, loadingLaunchForGettingArticles]);
 
   if (loading) {
     return <div className={classNames(styles.loading, styles.centered)} />;
@@ -30,6 +30,7 @@ function ArticlesList(props) {
   }
 
   const elements = articles.map((article) => <Article key={article.slug} {...article} />);
+  
   return (
     <div>
       {elements}
@@ -56,7 +57,7 @@ ArticlesList.propTypes = {
     loading: PropTypes.bool,
   }).isRequired,
   asyncGetArticles: PropTypes.func.isRequired,
-  loadingReset: PropTypes.func.isRequired,
+  loadingLaunchForGettingArticles: PropTypes.func.isRequired,
 };
 
 export default ArticlesList;
