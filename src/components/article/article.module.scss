@@ -47,6 +47,10 @@
     margin-right: 5px;
   }
 
+  .heartActive {
+    background: url('../../styles/icons/heart-active.png') no-repeat;
+  }
+
   .heartsCount {
     font-size: 12px;
     display: inline-block;
@@ -58,10 +62,6 @@
     width: 0px;
     height: 0px;
     opacity: 0;
-
-    &:checked ~ .heart {
-      background: url('../../styles/icons/heart-active.png') no-repeat;
-    }
   }
 }
 

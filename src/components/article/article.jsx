@@ -23,11 +23,13 @@ function Article(props) {
     createdAt,
     slug,
     body,
+    favorited,
     isList,
     showEditAndDelete,
     articleDeleteHandler,
+    articleFavoriteHandler,
   } = props;
-
+  
   return (
     <div className={styles.article}>
       <div className={classNames(styles.main, isList ? styles.mainForList : styles.mainForPage)}>
@@ -36,8 +38,8 @@ function Article(props) {
             {title}
           </StyledLink>
           <label className={styles.customCheckbox}>
-            <input className={styles.checkbox} type="checkbox" />
-            <span className={styles.heart} />
+            <input className={styles.checkbox} type="checkbox" onChange={() => articleFavoriteHandler(!favorited, slug)} />
+            <span className={classNames(styles.heart, favorited && styles.heartActive)} />
             <span className={styles.heartsCount}>{favoritesCount}</span>
           </label>
           <div className={styles.tags}>{tagsCreator(tagList)}</div>
@@ -88,6 +90,7 @@ Article.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  favorited: PropTypes.bool.isRequired,
   favoritesCount: PropTypes.number.isRequired,
   author: PropTypes.shape({
     username: PropTypes.string,
@@ -101,6 +104,7 @@ Article.propTypes = {
   isList: PropTypes.bool,
   showEditAndDelete: PropTypes.bool,
   articleDeleteHandler: PropTypes.func,
+  articleFavoriteHandler: PropTypes.func.isRequired,
 };
 
 export default Article;

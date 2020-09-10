@@ -4,32 +4,42 @@ import { Pagination, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import classNames from 'classnames';
 import Article from '../article';
+import StyledSpinner from '../../subcomponents/styled-spinner';
+import CornerNotice from '../../subcomponents/corner-notice';
 import styles from './articles-list.module.scss';
 
 function ArticlesList(props) {
   const {
+    user,
     articles,
     page,
     gettingArticles,
     asyncGetArticles,
+    favoritingArticle,
+    asyncFavoriteArticle,
     loadingLaunchForGettingArticles,
+    resetForFavoritingArticle
   } = props;
-  const { error, loading } = gettingArticles;
 
   useEffect(() => {
-    asyncGetArticles(1);
-    return loadingLaunchForGettingArticles;
-  }, [asyncGetArticles, loadingLaunchForGettingArticles]);
+    asyncGetArticles(user.token, 1);
+    return () => {
+      loadingLaunchForGettingArticles();
+      resetForFavoritingArticle();
+    };
+  }, [user.token, asyncGetArticles, loadingLaunchForGettingArticles, resetForFavoritingArticle]);
 
-  if (loading) {
+  if (gettingArticles.loading) {
     return <div className={classNames(styles.loading, styles.centered)} />;
   }
 
-  if (error) {
+  if (gettingArticles.error) {
     return <Alert className={styles.errorNotification} message="Sorry, articles not received" type="error" />;
   }
 
-  const elements = articles.map((article) => <Article key={article.slug} {...article} />);
+  const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncFavoriteArticle(user.token, articleSlug, isFavorite) : () => {};
+
+  const elements = articles.map((article) => <Article key={article.slug} {...article} articleFavoriteHandler={articleFavoriteHandler}/>);
   
   return (
     <div>
@@ -41,14 +51,30 @@ function ArticlesList(props) {
         showSizeChanger={false}
         size="small"
         className={styles.pagination}
-        onChange={asyncGetArticles}
+        onChange={(pages) => asyncGetArticles(user.token, pages)}
         showQuickJumper
       />
+      <StyledSpinner 
+        className={styles.location} 
+        title="Loading..." 
+        isLoading={favoritingArticle.loading}
+      />
+      <CornerNotice type="error" message="Favorite failed" isActive={favoritingArticle.error}/>
     </div>
   );
 }
 
 ArticlesList.propTypes = {
+    user: PropTypes.shape({
+    id: PropTypes.number,
+    email: PropTypes.string,
+    createdAt: PropTypes.string,
+    updatedAt: PropTypes.string,
+    username: PropTypes.string,
+    bio: PropTypes.string,
+    image: PropTypes.string,
+    token: PropTypes.string,
+  }).isRequired,
   articles: PropTypes.arrayOf(PropTypes.object).isRequired,
   page: PropTypes.number.isRequired,
   gettingArticles: PropTypes.shape({
@@ -56,8 +82,15 @@ ArticlesList.propTypes = {
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }).isRequired,
+  favoritingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
   asyncGetArticles: PropTypes.func.isRequired,
+  asyncFavoriteArticle: PropTypes.func.isRequired,
   loadingLaunchForGettingArticles: PropTypes.func.isRequired,
+  resetForFavoritingArticle: PropTypes.func.isRequired,
 };
 
 export default ArticlesList;

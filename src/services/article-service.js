@@ -1,11 +1,25 @@
 import request from './request';
 
-export function getArticlesFromAPI(page) {
-  return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`);
+export function getArticlesFromAPI(token, page) {
+  const options = {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: token ? `Token ${token}` : '',
+    },
+  }
+  return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`, options);
 }
 
-export function getArticleFromAPI(slug) {
-  return request(`https://conduit.productionready.io/api/articles/${slug}`);
+export function getArticleFromAPI(token, slug) {
+  const options = {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: token ? `Token ${token}` : '',
+    },
+  }
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
 }
 
 export function registration(username, email, password) {
@@ -112,4 +126,15 @@ export function deleteArticle(token, slug) {
     },
   }
   return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+}
+
+export function favoriteOrUnfavoriteArticle(token, slug, isFavorite) {
+  const options = {
+    method: isFavorite ? "POST" : "DELETE",
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8',
+      Authorization: `Token ${token}`,
+    },
+  }
+  return request(`https://conduit.productionready.io/api/articles/${slug}/favorite`, options);
 }

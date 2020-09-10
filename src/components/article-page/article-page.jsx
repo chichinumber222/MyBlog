@@ -16,9 +16,12 @@ function ArticlePage(props) {
     asyncGetArticle,
     deletingArticle,
     asyncDeleteArticle,
+    favoritingArticle,
+    asyncFavoriteArticle,
     user,
     loadingLaunchForGettingArticle,
-    resetForDeletingArticle,
+    resetForDeletingArticle,   
+    resetForFavoritingArticle
   } = props;
 
   const {
@@ -26,15 +29,16 @@ function ArticlePage(props) {
   } = match;
 
   useEffect(() => {
-    asyncGetArticle(slug);
+    asyncGetArticle(user.token, slug);
     return () => {
       loadingLaunchForGettingArticle();
       resetForDeletingArticle();
+      resetForFavoritingArticle();
     }
-  }, [asyncGetArticle, loadingLaunchForGettingArticle, resetForDeletingArticle, slug]);
+  }, [user.token, asyncGetArticle, loadingLaunchForGettingArticle, resetForDeletingArticle, resetForFavoritingArticle, slug]);
 
   if (gettingArticle.loading) {
-    return <div className={classNames(styles.spinner, styles.centered)} />;
+    return <div className={classNames(styles.loading, styles.centered)} />;
   }
 
   if (gettingArticle.error) {
@@ -44,6 +48,8 @@ function ArticlePage(props) {
   if (deletingArticle.success) {
     return <Redirect to="/"/>;
   }
+  
+  const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncFavoriteArticle(user.token, articleSlug, isFavorite) : () => {};
 
   const { author } = article;
 
@@ -54,9 +60,11 @@ function ArticlePage(props) {
         isList={false} 
         showEditAndDelete={user.username === author.username} 
         articleDeleteHandler={() => asyncDeleteArticle(user.token, slug)}
+        articleFavoriteHandler={articleFavoriteHandler}
       />
-      <StyledSpinner className={styles.location} title="Deleting..." isLoading={deletingArticle.loading}/>
+      <StyledSpinner className={styles.location} title="Loading..." isLoading={deletingArticle.loading || favoritingArticle.loading}/>
       <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error}/>
+      <CornerNotice type="error" message="Favorite failed" isActive={favoritingArticle.error}/>
     </div>
   )  
 }
@@ -70,6 +78,7 @@ ArticlePage.propTypes = {
   }).isRequired,
   asyncGetArticle: PropTypes.func.isRequired,
   asyncDeleteArticle: PropTypes.func.isRequired,
+  asyncFavoriteArticle: PropTypes.func.isRequired,
   article: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -97,6 +106,11 @@ ArticlePage.propTypes = {
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }).isRequired,
+  favoritingArticle: PropTypes.shape({
+    success: PropTypes.bool,
+    error: PropTypes.bool,
+    loading: PropTypes.bool,
+  }).isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
@@ -108,7 +122,8 @@ ArticlePage.propTypes = {
     token: PropTypes.string,
   }).isRequired,
   loadingLaunchForGettingArticle: PropTypes.func.isRequired,
-  resetForDeletingArticle:PropTypes.func.isRequired,
+  resetForDeletingArticle: PropTypes.func.isRequired,
+  resetForFavoritingArticle: PropTypes.func.isRequired,
 };
 
 export default ArticlePage;

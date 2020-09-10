@@ -1,5 +1,5 @@
-.spinner {
-  composes: spinner from '../articles-list/articles-list.module.scss';
+.loading {
+  composes: loading from '../articles-list/articles-list.module.scss';
 }
 
 .centered {

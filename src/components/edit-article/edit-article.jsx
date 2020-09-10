@@ -26,12 +26,12 @@ function EditArticle(props) {
   } = match;
 
   useEffect(() => {
-    asyncGetArticle(slug);
+    asyncGetArticle(user.token, slug);
     return () => {
       loadingLaunchForGettingArticle();
       resetForEditingArticle();
     };
-  }, [asyncGetArticle, loadingLaunchForGettingArticle, resetForEditingArticle, slug]);
+  }, [user.token, asyncGetArticle, loadingLaunchForGettingArticle, resetForEditingArticle, slug]);
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;

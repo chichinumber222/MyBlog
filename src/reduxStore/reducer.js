@@ -33,7 +33,11 @@ import {
   DELETE_ARTICLE_$_LOADING,
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
-  DELETE_ARTICLE_$_RESET
+  DELETE_ARTICLE_$_RESET,
+  FAVORITE_ARTICLE_$_LOADING,
+  FAVORITE_ARTICLE_$_ADDED,
+  FAVORITE_ARTICLE_$_NOT_ADDED,
+  FAVORITE_ARTICLE_$_RESET
 } from './action-types';
 
 const initialStateForGettingArticles = {
@@ -43,9 +47,13 @@ const initialStateForGettingArticles = {
 }
 
 function articles(state = { all: [], page: 0 }, action) {
+  let index;
   switch (action.type) {
     case GET_ARTICLES_$_RECEIVED:
       return { all: [...action.articles], page: action.page };
+    case FAVORITE_ARTICLE_$_ADDED:
+      index = state.all.findIndex((oneArticle) => oneArticle.slug === action.article.slug);
+      return { all: [...state.all.slice(0, index), action.article, ...state.all.slice(index + 1)], page: state.page}
     default:
       return state;
   }
@@ -67,6 +75,7 @@ function gettingArticles (state = initialStateForGettingArticles, action) {
 function article(state = {}, action) {
   switch (action.type) {
     case GET_ARTICLE_$_RECEIVED:
+    case FAVORITE_ARTICLE_$_ADDED:
       return { ...action.article };
     default:
       return state;
@@ -210,6 +219,21 @@ function deletingArticle(state = initialStateForWorkWithArticle, action) {
   }
 }
 
+function favoritingArticle(state = initialStateForWorkWithArticle, action) {
+  switch(action.type) {
+    case FAVORITE_ARTICLE_$_LOADING:
+      return { success: false, error: false, loading: true };
+    case FAVORITE_ARTICLE_$_ADDED:
+      return { success: true, error: false, loading: false };
+    case FAVORITE_ARTICLE_$_NOT_ADDED:
+      return { success: false, error: true, loading: false };
+    case FAVORITE_ARTICLE_$_RESET:
+      return { success: false, error: false, loading: false };
+    default:
+      return state;
+  }
+}
+
 const reducer = combineReducers({
   articles,
   gettingArticles,
@@ -219,9 +243,10 @@ const reducer = combineReducers({
   creatingArticle,
   editingArticle,
   deletingArticle,
+  favoritingArticle,
   user,
   authorization,
-  registration
+  registration,
 });
 
 export default reducer;

@@ -32,7 +32,11 @@ import {
   DELETE_ARTICLE_$_LOADING,
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
-  DELETE_ARTICLE_$_RESET
+  DELETE_ARTICLE_$_RESET,
+  FAVORITE_ARTICLE_$_LOADING,
+  FAVORITE_ARTICLE_$_ADDED,
+  FAVORITE_ARTICLE_$_NOT_ADDED,
+  FAVORITE_ARTICLE_$_RESET
 } from './action-types';
 
 
@@ -44,7 +48,8 @@ import {
   editProfile,
   createArticle,
   editArticle,
-  deleteArticle
+  deleteArticle,
+  favoriteOrUnfavoriteArticle
 } from '../services/article-service';
 
 const getArticles$Received = (articles, page) => ({
@@ -61,11 +66,11 @@ export const getArticles$Loading = () => ({
   type: GET_ARTICLES_$_LOADING,
 })
 
-export const asyncGetArticles = (page) => {
+export const asyncGetArticles = (token, page) => {
   return async function inside(dispatch) {
     try {
       dispatch(getArticles$Loading());
-      const response = await getArticlesFromAPI(page);
+      const response = await getArticlesFromAPI(token, page);
       const { articles } = response;
       dispatch(getArticles$Received(articles, page));
     } catch (error) {
@@ -87,10 +92,10 @@ export const getArticle$Loading = () => ({
   type: GET_ARTICLE_$_LOADING,
 })
 
-export const asyncGetArticle = (slug) => {
+export const asyncGetArticle = (token, slug) => {
   return async function inside(dispatch) {
     try {
-      const response = await getArticleFromAPI(slug);
+      const response = await getArticleFromAPI(token, slug);
       const { article } = response;
       dispatch(getArticle$Received(article));
     } catch (error) {
@@ -317,6 +322,36 @@ export const asyncDeleteArticle = (token, slug) => {
       dispatch(deleteArticle$Deleted());
     } catch(error) {
       dispatch(deleteArticle$NotDeleted());
+    }
+  }
+}
+
+const favoriteArticle$Added = (article) => ({
+  type: FAVORITE_ARTICLE_$_ADDED,
+  article,
+})
+
+const favoriteArticle$NotAdded = () => ({
+  type: FAVORITE_ARTICLE_$_NOT_ADDED,
+})
+
+const favoriteArticle$Loading = () => ({
+  type: FAVORITE_ARTICLE_$_LOADING,
+})
+
+export const favoriteArticle$Reset = () => ({
+  type: FAVORITE_ARTICLE_$_RESET,
+})
+
+export const asyncFavoriteArticle = (token, slug, isFavorite) => {
+  return async function inside(dispatch) {
+    try {
+      dispatch(favoriteArticle$Loading());
+      const response = await favoriteOrUnfavoriteArticle(token, slug, isFavorite);
+      const { article } = response;
+      dispatch(favoriteArticle$Added(article));
+    } catch(error) {
+      dispatch(favoriteArticle$NotAdded());
     }
   }
 }

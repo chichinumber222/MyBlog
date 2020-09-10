@@ -17,3 +17,7 @@
 .errorNotification {
   composes: alert from '../../styles/styles-general.module.scss';
 }
+
+.location {
+  composes: locationInTheRightCorner from '../../styles/styles-general.module.scss';
+}
