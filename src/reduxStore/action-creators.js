@@ -33,7 +33,6 @@ import {
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
   DELETE_ARTICLE_$_RESET,
-  FAVORITE_ARTICLE_$_LOADING,
   FAVORITE_ARTICLE_$_ADDED,
   FAVORITE_ARTICLE_$_NOT_ADDED,
   FAVORITE_ARTICLE_$_RESET
@@ -326,17 +325,12 @@ export const asyncDeleteArticle = (token, slug) => {
   }
 }
 
-const favoriteArticle$Added = (article) => ({
+const favoriteArticle$Added = () => ({
   type: FAVORITE_ARTICLE_$_ADDED,
-  article,
 })
 
 const favoriteArticle$NotAdded = () => ({
   type: FAVORITE_ARTICLE_$_NOT_ADDED,
-})
-
-const favoriteArticle$Loading = () => ({
-  type: FAVORITE_ARTICLE_$_LOADING,
 })
 
 export const favoriteArticle$Reset = () => ({
@@ -346,10 +340,9 @@ export const favoriteArticle$Reset = () => ({
 export const asyncFavoriteArticle = (token, slug, isFavorite) => {
   return async function inside(dispatch) {
     try {
-      dispatch(favoriteArticle$Loading());
-      const response = await favoriteOrUnfavoriteArticle(token, slug, isFavorite);
-      const { article } = response;
-      dispatch(favoriteArticle$Added(article));
+      dispatch(favoriteArticle$Reset());
+      await favoriteOrUnfavoriteArticle(token, slug, isFavorite);
+      dispatch(favoriteArticle$Added());
     } catch(error) {
       dispatch(favoriteArticle$NotAdded());
     }

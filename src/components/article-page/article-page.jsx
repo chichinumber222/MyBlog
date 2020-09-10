@@ -20,8 +20,8 @@ function ArticlePage(props) {
     asyncFavoriteArticle,
     user,
     loadingLaunchForGettingArticle,
-    resetForDeletingArticle,   
-    resetForFavoritingArticle
+    resetForDeletingArticle,
+    resetForFavoritingArticle   
   } = props;
 
   const {
@@ -61,6 +61,8 @@ function ArticlePage(props) {
         showEditAndDelete={user.username === author.username} 
         articleDeleteHandler={() => asyncDeleteArticle(user.token, slug)}
         articleFavoriteHandler={articleFavoriteHandler}
+        errorLike={favoritingArticle.error}
+        disableLike={!Boolean(user.token)}
       />
       <StyledSpinner className={styles.location} title="Loading..." isLoading={deletingArticle.loading || favoritingArticle.loading}/>
       <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error}/>

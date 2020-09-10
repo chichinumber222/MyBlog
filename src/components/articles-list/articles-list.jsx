@@ -39,7 +39,7 @@ function ArticlesList(props) {
 
   const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncFavoriteArticle(user.token, articleSlug, isFavorite) : () => {};
 
-  const elements = articles.map((article) => <Article key={article.slug} {...article} articleFavoriteHandler={articleFavoriteHandler}/>);
+  const elements = articles.map((article) => <Article key={article.slug} {...article} errorLike={favoritingArticle.error} disableLike={!Boolean(user.token)} articleFavoriteHandler={articleFavoriteHandler}/>);
   
   return (
     <div>

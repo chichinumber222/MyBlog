@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
@@ -18,18 +18,40 @@ function Article(props) {
     title,
     description,
     tagList,
+    favorited,
     favoritesCount,
     author,
     createdAt,
     slug,
     body,
-    favorited,
     isList,
     showEditAndDelete,
+    disableLike,
     articleDeleteHandler,
     articleFavoriteHandler,
+    errorLike
   } = props;
-  
+
+  const [like, changeLike] = useState({active: favorited, count: favoritesCount});
+
+  const changeCheckbox = () => {
+    if (disableLike) return;
+    changeLike((prevLike) => {
+      const {active, count} = prevLike;
+      return {active: !active, count: active ? count - 1: count + 1};
+    });
+    articleFavoriteHandler(!like.active, slug);
+  }
+
+  useEffect(() => {
+    if (errorLike && favorited !== like.active) {
+      changeLike((prevLike) => {
+        const {active, count} = prevLike;
+        return {active: !active, count: active ? count - 1: count + 1};
+      })
+    }
+  }, [errorLike, like.active, favorited])
+
   return (
     <div className={styles.article}>
       <div className={classNames(styles.main, isList ? styles.mainForList : styles.mainForPage)}>
@@ -37,11 +59,13 @@ function Article(props) {
           <StyledLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
           </StyledLink>
+
           <label className={styles.customCheckbox}>
-            <input className={styles.checkbox} type="checkbox" onChange={() => articleFavoriteHandler(!favorited, slug)} />
-            <span className={classNames(styles.heart, favorited && styles.heartActive)} />
-            <span className={styles.heartsCount}>{favoritesCount}</span>
+            <input className={styles.checkbox} type="checkbox" onChange={changeCheckbox} />
+            <span className={classNames(styles.heart, like.active && styles.heartActive)} />
+            <span className={styles.heartsCount}>{like.count}</span>
           </label>
+
           <div className={styles.tags}>{tagsCreator(tagList)}</div>
           <p className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}>
             {description}
@@ -105,6 +129,8 @@ Article.propTypes = {
   showEditAndDelete: PropTypes.bool,
   articleDeleteHandler: PropTypes.func,
   articleFavoriteHandler: PropTypes.func.isRequired,
+  errorLike: PropTypes.bool.isRequired,
+  disableLike: PropTypes.bool.isRequired,
 };
 
 export default Article;
