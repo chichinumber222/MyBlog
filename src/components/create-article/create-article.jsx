@@ -23,13 +23,8 @@ function CreateArticle(props) {
 
   return (
     <div>
-      <Form
-        mission="create"
-        actionCreatorWithDispatch={asyncCreateArticle}
-        user={user}
-        error={error}
-      />
-      <StyledSpinner className={styles.location} title="Creating..." isLoading={loading}/>
+      <Form mission="create" actionCreatorWithDispatch={asyncCreateArticle} user={user} error={error} />
+      <StyledSpinner className={styles.location} title="Creating..." isLoading={loading} />
     </div>
   );
 }

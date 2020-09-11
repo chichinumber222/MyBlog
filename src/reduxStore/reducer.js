@@ -34,15 +34,13 @@ import {
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
   DELETE_ARTICLE_$_RESET,
-  FAVORITE_ARTICLE_$_NOT_ADDED,
-  FAVORITE_ARTICLE_$_RESET
 } from './action-types';
 
 const initialStateForGettingArticles = {
   success: false,
   error: false,
   loading: true,
-}
+};
 
 function articles(state = { all: [], page: 0 }, action) {
   switch (action.type) {
@@ -53,10 +51,10 @@ function articles(state = { all: [], page: 0 }, action) {
   }
 }
 
-function gettingArticles (state = initialStateForGettingArticles, action) {
+function gettingArticles(state = initialStateForGettingArticles, action) {
   switch (action.type) {
     case GET_ARTICLES_$_LOADING:
-      return {success: false, error: false, loading: true };
+      return { success: false, error: false, loading: true };
     case GET_ARTICLES_$_RECEIVED:
       return { success: true, error: false, loading: false };
     case GET_ARTICLES_$_NOT_RECEIVED:
@@ -75,14 +73,14 @@ function article(state = {}, action) {
   }
 }
 
-function gettingArticle (state = initialStateForGettingArticles, action) {
+function gettingArticle(state = initialStateForGettingArticles, action) {
   switch (action.type) {
     case GET_ARTICLE_$_LOADING:
-      return {success: false, error: false, loading: true };
+      return { success: false, error: false, loading: true };
     case GET_ARTICLE_$_RECEIVED:
       return { success: true, error: false, loading: false };
     case GET_ARTICLE_$_NOT_RECEIVED:
-      return { success: false, error: true, loading: false };     
+      return { success: false, error: true, loading: false };
     default:
       return state;
   }
@@ -108,9 +106,9 @@ const initialStateForAuthentication = {
   error: false,
   loading: false,
   serverValidation: '',
-}
+};
 
-function authorization (state = initialStateForAuthentication, action) {
+function authorization(state = initialStateForAuthentication, action) {
   switch (action.type) {
     case AUTH_$_LOADING:
       return { success: false, error: false, loading: true, serverValidation: '' };
@@ -119,7 +117,7 @@ function authorization (state = initialStateForAuthentication, action) {
     case AUTH_$_NOT_COMPLETED:
       return { success: false, error: true, loading: false, serverValidation: '' };
     case AUTH_$_SERVER_VALIDATION:
-      return { success: false, error: false, loading: false, serverValidation: action.text};
+      return { success: false, error: false, loading: false, serverValidation: action.text };
     case AUTH_$_RESET:
       return { success: false, error: false, loading: false, serverValidation: '' };
     default:
@@ -127,16 +125,16 @@ function authorization (state = initialStateForAuthentication, action) {
   }
 }
 
-function registration (state = initialStateForAuthentication, action) {
+function registration(state = initialStateForAuthentication, action) {
   switch (action.type) {
     case REGISTRATION_$_LOADING:
-      return {success: false, error: false, loading: true, serverValidation: '' };
+      return { success: false, error: false, loading: true, serverValidation: '' };
     case REGISTRATION_$_COMPLETED:
       return { success: true, error: false, loading: false, serverValidation: '' };
     case REGISTRATION_$_NOT_COMPLETED:
       return { success: false, error: true, loading: false, serverValidation: '' };
     case REGISTRATION_$_SERVER_VALIDATION:
-      return { success: false, error: false, loading: false, serverValidation: action.text};
+      return { success: false, error: false, loading: false, serverValidation: action.text };
     case REGISTRATION_$_RESET:
       return { success: false, error: false, loading: false, serverValidation: '' };
     default:
@@ -144,16 +142,16 @@ function registration (state = initialStateForAuthentication, action) {
   }
 }
 
-function editingProfile (state = initialStateForAuthentication, action) {
+function editingProfile(state = initialStateForAuthentication, action) {
   switch (action.type) {
     case EDIT_PROFILE_$_LOADING:
-      return {success: false, error: false, loading: true, serverValidation: '' };
+      return { success: false, error: false, loading: true, serverValidation: '' };
     case EDIT_PROFILE_$_EDITED:
       return { success: true, error: false, loading: false, serverValidation: '' };
     case EDIT_PROFILE_$_NOT_EDITED:
       return { success: false, error: true, loading: false, serverValidation: '' };
     case EDIT_PROFILE_$_SERVER_VALIDATION:
-      return { success: false, error: false, loading: false, serverValidation: action.text};
+      return { success: false, error: false, loading: false, serverValidation: action.text };
     case EDIT_PROFILE_$_RESET:
       return { success: false, error: false, loading: false, serverValidation: '' };
     default:
@@ -165,9 +163,9 @@ const initialStateForWorkWithArticle = {
   success: false,
   error: false,
   loading: false,
-}
+};
 
-function creatingArticle (state = initialStateForWorkWithArticle, action) {
+function creatingArticle(state = initialStateForWorkWithArticle, action) {
   switch (action.type) {
     case CREATE_ARTICLE_$_LOADING:
       return { success: false, error: false, loading: true };
@@ -182,7 +180,7 @@ function creatingArticle (state = initialStateForWorkWithArticle, action) {
   }
 }
 
-function editingArticle (state = initialStateForWorkWithArticle, action) {
+function editingArticle(state = initialStateForWorkWithArticle, action) {
   switch (action.type) {
     case EDIT_ARTICLE_$_LOADING:
       return { success: false, error: false, loading: true };
@@ -214,19 +212,6 @@ function deletingArticle(state = initialStateForWorkWithArticle, action) {
   }
 }
 
-function errorFavoritingArticle(state = false, action) {
-  switch(action.type) {
-    case FAVORITE_ARTICLE_$_NOT_ADDED:
-      return true;
-    case FAVORITE_ARTICLE_$_RESET:
-    case GET_ARTICLES_$_LOADING:
-    case GET_ARTICLE_$_LOADING:
-      return false;
-    default:
-      return state;
-  }
-}
-
 const reducer = combineReducers({
   articles,
   gettingArticles,
@@ -236,7 +221,6 @@ const reducer = combineReducers({
   creatingArticle,
   editingArticle,
   deletingArticle,
-  errorFavoritingArticle,
   user,
   authorization,
   registration,

@@ -41,13 +41,7 @@ function EditArticle(props) {
     return <Alert className={styles.errorNotification} message="Sorry, no article" type="error" />;
   }
 
-  const {
-    author,
-    title,
-    description,
-    body,
-    tagList,
-  } = article;
+  const { author, title, description, body, tagList } = article;
 
   if (user.username !== author.username || editingArticle.success) {
     const index = url.lastIndexOf('edit');
@@ -65,7 +59,7 @@ function EditArticle(props) {
         user={user}
         error={editingArticle.error}
       />
-      <StyledSpinner className={styles.location} title="Editing..." isLoading={editingArticle.loading}/>
+      <StyledSpinner className={styles.location} title="Editing..." isLoading={editingArticle.loading} />
     </div>
   );
 }
@@ -92,12 +86,12 @@ EditArticle.propTypes = {
   gettingArticle: PropTypes.shape({
     success: PropTypes.bool,
     error: PropTypes.bool,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }).isRequired,
   editingArticle: PropTypes.shape({
     success: PropTypes.bool,
     error: PropTypes.bool,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
   }).isRequired,
   article: PropTypes.shape({
     slug: PropTypes.string.isRequired,

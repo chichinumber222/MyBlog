@@ -102,7 +102,7 @@
   .buttons {
     display: flex;
     justify-content: flex-end;
-  
+
     .delete {
       @include button(#f5222d, 14px, #f5222d, 6px 17px, 12%);
     }

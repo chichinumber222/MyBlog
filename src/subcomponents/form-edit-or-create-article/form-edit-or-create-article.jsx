@@ -12,11 +12,20 @@ function FormEditOrCreateArticle(props) {
   const { mission, actionCreatorWithDispatch, defaultValues, defaultTags, user, error } = props;
   const { register, handleSubmit, watch, errors } = useForm({ defaultValues });
 
-  const formattedDefaultTags =  defaultTags.map((tagValue) => {
+  const formattedDefaultTags = defaultTags.map((tagValue) => {
     const name = `tag${newId()}`;
-    const tag = <TagField key={name} name={name} placeholder="Tag" onClickButton={deleteTag} defaultValue={tagValue} ref={register()} />;
+    const tag = (
+      <TagField
+        key={name}
+        name={name}
+        placeholder="Tag"
+        onClickButton={deleteTag}
+        defaultValue={tagValue}
+        ref={register()}
+      />
+    );
     return { name, node: tag };
-  })
+  });
 
   const [tags, changeTags] = useState(formattedDefaultTags);
 
@@ -36,7 +45,7 @@ function FormEditOrCreateArticle(props) {
 
   const submit = () => {
     const tagList = tags.map((tag) => watch(tag.name));
-    tagList.push("");
+    tagList.push('');
     actionCreatorWithDispatch(user.token, watch('title'), watch('description'), watch('text'), tagList);
   };
 

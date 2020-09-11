@@ -11,13 +11,7 @@ function Header({ user, logOuting }) {
       <Link to="/" className={styles.title}>
         Realworld Blog
       </Link>
-      <div>
-        {user.username ? (
-          <GroupButtonsAuth user={user} logOuting={logOuting} />
-        ) : (
-          <GroupButtonsNonAuth />
-        )}
-      </div>
+      <div>{user.username ? <GroupButtonsAuth user={user} logOuting={logOuting} /> : <GroupButtonsNonAuth />}</div>
     </div>
   );
 }

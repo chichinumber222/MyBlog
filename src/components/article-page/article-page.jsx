@@ -5,7 +5,7 @@ import { Alert } from 'antd';
 import classNames from 'classnames';
 import Article from '../article';
 import StyledSpinner from '../../subcomponents/styled-spinner';
-import CornerNotice from "../../subcomponents/corner-notice";
+import CornerNotice from '../../subcomponents/corner-notice';
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
@@ -16,10 +16,8 @@ function ArticlePage(props) {
     asyncGetArticle,
     deletingArticle,
     asyncDeleteArticle,
-    errorFavoritingArticle,
-    asyncFavoriteArticle,
     user,
-    loadingLaunchForGettingArticle 
+    loadingLaunchForGettingArticle,
   } = props;
 
   const {
@@ -40,29 +38,25 @@ function ArticlePage(props) {
   }
 
   if (deletingArticle.success) {
-    return <Redirect to="/"/>;
+    return <Redirect to="/" />;
   }
-  
-  const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncFavoriteArticle(user.token, articleSlug, isFavorite) : () => {};
 
   const { author } = article;
 
   return (
     <div>
-      <Article 
-        {...article} 
-        isList={false} 
-        showEditAndDelete={user.username === author.username} 
-        articleDeleteHandler={() => asyncDeleteArticle(user.token, slug)}
-        articleFavoriteHandler={articleFavoriteHandler}
-        errorFavoritingArticle={errorFavoritingArticle}
+      <Article
+        {...article}
+        isList={false}
+        showEditAndDelete={user.username === author.username}
+        articleDeleteHandler={asyncDeleteArticle}
         disableFavoritingArticle={!user.token}
+        token={user.token}
       />
-      <StyledSpinner className={styles.location} title="Deleting..." isLoading={deletingArticle.loading}/>
-      <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error}/>
-      <CornerNotice type="error" message="Favorite failed" isActive={errorFavoritingArticle}/>
+      <StyledSpinner className={styles.location} title="Deleting..." isLoading={deletingArticle.loading} />
+      <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error} />
     </div>
-  )  
+  );
 }
 
 ArticlePage.propTypes = {
@@ -74,7 +68,6 @@ ArticlePage.propTypes = {
   }).isRequired,
   asyncGetArticle: PropTypes.func.isRequired,
   asyncDeleteArticle: PropTypes.func.isRequired,
-  asyncFavoriteArticle: PropTypes.func.isRequired,
   article: PropTypes.shape({
     slug: PropTypes.string.isRequired,
     title: PropTypes.string,
@@ -102,7 +95,6 @@ ArticlePage.propTypes = {
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }).isRequired,
-  errorFavoritingArticle: PropTypes.bool.isRequired,
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,

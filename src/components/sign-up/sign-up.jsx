@@ -28,10 +28,9 @@ function SignUp({ asyncRegistration, reset, registration }) {
 
   return (
     <form className={styles.signUp} onSubmit={handleSubmit(submit)}>
-
       {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
       {error && <p className={styles.errorRegistration}>Failed Registration</p>}
-      {<StyledSpinner className={styles.location} title="Loading.." isLoading={loading}/>}
+      {<StyledSpinner className={styles.location} title="Loading.." isLoading={loading} />}
 
       <h2>Create new account</h2>
       <CustomFormField

@@ -9,12 +9,7 @@ import StyledSpinner from '../../subcomponents/styled-spinner';
 import styles from './edit-profile.module.scss';
 
 function EditProfile(props) {
-  const {
-    user,
-    asyncEditProfile,
-    reset,
-    editingProfile,
-  } = props;
+  const { user, asyncEditProfile, reset, editingProfile } = props;
   const { success, loading, error, serverValidation } = editingProfile;
 
   const { register, handleSubmit, watch, errors } = useForm({
@@ -34,7 +29,7 @@ function EditProfile(props) {
   };
 
   if (!Object.keys(user).length) {
-    return <Redirect to='sign-in' />;
+    return <Redirect to="sign-in" />;
   }
 
   if (success) {
@@ -43,7 +38,6 @@ function EditProfile(props) {
 
   return (
     <form className={styles.editProfile} onSubmit={handleSubmit(submit)}>
-
       {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
       {error && <p className={styles.errorEditing}>Failed Editing</p>}
       {<StyledSpinner className={styles.location} title="Editing..." isLoading={loading} />}

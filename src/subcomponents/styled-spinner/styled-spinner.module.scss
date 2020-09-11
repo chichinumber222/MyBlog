@@ -6,9 +6,9 @@
   align-items: center;
 
   .loading {
-    @include spinner(#C8B5D2, 20px, 0.3s);
+    @include spinner(#c8b5d2, 20px, 0.3s);
   }
-  
+
   .title {
     font-size: 15px;
   }

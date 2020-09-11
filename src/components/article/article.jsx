@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
-import { Popconfirm } from 'antd';
+import { Popconfirm, message } from 'antd';
 import Markdown from 'markdown-to-jsx';
 import classNames from 'classnames';
 import StyledLink from '../../subcomponents/styled-link';
 import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
+import { favoriteOrUnfavoriteArticle } from '../../services/article-service';
 import styles from './article.module.scss';
 
 function tagsCreator(tags) {
@@ -27,24 +28,34 @@ function Article(props) {
     isList,
     showEditAndDelete,
     disableFavoritingArticle,
-    errorFavoritingArticle,
     articleDeleteHandler,
-    articleFavoriteHandler,
+    token,
   } = props;
 
-  const [stateOfFavorites, setStateOfFavorites] = useState({active: favorited, count: favoritesCount});
+  const [stateOfFavorites, setStateOfFavorites] = useState({ active: favorited, count: favoritesCount });
+  const [error, setError] = useState(false);
+
+  useEffect(() => {
+    if (error) {
+      setStateOfFavorites((prevState) => ({
+        active: !prevState.active,
+        count: prevState.active ? prevState.count - 1 : prevState.count + 1,
+      }));
+    }
+    return setError(false);
+  }, [error]);
 
   const changeCheckbox = () => {
     if (disableFavoritingArticle) return;
-    setStateOfFavorites((prevState) => ({active: !prevState.active, count: prevState.active ? prevState.count - 1: prevState.count + 1}));
-    articleFavoriteHandler(!stateOfFavorites.active, slug);
-  }
-
-  useEffect(() => {
-    if (errorFavoritingArticle && stateOfFavorites.active !== favorited) {
-      setStateOfFavorites((prevState) => ({active: !prevState.active, count: prevState.active ? prevState.count - 1: prevState.count + 1}));
-    }
-  }, [errorFavoritingArticle, stateOfFavorites.active, favorited])
+    setStateOfFavorites((prevState) => ({
+      active: !prevState.active,
+      count: prevState.active ? prevState.count - 1 : prevState.count + 1,
+    }));
+    favoriteOrUnfavoriteArticle(token, slug, !stateOfFavorites.active).catch(() => {
+      setError(true);
+      message.error('Failed to add favorites', 1.3);
+    });
+  };
 
   return (
     <div className={styles.article}>
@@ -53,15 +64,15 @@ function Article(props) {
           <StyledLink to={`/articles/${slug}`} className={styles.title} isActive={isList}>
             {title}
           </StyledLink>
-
           <label className={styles.customCheckbox}>
             <input className={styles.checkbox} type="checkbox" onChange={changeCheckbox} />
             <span className={classNames(styles.heart, stateOfFavorites.active && styles.heartActive)} />
             <span className={styles.heartsCount}>{stateOfFavorites.count}</span>
           </label>
-
           <div className={styles.tags}>{tagsCreator(tagList)}</div>
-          <p className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}>
+          <p
+            className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}
+          >
             {description}
           </p>
         </div>
@@ -74,12 +85,12 @@ function Article(props) {
           />
           {showEditAndDelete && (
             <div className={styles.buttons}>
-              <Popconfirm 
+              <Popconfirm
                 placement="rightTop"
                 title="Are you sure to delete this article?"
                 okText="Yes"
                 cancelText="No"
-                onConfirm={articleDeleteHandler}
+                onConfirm={() => articleDeleteHandler(token, slug)}
                 overlayClassName={styles.popconfirm}
               >
                 <button className={styles.delete} type="button">
@@ -102,6 +113,7 @@ Article.defaultProps = {
   isList: true,
   showEditAndDelete: false,
   articleDeleteHandler: () => {},
+  token: '',
 };
 
 Article.propTypes = {
@@ -122,9 +134,8 @@ Article.propTypes = {
   isList: PropTypes.bool,
   showEditAndDelete: PropTypes.bool,
   articleDeleteHandler: PropTypes.func,
-  articleFavoriteHandler: PropTypes.func.isRequired,
-  errorFavoritingArticle: PropTypes.bool.isRequired,
   disableFavoritingArticle: PropTypes.bool.isRequired,
+  token: PropTypes.string,
 };
 
 export default Article;

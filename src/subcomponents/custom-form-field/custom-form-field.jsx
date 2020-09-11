@@ -21,7 +21,7 @@ const CustomFormField = React.forwardRef((props, ref) => {
         />
       ) : (
         <input
-          className={classNames(styles.input,errorMessage && styles.err)}
+          className={classNames(styles.input, errorMessage && styles.err)}
           id={id}
           type={type}
           name={name}

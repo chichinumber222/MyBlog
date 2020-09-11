@@ -1,9 +1,9 @@
 .signIn {
-  composes: standartForm from "../../styles/styles-general.module.scss";
+  composes: standartForm from '../../styles/styles-general.module.scss';
 }
 
 .submit {
-  composes: submitButton from "../../styles/styles-general.module.scss";
+  composes: submitButton from '../../styles/styles-general.module.scss';
 }
 
 .notHaveAnAccount {
@@ -19,5 +19,5 @@
 }
 
 .location {
-  composes: locationInTheRightCorner from "../../styles/styles-general.module.scss";
+  composes: locationInTheRightCorner from '../../styles/styles-general.module.scss';
 }

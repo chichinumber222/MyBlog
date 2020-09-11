@@ -25,10 +25,9 @@ function SignIn({ asyncAuthorization, reset, authorization }) {
 
   return (
     <form className={styles.signIn} onSubmit={handleSubmit(submit)}>
-
       {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
       {error && <p className={styles.errorAuthentication}>Failed Authentication</p>}
-      {<StyledSpinner className={styles.location} title="Loading..." isLoading={loading}/>}
+      {<StyledSpinner className={styles.location} title="Loading..." isLoading={loading} />}
 
       <h2>Sign In</h2>
       <CustomFormField

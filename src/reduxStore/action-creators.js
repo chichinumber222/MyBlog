@@ -28,15 +28,10 @@ import {
   EDIT_ARTICLE_$_LOADING,
   EDIT_ARTICLE_$_EDITED,
   EDIT_ARTICLE_$_NOT_EDITED,
-  EDIT_ARTICLE_$_RESET,
   DELETE_ARTICLE_$_LOADING,
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
-  DELETE_ARTICLE_$_RESET,
-  FAVORITE_ARTICLE_$_NOT_ADDED,
-  FAVORITE_ARTICLE_$_RESET
 } from './action-types';
-
 
 import {
   getArticlesFromAPI,
@@ -47,7 +42,6 @@ import {
   createArticle,
   editArticle,
   deleteArticle,
-  favoriteOrUnfavoriteArticle
 } from '../services/article-service';
 
 const getArticles$Received = (articles, page) => ({
@@ -62,7 +56,7 @@ const getArticles$NotReceived = () => ({
 
 export const getArticles$Loading = () => ({
   type: GET_ARTICLES_$_LOADING,
-})
+});
 
 export const asyncGetArticles = (token, page) => {
   return async function inside(dispatch) {
@@ -88,7 +82,7 @@ const getArticle$NotReceived = () => ({
 
 export const getArticle$Loading = () => ({
   type: GET_ARTICLE_$_LOADING,
-})
+});
 
 export const asyncGetArticle = (token, slug) => {
   return async function inside(dispatch) {
@@ -113,16 +107,16 @@ const registration$NotCompleted = () => ({
 
 const registration$Loading = () => ({
   type: REGISTRATION_$_LOADING,
-})
+});
 
 const registration$ServerValidation = (text) => ({
   type: REGISTRATION_$_SERVER_VALIDATION,
   text,
-})
+});
 
 export const registration$Reset = () => ({
   type: REGISTRATION_$_RESET,
-})
+});
 
 export const asyncRegistration = (username, email, password) => {
   return async function inside(dispatch) {
@@ -148,24 +142,24 @@ export const asyncRegistration = (username, email, password) => {
 const auth$Completed = (user) => ({
   type: AUTH_$_COMPLETED,
   user,
-})
+});
 
 const auth$NotCompleted = () => ({
   type: AUTH_$_NOT_COMPLETED,
-})
+});
 
 const auth$Loading = () => ({
   type: AUTH_$_LOADING,
-})
+});
 
 const auth$ServerValidation = (text) => ({
   type: AUTH_$_SERVER_VALIDATION,
   text,
-})
+});
 
 export const auth$Reset = () => ({
-  type: AUTH_$_RESET
-})
+  type: AUTH_$_RESET,
+});
 
 export const asyncAuthorization = (email, password) => {
   return async function inside(dispatch) {
@@ -208,16 +202,16 @@ const editProfile$NotEdited = () => ({
 
 const editProfile$Loading = () => ({
   type: EDIT_PROFILE_$_LOADING,
-})
+});
 
 const editProfile$ServerValidation = (text) => ({
   type: EDIT_PROFILE_$_SERVER_VALIDATION,
   text,
-})
+});
 
 export const editProfile$Reset = () => ({
   type: EDIT_PROFILE_$_RESET,
-})
+});
 
 export const asyncEditProfile = (token, username, email, password, image) => {
   return async function inside(dispatch) {
@@ -250,11 +244,11 @@ const createArticle$NotCreated = () => ({
 
 const createArticle$Loading = () => ({
   type: CREATE_ARTICLE_$_LOADING,
-})
+});
 
 export const createArticle$Reset = () => ({
   type: CREATE_ARTICLE_$_RESET,
-})
+});
 
 export const asyncCreateArticle = (token, title, description, body, tagList) => {
   return async function inside(dispatch) {
@@ -270,15 +264,15 @@ export const asyncCreateArticle = (token, title, description, body, tagList) => 
 
 const editArticle$Edited = () => ({
   type: EDIT_ARTICLE_$_EDITED,
-})
+});
 
 const editArticle$NotEdited = () => ({
   type: EDIT_ARTICLE_$_NOT_EDITED,
-})
+});
 
 const editArticle$Loading = () => ({
   type: EDIT_ARTICLE_$_LOADING,
-})
+});
 
 export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
   return async function inside(dispatch) {
@@ -286,23 +280,23 @@ export const asyncEditArticle = (token, title, description, body, tagList, slug)
       dispatch(editArticle$Loading());
       await editArticle(token, title, description, body, tagList, slug);
       dispatch(editArticle$Edited());
-    } catch(error) {
+    } catch (error) {
       dispatch(editArticle$NotEdited());
     }
-  }
-}
+  };
+};
 
 const deleteArticle$Deleted = () => ({
   type: DELETE_ARTICLE_$_DELETED,
-})
+});
 
 const deleteArticle$NotDeleted = () => ({
   type: DELETE_ARTICLE_$_NOT_DELETED,
-})
+});
 
 const deleteArticle$Loading = () => ({
   type: DELETE_ARTICLE_$_LOADING,
-})
+});
 
 export const asyncDeleteArticle = (token, slug) => {
   return async function inside(dispatch) {
@@ -310,27 +304,8 @@ export const asyncDeleteArticle = (token, slug) => {
       dispatch(deleteArticle$Loading());
       await deleteArticle(token, slug);
       dispatch(deleteArticle$Deleted());
-    } catch(error) {
+    } catch (error) {
       dispatch(deleteArticle$NotDeleted());
     }
-  }
-}
-
-const favoriteArticle$NotAdded = () => ({
-  type: FAVORITE_ARTICLE_$_NOT_ADDED,
-})
-
-const favoriteArticle$Reset = () => ({
-  type: FAVORITE_ARTICLE_$_RESET,
-})
-
-export const asyncFavoriteArticle = (token, slug, isFavorite) => {
-  return async function inside(dispatch) {
-    try {
-      dispatch(favoriteArticle$Reset());
-      await favoriteOrUnfavoriteArticle(token, slug, isFavorite);
-    } catch(error) {
-      dispatch(favoriteArticle$NotAdded());
-    }
-  }
-}
+  };
+};

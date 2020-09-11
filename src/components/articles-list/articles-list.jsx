@@ -4,20 +4,10 @@ import { Pagination, Alert } from 'antd';
 import 'antd/dist/antd.css';
 import classNames from 'classnames';
 import Article from '../article';
-import CornerNotice from '../../subcomponents/corner-notice';
 import styles from './articles-list.module.scss';
 
 function ArticlesList(props) {
-  const {
-    user,
-    articles,
-    page,
-    gettingArticles,
-    asyncGetArticles,
-    errorFavoritingArticle,
-    asyncFavoriteArticle,
-    loadingLaunchForGettingArticles
-  } = props;
+  const { user, articles, page, gettingArticles, asyncGetArticles, loadingLaunchForGettingArticles } = props;
   const { error, loading } = gettingArticles;
 
   useEffect(() => {
@@ -33,20 +23,10 @@ function ArticlesList(props) {
     return <Alert className={styles.errorNotification} message="Sorry, articles not received" type="error" />;
   }
 
-  const articleFavoriteHandler = user.token ? (isFavorite, articleSlug) => asyncFavoriteArticle(user.token, articleSlug, isFavorite) : () => {};
-
   const elements = articles.map((article) => {
-    return (
-      <Article 
-        key={article.slug} 
-        {...article} 
-        articleFavoriteHandler={articleFavoriteHandler}
-        disableFavoritingArticle={!user.token} 
-        errorFavoritingArticle={errorFavoritingArticle} 
-      />
-    )
+    return <Article key={article.slug} {...article} disableFavoritingArticle={!user.token} token={user.token} />;
   });
-  
+
   return (
     <div>
       {elements}
@@ -60,13 +40,12 @@ function ArticlesList(props) {
         onChange={(pages) => asyncGetArticles(user.token, pages)}
         showQuickJumper
       />
-      <CornerNotice type="error" message="Favorite failed" isActive={errorFavoritingArticle}/>
     </div>
   );
 }
 
 ArticlesList.propTypes = {
-    user: PropTypes.shape({
+  user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
     createdAt: PropTypes.string,
@@ -83,9 +62,7 @@ ArticlesList.propTypes = {
     error: PropTypes.bool,
     loading: PropTypes.bool,
   }).isRequired,
-  errorFavoritingArticle: PropTypes.bool.isRequired,
   asyncGetArticles: PropTypes.func.isRequired,
-  asyncFavoriteArticle: PropTypes.func.isRequired,
   loadingLaunchForGettingArticles: PropTypes.func.isRequired,
 };
 
