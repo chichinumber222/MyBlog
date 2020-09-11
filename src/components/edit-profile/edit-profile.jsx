@@ -46,7 +46,7 @@ function EditProfile(props) {
 
       {serverValidation && <p className={styles.serverValidations}>{serverValidation}</p>}
       {error && <p className={styles.errorEditing}>Failed Editing</p>}
-      {<StyledSpinner className={styles.location} title="Loading..." isLoading={loading} />}
+      {<StyledSpinner className={styles.location} title="Editing..." isLoading={loading} />}
 
       <h2>Edit Profile</h2>
       <CustomFormField

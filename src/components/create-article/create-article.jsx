@@ -29,7 +29,7 @@ function CreateArticle(props) {
         user={user}
         error={error}
       />
-      <StyledSpinner className={styles.location} title="Loading..." isLoading={loading}/>
+      <StyledSpinner className={styles.location} title="Creating..." isLoading={loading}/>
     </div>
   );
 }

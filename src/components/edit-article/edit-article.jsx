@@ -17,7 +17,6 @@ function EditArticle(props) {
     user,
     article,
     loadingLaunchForGettingArticle,
-    resetForEditingArticle,
   } = props;
 
   const {
@@ -27,11 +26,8 @@ function EditArticle(props) {
 
   useEffect(() => {
     asyncGetArticle(user.token, slug);
-    return () => {
-      loadingLaunchForGettingArticle();
-      resetForEditingArticle();
-    };
-  }, [user.token, asyncGetArticle, loadingLaunchForGettingArticle, resetForEditingArticle, slug]);
+    return loadingLaunchForGettingArticle;
+  }, [user.token, asyncGetArticle, loadingLaunchForGettingArticle, slug]);
 
   if (!Object.keys(user).length) {
     return <Redirect to="/sign-in" />;
@@ -69,7 +65,7 @@ function EditArticle(props) {
         user={user}
         error={editingArticle.error}
       />
-      <StyledSpinner className={styles.location} title="Loading..." isLoading={editingArticle.loading}/>
+      <StyledSpinner className={styles.location} title="Editing..." isLoading={editingArticle.loading}/>
     </div>
   );
 }
@@ -121,7 +117,6 @@ EditArticle.propTypes = {
     }).isRequired,
   }).isRequired,
   loadingLaunchForGettingArticle: PropTypes.func.isRequired,
-  resetForEditingArticle: PropTypes.func.isRequired,
 };
 
 export default EditArticle;

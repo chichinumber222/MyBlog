@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { asyncGetArticles, getArticles$Loading, asyncFavoriteArticle, favoriteArticle$Reset } from '../../reduxStore/action-creators';
+import { asyncGetArticles, getArticles$Loading, asyncFavoriteArticle } from '../../reduxStore/action-creators';
 import ArticlesList from '../../components/articles-list';
 
 const mapStateToProps = (state) => ({
@@ -7,14 +7,13 @@ const mapStateToProps = (state) => ({
   articles: state.articles.all,
   page: state.articles.page,
   gettingArticles: state.gettingArticles,
-  favoritingArticle: state.favoritingArticle,
+  errorFavoritingArticle: state.errorFavoritingArticle,
 });
 
 const mapDispatchToProps = {
   asyncGetArticles,
   loadingLaunchForGettingArticles: getArticles$Loading,
   asyncFavoriteArticle,
-  resetForFavoritingArticle: favoriteArticle$Reset,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ArticlesList);

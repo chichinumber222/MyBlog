@@ -34,7 +34,6 @@ import {
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
   DELETE_ARTICLE_$_RESET,
-  FAVORITE_ARTICLE_$_ADDED,
   FAVORITE_ARTICLE_$_NOT_ADDED,
   FAVORITE_ARTICLE_$_RESET
 } from './action-types';
@@ -192,6 +191,7 @@ function editingArticle (state = initialStateForWorkWithArticle, action) {
     case EDIT_ARTICLE_$_NOT_EDITED:
       return { success: false, error: true, loading: false };
     case EDIT_ARTICLE_$_RESET:
+    case GET_ARTICLE_$_LOADING:
       return { success: false, error: false, loading: false };
     default:
       return state;
@@ -207,25 +207,21 @@ function deletingArticle(state = initialStateForWorkWithArticle, action) {
     case DELETE_ARTICLE_$_NOT_DELETED:
       return { success: false, error: true, loading: false };
     case DELETE_ARTICLE_$_RESET:
+    case GET_ARTICLE_$_LOADING:
       return { success: false, error: false, loading: false };
     default:
       return state;
   }
 }
 
-const initialStateForFavoriteArticle = {
-  success: false,
-  error: false,
-}
-
-function favoritingArticle(state = initialStateForFavoriteArticle, action) {
+function errorFavoritingArticle(state = false, action) {
   switch(action.type) {
-    case FAVORITE_ARTICLE_$_ADDED:
-      return { success: true, error: false };
     case FAVORITE_ARTICLE_$_NOT_ADDED:
-      return { success: false, error: true };
+      return true;
     case FAVORITE_ARTICLE_$_RESET:
-      return { success: false, error: false };
+    case GET_ARTICLES_$_LOADING:
+    case GET_ARTICLE_$_LOADING:
+      return false;
     default:
       return state;
   }
@@ -240,7 +236,7 @@ const reducer = combineReducers({
   creatingArticle,
   editingArticle,
   deletingArticle,
-  favoritingArticle,
+  errorFavoritingArticle,
   user,
   authorization,
   registration,

@@ -33,7 +33,6 @@ import {
   DELETE_ARTICLE_$_DELETED,
   DELETE_ARTICLE_$_NOT_DELETED,
   DELETE_ARTICLE_$_RESET,
-  FAVORITE_ARTICLE_$_ADDED,
   FAVORITE_ARTICLE_$_NOT_ADDED,
   FAVORITE_ARTICLE_$_RESET
 } from './action-types';
@@ -281,10 +280,6 @@ const editArticle$Loading = () => ({
   type: EDIT_ARTICLE_$_LOADING,
 })
 
-export const editArticle$Reset = () => ({
-  type: EDIT_ARTICLE_$_RESET,
-})
-
 export const asyncEditArticle = (token, title, description, body, tagList, slug) => {
   return async function inside(dispatch) {
     try {
@@ -309,10 +304,6 @@ const deleteArticle$Loading = () => ({
   type: DELETE_ARTICLE_$_LOADING,
 })
 
-export const deleteArticle$Reset = () => ({
-  type: DELETE_ARTICLE_$_RESET,
-})
-
 export const asyncDeleteArticle = (token, slug) => {
   return async function inside(dispatch) {
     try {
@@ -325,15 +316,11 @@ export const asyncDeleteArticle = (token, slug) => {
   }
 }
 
-const favoriteArticle$Added = () => ({
-  type: FAVORITE_ARTICLE_$_ADDED,
-})
-
 const favoriteArticle$NotAdded = () => ({
   type: FAVORITE_ARTICLE_$_NOT_ADDED,
 })
 
-export const favoriteArticle$Reset = () => ({
+const favoriteArticle$Reset = () => ({
   type: FAVORITE_ARTICLE_$_RESET,
 })
 
@@ -342,7 +329,6 @@ export const asyncFavoriteArticle = (token, slug, isFavorite) => {
     try {
       dispatch(favoriteArticle$Reset());
       await favoriteOrUnfavoriteArticle(token, slug, isFavorite);
-      dispatch(favoriteArticle$Added());
     } catch(error) {
       dispatch(favoriteArticle$NotAdded());
     }

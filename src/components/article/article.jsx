@@ -26,31 +26,25 @@ function Article(props) {
     body,
     isList,
     showEditAndDelete,
-    disableLike,
+    disableFavoritingArticle,
+    errorFavoritingArticle,
     articleDeleteHandler,
     articleFavoriteHandler,
-    errorLike
   } = props;
 
-  const [like, changeLike] = useState({active: favorited, count: favoritesCount});
+  const [stateOfFavorites, setStateOfFavorites] = useState({active: favorited, count: favoritesCount});
 
   const changeCheckbox = () => {
-    if (disableLike) return;
-    changeLike((prevLike) => {
-      const {active, count} = prevLike;
-      return {active: !active, count: active ? count - 1: count + 1};
-    });
-    articleFavoriteHandler(!like.active, slug);
+    if (disableFavoritingArticle) return;
+    setStateOfFavorites((prevState) => ({active: !prevState.active, count: prevState.active ? prevState.count - 1: prevState.count + 1}));
+    articleFavoriteHandler(!stateOfFavorites.active, slug);
   }
 
   useEffect(() => {
-    if (errorLike && favorited !== like.active) {
-      changeLike((prevLike) => {
-        const {active, count} = prevLike;
-        return {active: !active, count: active ? count - 1: count + 1};
-      })
+    if (errorFavoritingArticle && stateOfFavorites.active !== favorited) {
+      setStateOfFavorites((prevState) => ({active: !prevState.active, count: prevState.active ? prevState.count - 1: prevState.count + 1}));
     }
-  }, [errorLike, like.active, favorited])
+  }, [errorFavoritingArticle, stateOfFavorites.active, favorited])
 
   return (
     <div className={styles.article}>
@@ -62,8 +56,8 @@ function Article(props) {
 
           <label className={styles.customCheckbox}>
             <input className={styles.checkbox} type="checkbox" onChange={changeCheckbox} />
-            <span className={classNames(styles.heart, like.active && styles.heartActive)} />
-            <span className={styles.heartsCount}>{like.count}</span>
+            <span className={classNames(styles.heart, stateOfFavorites.active && styles.heartActive)} />
+            <span className={styles.heartsCount}>{stateOfFavorites.count}</span>
           </label>
 
           <div className={styles.tags}>{tagsCreator(tagList)}</div>
@@ -129,8 +123,8 @@ Article.propTypes = {
   showEditAndDelete: PropTypes.bool,
   articleDeleteHandler: PropTypes.func,
   articleFavoriteHandler: PropTypes.func.isRequired,
-  errorLike: PropTypes.bool.isRequired,
-  disableLike: PropTypes.bool.isRequired,
+  errorFavoritingArticle: PropTypes.bool.isRequired,
+  disableFavoritingArticle: PropTypes.bool.isRequired,
 };
 
 export default Article;
