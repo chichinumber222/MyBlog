@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import { Alert } from 'antd';
+import { Alert, message } from 'antd';
 import classNames from 'classnames';
 import Article from '../article';
 import StyledSpinner from '../../subcomponents/styled-spinner';
-import CornerNotice from '../../subcomponents/corner-notice';
 import styles from './article-page.module.scss';
 
 function ArticlePage(props) {
@@ -28,6 +27,12 @@ function ArticlePage(props) {
     asyncGetArticle(user.token, slug);
     return loadingLaunchForGettingArticle;
   }, [user.token, asyncGetArticle, loadingLaunchForGettingArticle, slug]);
+
+  useEffect(() => {
+    if (deletingArticle.error) {
+      message.error("Delete failed", 1.3);
+    }
+  }, [deletingArticle.error]);
 
   if (gettingArticle.loading) {
     return <div className={classNames(styles.loading, styles.centered)} />;
@@ -54,7 +59,6 @@ function ArticlePage(props) {
         token={user.token}
       />
       <StyledSpinner className={styles.location} title="Deleting..." isLoading={deletingArticle.loading} />
-      <CornerNotice type="error" message="Delete failed" isActive={deletingArticle.error} />
     </div>
   );
 }

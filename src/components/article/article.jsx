@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { format } from 'date-fns';
 import { Link } from 'react-router-dom';
@@ -33,17 +33,6 @@ function Article(props) {
   } = props;
 
   const [stateOfFavorites, setStateOfFavorites] = useState({ active: favorited, count: favoritesCount });
-  const [error, setError] = useState(false);
-
-  useEffect(() => {
-    if (error) {
-      setStateOfFavorites((prevState) => ({
-        active: !prevState.active,
-        count: prevState.active ? prevState.count - 1 : prevState.count + 1,
-      }));
-    }
-    return setError(false);
-  }, [error]);
 
   const changeCheckbox = () => {
     if (disableFavoritingArticle) return;
@@ -51,8 +40,12 @@ function Article(props) {
       active: !prevState.active,
       count: prevState.active ? prevState.count - 1 : prevState.count + 1,
     }));
+
     favoriteOrUnfavoriteArticle(token, slug, !stateOfFavorites.active).catch(() => {
-      setError(true);
+      setStateOfFavorites((prevState) => ({
+        active: !prevState.active,
+        count: prevState.active ? prevState.count - 1 : prevState.count + 1,
+      }));
       message.error('Failed to add favorites', 1.3);
     });
   };
