@@ -8,7 +8,16 @@ export function getArticlesFromAPI(token, page) {
       Authorization: token ? `Token ${token}` : '',
     },
   };
-  return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`, options);
+  return request(`https://conduit.productionready.io/api/articles?limit=10&offset=${(page - 1) * 10}`, options).then(
+    ({ articles }) => {
+      const formattedArticles = articles.map((article) => {
+        const { tagList } = article;
+        const formattedTagList = tagList.map((textTag, index) => ({ id: index, text: textTag }));
+        return { ...article, tagList: formattedTagList };
+      });
+      return { articles: formattedArticles };
+    }
+  );
 }
 
 export function getArticleFromAPI(token, slug) {
@@ -19,7 +28,12 @@ export function getArticleFromAPI(token, slug) {
       Authorization: token ? `Token ${token}` : '',
     },
   };
-  return request(`https://conduit.productionready.io/api/articles/${slug}`, options);
+  return request(`https://conduit.productionready.io/api/articles/${slug}`, options).then(({ article }) => {
+    const { tagList } = article;
+    const formattedTagList = tagList.map((textTag, index) => ({ id: index, text: textTag }));
+    const formattedArticle = { ...article, tagList: formattedTagList };
+    return { article: formattedArticle };
+  });
 }
 
 export function registration(username, email, password) {

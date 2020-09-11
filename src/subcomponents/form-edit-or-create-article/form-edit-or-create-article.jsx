@@ -12,15 +12,15 @@ function FormEditOrCreateArticle(props) {
   const { mission, actionCreatorWithDispatch, defaultValues, defaultTags, user, error } = props;
   const { register, handleSubmit, watch, errors } = useForm({ defaultValues });
 
-  const formattedDefaultTags = defaultTags.map((tagValue) => {
-    const name = `tag${newId()}`;
+  const formattedDefaultTags = defaultTags.map(({id, text}) => {
+    const name = `tag${id}`;
     const tag = (
       <TagField
-        key={name}
+        key={id}
         name={name}
         placeholder="Tag"
         onClickButton={deleteTag}
-        defaultValue={tagValue}
+        defaultValue={text}
         ref={register()}
       />
     );
@@ -117,7 +117,7 @@ FormEditOrCreateArticle.propTypes = {
     description: PropTypes.string,
     text: PropTypes.string,
   }),
-  defaultTags: PropTypes.arrayOf(PropTypes.string),
+  defaultTags: PropTypes.arrayOf(PropTypes.object),
   user: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,

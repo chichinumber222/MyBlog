@@ -70,7 +70,7 @@ function EditProfile(props) {
         errorMessage={
           (errors.newPass?.type === 'required' && 'Enter new password') ||
           (errors.newPass?.type === 'minLength' && 'Your new password needs to be at least 8 characters.') ||
-          (errors.newPass?.type === 'maxLength' && 'Your new password too long')
+          (errors.newPass?.type === 'maxLength' && 'Your new password too long') || ''
         }
       >
         New password

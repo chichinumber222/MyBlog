@@ -30,7 +30,7 @@ function ArticlePage(props) {
 
   useEffect(() => {
     if (deletingArticle.error) {
-      message.error("Delete failed", 1.3);
+      message.error('Delete failed', 1.3);
     }
   }, [deletingArticle.error]);
 
@@ -47,7 +47,6 @@ function ArticlePage(props) {
   }
 
   const { author } = article;
-
   return (
     <div>
       <Article
@@ -73,21 +72,21 @@ ArticlePage.propTypes = {
   asyncGetArticle: PropTypes.func.isRequired,
   asyncDeleteArticle: PropTypes.func.isRequired,
   article: PropTypes.shape({
-    slug: PropTypes.string.isRequired,
+    slug: PropTypes.string,
     title: PropTypes.string,
     description: PropTypes.string,
     body: PropTypes.string,
-    tagList: PropTypes.arrayOf(PropTypes.string),
+    tagList: PropTypes.arrayOf(PropTypes.object),
     createdAt: PropTypes.string,
     updatedAt: PropTypes.string,
-    favorited: PropTypes.bool.isRequired,
-    favoritesCount: PropTypes.number.isRequired,
+    favorited: PropTypes.bool,
+    favoritesCount: PropTypes.number,
     author: PropTypes.shape({
       username: PropTypes.string,
       bio: PropTypes.string,
       image: PropTypes.string,
       following: PropTypes.bool,
-    }).isRequired,
+    }),
   }).isRequired,
   gettingArticle: PropTypes.shape({
     success: PropTypes.bool,

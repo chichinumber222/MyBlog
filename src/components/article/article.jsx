@@ -10,10 +10,6 @@ import UserDataWithAvatar from '../../subcomponents/user-data-with-avatar';
 import { favoriteOrUnfavoriteArticle } from '../../services/article-service';
 import styles from './article.module.scss';
 
-function tagsCreator(tags) {
-  return tags.map((tag) => <span className={styles.tag}>{tag}</span>);
-}
-
 function Article(props) {
   const {
     title,
@@ -62,10 +58,10 @@ function Article(props) {
             <span className={classNames(styles.heart, stateOfFavorites.active && styles.heartActive)} />
             <span className={styles.heartsCount}>{stateOfFavorites.count}</span>
           </label>
-          <div className={styles.tags}>{tagsCreator(tagList)}</div>
-          <p
-            className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}
-          >
+          <div className={styles.tags}>
+            {tagList.map(({id, text}) => <span key={id} className={styles.tag}>{text}</span>)}
+          </div>
+          <p className={classNames(styles.description, isList ? styles.descriptionForList : styles.descriptionForPage)}>
             {description}
           </p>
         </div>
@@ -112,7 +108,7 @@ Article.defaultProps = {
 Article.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
-  tagList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  tagList: PropTypes.arrayOf(PropTypes.shape({id: PropTypes.number, text: PropTypes.string})).isRequired,
   favorited: PropTypes.bool.isRequired,
   favoritesCount: PropTypes.number.isRequired,
   author: PropTypes.shape({
