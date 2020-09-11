@@ -1,7 +1,8 @@
 ### **Практическая задача**
-# **Блог-платформа #3. Статьи**
+# **Блог-платформа #4. Завершение**
 
 ##### *Vercel:*  
-https://blog-437oj7jig.vercel.app/  
+https://blog.chichinumber222.vercel.app/  
+
   
   
